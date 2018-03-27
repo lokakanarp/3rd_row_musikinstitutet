@@ -14,18 +14,26 @@ artistSearchButton.addEventListener('click', function(){
     // else:
     console.log("hej");
     postArtist(artistSearchField.value);
-//    console.log(artistSearchField.value);
 })
 
 
-function postArtist(name){
-    console.log(name);
+//function postArtist(artistName){
+    
+function postArtist(artistName){
+
     
     let artist = {
-    name: name
-}
+    name: artistName,
+    born: 2000-12-12,
+    genres: "hej",
+    gender: "other",
+    countryBorn: "hej",
+    spotifyURL: "hej",
+    coverImage: "hej"
+    }
 
-fetch('https://folksa.ga/api/artists',{
+
+fetch('https://folksa.ga/api/artists?key=flat_eric',{
     method: 'POST',
     headers: {
         'Accept': 'application/json',
@@ -37,4 +45,7 @@ fetch('https://folksa.ga/api/artists',{
   .then((artist) => {
     console.log(artist);
   });
+    
+
+    
 }
