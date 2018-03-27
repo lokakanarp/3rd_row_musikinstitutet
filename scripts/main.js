@@ -1,11 +1,11 @@
 const searchElement = document.getElementById('search');
 
 let artistSearchField = document.createElement('input');
-artistSearchField.classList.add('artistSearchField'); // skapa denna css-klass
+artistSearchField.classList.add('artistSearchField');
 searchElement.appendChild(artistSearchField);
 
 let artistSearchButton = document.createElement('button');
-artistSearchButton.classList.add('artistSearchButton'); // skapa denna css-klass
+artistSearchButton.classList.add('artistSearchButton');
 searchElement.appendChild(artistSearchButton);
 
 
@@ -17,7 +17,6 @@ artistSearchButton.addEventListener('click', function(){
 
     
 function postArtist(artistName){
-    
     let artist = {
         name: artistName,
         born: 2000-12-12,
@@ -27,7 +26,6 @@ function postArtist(artistName){
         spotifyURL: "hej",
         coverImage: "hej"
     }
-
 
     fetch('https://folksa.ga/api/artists?key=flat_eric',{
         method: 'POST',
@@ -41,5 +39,20 @@ function postArtist(artistName){
       .then((artist) => {
         console.log(artist);
       });
-    
+}
+
+
+deleteArtist();
+function deleteArtist(){
+    fetch(`https://folksa.ga/api/artists/5aba3d977396550e47352c8f?key=flat_eric`, {
+        method: 'DELETE',
+        headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+      .then((response) => response.json())
+      .then((artist) => {
+        console.log(artist);
+      });
 }
