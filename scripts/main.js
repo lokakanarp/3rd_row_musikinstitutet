@@ -42,6 +42,7 @@ function postArtist(artistName){
 }
 
 
+// to delete: id must go in the fetch-url
 deleteArtist();
 function deleteArtist(){
     fetch(`https://folksa.ga/api/artists/5aba3d977396550e47352c8f?key=flat_eric`, {
