@@ -1,64 +1,50 @@
-const searchElement = document.getElementById('search');
 
-/*let artistSearchField = document.createElement('input');
-artistSearchField.classList.add('artistSearchField');*/
+function displayArtistForm() {
+	postArtistForm = `<form>
+	  Name of artist:<br>
+	  <input type='text' name='nameOfArtist' id='nameOfArtist'>
+	  <br>
+	  Born:<br>
+	  <input type='text' name='born' id='born'>
+	  <br>
+	  Genres (separate by comma):<br>
+	  <input type="text" name='genres' id='genres'>
+	  <br>
+	  Gender:<br>
+	  <input type='text' name='gender' id='gender'>
+	  <br>
+	  Born Country:<br>
+	  <input type='text' name='countryBorn' id='countryBorn'>
+	  <br>
+	  SpotifyURL:<br>
+	  <input type='text' name='spotifyURL' id='spotifyURL'>
+	  <br>
+	  Cover image:<br>
+	  <input type='text' name='coverImage' id='coverImage'>
+	  <br><br>
+	</form>`;
+	searchElement.innerHTML = postArtistForm;
+}
 
-postArtistForm = `<form>
-  Name of artist:<br>
-  <input type='text' name='nameOfArtist' id='nameOfArtist'>
-  <br>
-  Born:<br>
-  <input type='text' name='born' id='born'>
-  <br>
-  Genres (separate by comma):<br>
-  <input type="text" name='genres' id='genres'>
-  <br>
-  Gender:<br>
-  <input type='text' name='gender' id='gender'>
-  <br>
-  Born Country:<br>
-  <input type='text' name='countryBorn' id='countryBorn'>
-  <br>
-  SpotifyURL:<br>
-  <input type='text' name='spotifyURL' id='spotifyURL'>
-  <br>
-  Cover image:<br>
-  <input type='text' name='coverImage' id='coverImage'>
-  <br><br>
-</form>`
-searchElement.innerHTML = postArtistForm;
-
-let nameOfArtist = document.getElementById('nameOfArtist');
-let bornDateArtist = document.getElementById('born');
-let genresOfArtist = document.getElementById('genres');
-let genderOfArtist = document.getElementById('gender');
-let countryBornArtist = document.getElementById('countryBorn');
-let spotifyURLOfArtist = document.getElementById('spotifyURL');
-let coverImageOfArtist = document.getElementById('coverImage');
-
-
-let artistSearchButton = document.createElement('button');
-artistSearchButton.classList.add('artistSearchButton');
-searchElement.appendChild(artistSearchButton);
-
-
-artistSearchButton.addEventListener('click', function(){
-    // if artist redan finns: fortsätt till albumformular.
-    // else:
-    postArtist(nameOfArtist.value, born.value, gender.value, countryBorn.value, genres.value, spotifyURL.value, coverImage.value);
-})
-    
+function getElementsfromArtistForm() {
+	let nameOfArtist = document.getElementById('nameOfArtist');
+	let bornDateArtist = document.getElementById('born');
+	let genresOfArtist = document.getElementById('genres');
+	let genderOfArtist = document.getElementById('gender');
+	let countryBornArtist = document.getElementById('countryBorn');
+	let spotifyURLOfArtist = document.getElementById('spotifyURL');
+	let coverImageOfArtist = document.getElementById('coverImage');
+}
 function postArtist(artistName, born, gender, countryBorn, genres, spotifyURL, coverImage){
 	let artist = {
     name: artistName,
     born: born,
     gender: gender,
 	countryBorn: countryBorn,
-    genres: genres, //Must be a comma separated string
+    genres: genres, 
     spotifyURL: spotifyURL,
     coverImage: coverImage
-}
-
+	}
     fetch('https://folksa.ga/api/artists?key=flat_eric',{
         method: 'POST',
         headers: {
@@ -70,8 +56,30 @@ function postArtist(artistName, born, gender, countryBorn, genres, spotifyURL, c
       .then((response) => response.json())
       .then((artist) => {
         console.log(artist);
+		artistId = artist._id;
+		console.log(artistId);
       });
 }
+
+//Here is the actual action:
+const searchElement = document.getElementById('search');
+displayArtistForm();
+
+let artistSearchButton = document.createElement('button');
+artistSearchButton.classList.add('artistSearchButton');
+searchElement.appendChild(artistSearchButton);
+
+getElementsfromArtistForm();
+
+artistSearchButton.addEventListener('click', function(){
+	let artistId = "";
+	postArtist(nameOfArtist.value, born.value, gender.value, countryBorn.value, genres.value, spotifyURL.value, coverImage.value);
+	postAlbum(artistId);
+})
+    
+
+
+//function postAlbum
 
 
 //deleteArtist();
