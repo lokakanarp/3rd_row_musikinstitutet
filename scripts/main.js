@@ -1,6 +1,6 @@
 
 function displayArtistForm() {
-	artistForm = `<form>
+	let artistForm = `<form>
 	  Name of artist:<br>
 	  <input type='text' name='nameOfArtist' id='nameOfArtist'>
 	  <br>
@@ -25,6 +25,7 @@ function displayArtistForm() {
 	  <br>
 	  Cover image:<br>
 	  <input type='text' name='coverImage' id='coverImageOfArtist'>
+		<button id='artistFormButton'>Post Artist</button>
 	  <br><br>
 	</form>`;
 	const artistFormElement = document.getElementById('artistFormElement');
@@ -72,7 +73,7 @@ function postArtist(artistName, born, gender, genres, countryBorn, spotifyURL, c
 	}
 }
 function displayAlbumForm() {
-	albumForm = `<form>
+	let albumForm = `<form>
 	  Title of album:<br>
 	  <input type='text' name='titleOfAlbum' id='titleOfAlbum'>
 	  <br>
@@ -88,10 +89,10 @@ function displayAlbumForm() {
 	  Cover image:<br>
 	  <input type='text' name='coverImageOfAlbum' id='coverImageOfAlbum'>
 	  <br><br>
-		<button id='albumFormButton'>Post Album</button
+		<button id='albumFormButton'>Post Album</button>
 	</form>`;
 	const albumFormElement = document.getElementById('albumFormElement');
-	albumFormElement.insertAdjacentHTML('beforeend', albumForm); //Här ska det stå nåt annat??
+	albumFormElement.innerHTML = albumForm; 
 }
 function getElementsfromAlbumForm() {
 	let titleOfAlbum = document.getElementById('titleOfAlbum');
@@ -101,7 +102,7 @@ function getElementsfromAlbumForm() {
 	let countryBornArtist = document.getElementById('countryBornArtist');
 	let spotifyURLOfAlbum = document.getElementById('spotifyURLOfAlbum');
 	let coverImageOfAlbum = document.getElementById('coverImageOfAlbum');
-	let albumFormButton = document.getElementById('albumFormButton');
+	//let albumFormButton = document.getElementById('albumFormButton');
 }
 function postAlbum(artistId, title, date, genres, spotifyURL, coverImage) {
 	let album = {
@@ -126,31 +127,31 @@ function postAlbum(artistId, title, date, genres, spotifyURL, coverImage) {
 	  });	
 }
 
-//Here is the actual action:
+//Kanske göra en inbyggd knapp ist??
+//let artistFormButton = document.createElement('button');
+//artistFormButton.classList.add('artistFormButton');
+//artistFormElement.appendChild(artistFormButton);
 
 displayArtistForm();
-
-//Kanske göra en inbyggd kanpp ist??
-let artistFormButton = document.createElement('button');
-artistFormButton.classList.add('artistFormButton');
-artistFormElement.appendChild(artistFormButton);
-
 getElementsfromArtistForm();
 
-artistFormButton.addEventListener('click', function(){
+
+artistFormButton.addEventListener('click', function(event){
+	event.preventDefault();
 	let artistId = "";
-	if (postArtist(nameOfArtist.value, bornDateArtist.value, genderOfArtist.value, genresOfArtist.value, countryBornArtist.value, spotifyURLOfArtist.value, coverImageOfArtist.value)) {
+	postArtist(nameOfArtist.value, bornDateArtist.value, genderOfArtist.value, genresOfArtist.value, countryBornArtist.value, spotifyURLOfArtist.value, coverImageOfArtist.value); 
 		displayAlbumForm();
-	}
+		getElementsfromAlbumForm();
+		let albumFormButton = document.getElementById('albumFormButton');
+	console.log(albumFormButton);
+		albumFormButton.addEventListener('click', function(){
+		event.preventDefault();
+		console.log("hej");
+		//postAlbum(artistId, titleOfAlbum.value, dateOfRelease.value, genresOfAlbum.value, //spotifyURLOfAlbum.value, coverImageOfAlbum.value);
+	})
 	
-	//getElementsfromAlbumForm();
-		
+	
 })
-
-//postAlbum(artistId, titleOfAlbum.value, dateOfRelease.value, genresOfAlbum.value, //spotifyURLOfAlbum.value, coverImageOfAlbum.value);
-    
-
-
 
 //deleteArtist();
 function deleteArtist(){
