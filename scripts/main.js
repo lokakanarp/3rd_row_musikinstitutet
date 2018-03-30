@@ -27,7 +27,8 @@ function displayArtistForm() {
 	  <input type='text' name='coverImage' id='coverImageOfArtist'>
 	  <br><br>
 	</form>`;
-	formElement.innerHTML = artistForm;
+	const artistFormElement = document.getElementById('artistFormElement');
+	artistFormElement.innerHTML = artistForm;
 }
 function getElementsfromArtistForm() {
 	let nameOfArtist = document.getElementById('nameOfArtist');
@@ -89,7 +90,8 @@ function displayAlbumForm() {
 	  <br><br>
 		<button id='albumFormButton'>Post Album</button
 	</form>`;
-	formElement.insertAdjacentHTML('beforeend', albumForm); //Här ska det stå nåt annat??
+	const albumFormElement = document.getElementById('albumFormElement');
+	albumFormElement.insertAdjacentHTML('beforeend', albumForm); //Här ska det stå nåt annat??
 }
 function getElementsfromAlbumForm() {
 	let titleOfAlbum = document.getElementById('titleOfAlbum');
@@ -125,12 +127,13 @@ function postAlbum(artistId, title, date, genres, spotifyURL, coverImage) {
 }
 
 //Here is the actual action:
-const formElement = document.getElementById('forms');
+
 displayArtistForm();
 
+//Kanske göra en inbyggd kanpp ist??
 let artistFormButton = document.createElement('button');
 artistFormButton.classList.add('artistFormButton');
-formElement.appendChild(artistFormButton);
+artistFormElement.appendChild(artistFormButton);
 
 getElementsfromArtistForm();
 
