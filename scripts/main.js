@@ -1,4 +1,3 @@
-
 function displayArtistForm() {
 	let artistForm = `<form>
 	  Name of artist:<br>
@@ -29,7 +28,7 @@ function displayArtistForm() {
 	  <br><br>
 	</form>`;
 	const artistFormElement = document.getElementById('artistFormElement');
-	artistFormElement.innerHTML = artistForm;
+	artistFormElement.insertAdjacentHTML('beforeend', artistForm);
 }
 function getElementsfromArtistForm() {
 	let nameOfArtist = document.getElementById('nameOfArtist');
@@ -39,6 +38,7 @@ function getElementsfromArtistForm() {
 	let countryBornArtist = document.getElementById('countryBornArtist');
 	let spotifyURLOfArtist = document.getElementById('spotifyURLOfArtist');
 	let coverImageOfArtist = document.getElementById('coverImageOfArtist');
+	let artistFormButton = document.getElementById('artistFormButton');
 }
 
 function postArtist(artistName, born, gender, genres, countryBorn, spotifyURL, coverImage){
@@ -90,9 +90,10 @@ function displayAlbumForm() {
 	  <input type='text' name='coverImageOfAlbum' id='coverImageOfAlbum'>
 	  <br><br>
 		<button id='albumFormButton'>Post Album</button>
+		<button id='aNewButton'>en ny knapp</button>
 	</form>`;
 	const albumFormElement = document.getElementById('albumFormElement');
-	albumFormElement.innerHTML = albumForm; 
+	albumFormElement.insertAdjacentHTML('beforeend', albumForm); 
 }
 function getElementsfromAlbumForm() {
 	let titleOfAlbum = document.getElementById('titleOfAlbum');
@@ -102,14 +103,15 @@ function getElementsfromAlbumForm() {
 	let countryBornArtist = document.getElementById('countryBornArtist');
 	let spotifyURLOfAlbum = document.getElementById('spotifyURLOfAlbum');
 	let coverImageOfAlbum = document.getElementById('coverImageOfAlbum');
-	//let albumFormButton = document.getElementById('albumFormButton');
+	let albumFormButton = document.getElementById('albumFormButton');
+	let aNewButton = document.getElementById('aNewButton');
 }
-function postAlbum(artistId, title, date, genres, spotifyURL, coverImage) {
+function postAlbum(title, artistId, date, genres, spotifyURL, coverImage) {
 	let album = {
-    title: titleOfAlbum,
+    title: title,
     artists: artistId, 
-    releaseDate: dateOfRelease,
-    genres: genresOfAlbum, 
+    releaseDate: date,
+    genres: genres, 
     spotifyURL: spotifyURL,
     coverImage: coverImage
 	}
@@ -127,54 +129,20 @@ function postAlbum(artistId, title, date, genres, spotifyURL, coverImage) {
 	  });	
 }
 
-//Kanske göra en inbyggd knapp ist??
-//let artistFormButton = document.createElement('button');
-//artistFormButton.classList.add('artistFormButton');
-//artistFormElement.appendChild(artistFormButton);
+//This is where the action is:
 
 displayArtistForm();
 getElementsfromArtistForm();
 
-
 artistFormButton.addEventListener('click', function(event){
 	event.preventDefault();
 	let artistId = "";
-	postArtist(nameOfArtist.value, bornDateArtist.value, genderOfArtist.value, genresOfArtist.value, countryBornArtist.value, spotifyURLOfArtist.value, coverImageOfArtist.value); 
-		displayAlbumForm();
-		getElementsfromAlbumForm();
-		let albumFormButton = document.getElementById('albumFormButton');
-	console.log(albumFormButton);
-		albumFormButton.addEventListener('click', function(){
+	postArtist(nameOfArtist.value, bornDateArtist.value, genderOfArtist.value, genresOfArtist.value, countryBornArtist.value, spotifyURLOfArtist.value, coverImageOfArtist.value);
+	displayAlbumForm();
+	getElementsfromAlbumForm();
+	albumFormButton.addEventListener('click', function(event){
 		event.preventDefault();
-		console.log("hej");
-		//postAlbum(artistId, titleOfAlbum.value, dateOfRelease.value, genresOfAlbum.value, //spotifyURLOfAlbum.value, coverImageOfAlbum.value);
-	})
-	
-	
+		postAlbum(titleOfAlbum.value, artistId, dateOfRelease.value, genresOfAlbum.value, spotifyURLOfAlbum.value, coverImageOfAlbum.value);
+		})	
 })
 
-//deleteArtist();
-function deleteArtist(){
-    fetch(`https://folksa.ga/api/artists/5aba3d977396550e47352c8f?key=flat_eric`, {
-        method: 'DELETE',
-        headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-      .then((response) => response.json())
-      .then((artist) => {
-        console.log(artist);
-      });
-}
-
-
-/* 
-let artist = {
-    name: artistName,
-    born: "1954-09-26",
-    gender: "female",
-	countryBorn: "Italy",
-    genres: "Pop", //Must be a comma separated string
-    spotifyURL: "https://open.spotify.com/artist/3zNFrznlC0kv866J7Karl3?si=XNPUij8KQKCDnijOs959oA",
-    coverImage: "https://img.discogs.com/Y8V3M_FpSCxTMisupBlgQb9tGZM=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/R-1315032-1214684059.jpeg.jpg" */
