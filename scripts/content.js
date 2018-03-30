@@ -116,11 +116,25 @@ function getAlbum(artistName, albumId){
       console.log(albums);
         
         let albumTitle = albums.title; 
-        console.log(albumTitle);
+//        console.log(albumTitle);
         
         //displayCardAlbum(albumTitle);
         
-        displayCard(artistName, albumTitle);
+//        console.log(albums.tracks);
+        let tracksArray = albums.tracks;
+        console.log(tracksArray);
+        
+        displayCard(artistName, albumTitle, tracksArray);
+        
+        
+        
+        for(let i = 0; i < albums.tracks.length; i++){
+//            console.log(albums.tracks);
+//           console.log(albums.tracks[i].title); 
+            
+        }
+        
+        //displayCard(artistName, albumTitle, trackList);
 
         
 
@@ -252,18 +266,32 @@ function getTrack(artistName, albumTitle, trackId){
 
 
 
-function displayCard(artistName, albumTitle){
+function displayCard(artistName, albumTitle, tracksArray){
     const cardWrapperElement = document.createElement('div');
     cardWrapperElement.classList.add('cardWrapper');
     //const cardAlbumImgElement = document.createElement('div');
     const cardArtistNameElement = document.createElement('div');
     const cardAlbumTitleElement = document.createElement('div');
+    const cardTrackListElement = document.createElement('div');
+    
+    
+        for(let i = 0; i < tracksArray.length; i++){
+            console.log(tracksArray[i].title);  
+            let tracklist = `
+                ${tracksArray[i].title} <br>
+            `;
+            cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
+            
+        }
     
     cardArtistNameElement.innerHTML = artistName;
     cardAlbumTitleElement.innerHTML = albumTitle;
+//    cardtrackListElement.innerHTML = trackList;
+//    cardtrackListElement.appendChild(tracklist);
     
     cardWrapperElement.appendChild(cardArtistNameElement);
     cardWrapperElement.appendChild(cardAlbumTitleElement);
+    cardWrapperElement.appendChild(cardTrackListElement);
     contentElement.appendChild(cardWrapperElement);
     
     //const cardTracklistElement = document.createElement('div');
