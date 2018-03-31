@@ -1,4 +1,24 @@
+/******* DOM ELEMENTS ******/
+
 const contentElement = document.getElementById('content');
+
+const menuAButton = document.getElementById('menuA');
+const menuBButton = document.getElementById('menuA');
+const menuCButton = document.getElementById('menuA');
+const menuDButton = document.getElementById('menuA');
+const menuEButton = document.getElementById('menuA');
+const menuFButton = document.getElementById('menuA');
+const menuGButton = document.getElementById('menuA');
+const menuHButton = document.getElementById('menuA');
+
+const menuTButton = document.getElementById('menuT');
+
+
+menuTButton.addEventListener('click', function(event){
+    event.preventDefault();
+    // funktion som bara hämtar artister som börjar på T
+    // getArtist('T');
+});
 
  getArtist();
 
@@ -12,13 +32,18 @@ function getArtist(){
                 let artistName = artists[i].name;
                 let albumsArray = artists[i].albums;
                 
-                for(let i = 0; i < albumsArray.length; i++){
-//                    console.log(albumsArray[i]);
-                    let albumId = albumsArray[i];
+                if(artistName.substr(0,1) == 'T'){ // nytt test
                     
-                    getAlbum(artistName, albumId);
+                    for(let i = 0; i < albumsArray.length; i++){
+                        let albumId = albumsArray[i];
+
+                        getAlbum(artistName, albumId);
+
+                    }
                     
-                }
+                } //end nytt test
+                
+
                 
             }
       });
