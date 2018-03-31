@@ -42,7 +42,6 @@ function getElementsfromArtistForm() {
 }
 
 function postArtist(artistName, born, gender, genres, countryBorn, spotifyURL, coverImage){
-	if(artistName.length > 0) {
 		let artist = {
 		name: artistName,
 		born: born,
@@ -63,15 +62,19 @@ function postArtist(artistName, born, gender, genres, countryBorn, spotifyURL, c
 		  .then((response) => response.json())
 		  .then((artist) => {
 			console.log(artist);
-			artistId = artist._id;
-			console.log(artistId);
+			return artist;
+			//let artistId = artist._id;
+			//console.log(artistId);
+			//return artistId;
 		  })
-		return true;
-	}
-	else {
-		console.log("Error. Try again");
-	}
+	
+	//return artistId;
+	
 }
+//function returnResult(artist) {
+	//let artistId = artist._id;
+	//return artistId;
+//}
 function displayAlbumForm() {
 	let albumForm = `<form>
 	  Title of album:<br>
@@ -136,13 +139,16 @@ getElementsfromArtistForm();
 
 artistFormButton.addEventListener('click', function(event){
 	event.preventDefault();
-	let artistId = "";
-	postArtist(nameOfArtist.value, bornDateArtist.value, genderOfArtist.value, genresOfArtist.value, countryBornArtist.value, spotifyURLOfArtist.value, coverImageOfArtist.value);
+	let artistId = {};
+	artistId = postArtist(nameOfArtist.value, bornDateArtist.value, genderOfArtist.value, genresOfArtist.value, countryBornArtist.value, spotifyURLOfArtist.value, coverImageOfArtist.value);
+	console.log(artistId);
 	displayAlbumForm();
 	getElementsfromAlbumForm();
+	
 	albumFormButton.addEventListener('click', function(event){
+		console.log(artistId);
 		event.preventDefault();
-		postAlbum(titleOfAlbum.value, artistId, dateOfRelease.value, genresOfAlbum.value, spotifyURLOfAlbum.value, coverImageOfAlbum.value);
+		//postAlbum(titleOfAlbum.value, artistId, dateOfRelease.value, genresOfAlbum.value, spotifyURLOfAlbum.value, //coverImageOfAlbum.value);
 		})	
 })
 
