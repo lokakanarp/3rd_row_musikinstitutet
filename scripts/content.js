@@ -3,27 +3,70 @@
 const contentElement = document.getElementById('content');
 
 const menuAButton = document.getElementById('menuA');
-const menuBButton = document.getElementById('menuA');
-const menuCButton = document.getElementById('menuA');
-const menuDButton = document.getElementById('menuA');
-const menuEButton = document.getElementById('menuA');
-const menuFButton = document.getElementById('menuA');
-const menuGButton = document.getElementById('menuA');
-const menuHButton = document.getElementById('menuA');
-
+const menuBButton = document.getElementById('menuB');
+const menuCButton = document.getElementById('menuC');
+const menuDButton = document.getElementById('menuD');
+const menuEButton = document.getElementById('menuE');
+const menuFButton = document.getElementById('menuF');
+const menuGButton = document.getElementById('menuG');
+const menuHButton = document.getElementById('menuH');
+const menuIButton = document.getElementById('menuI');
+const menuJButton = document.getElementById('menuJ');
+const menuKButton = document.getElementById('menuK');
+const menuLButton = document.getElementById('menuL');
+const menuMButton = document.getElementById('menuM');
+const menuNButton = document.getElementById('menuN');
+const menuOButton = document.getElementById('menuO');
+const menuPButton = document.getElementById('menuP');
+const menuQButton = document.getElementById('menuQ');
+const menuRButton = document.getElementById('menuR');
+const menuSButton = document.getElementById('menuS');
 const menuTButton = document.getElementById('menuT');
+const menuUButton = document.getElementById('menuU');
+const menuVButton = document.getElementById('menuV');
+const menuWButton = document.getElementById('menuW');
+const menuXButton = document.getElementById('menuX');
+const menuYButton = document.getElementById('menuY');
+const menuZButton = document.getElementById('menuZ');
+const menuÅButton = document.getElementById('menuÅ');
+const menuÄButton = document.getElementById('menuÄ');
+const menuÖButton = document.getElementById('menuÖ');
 
+
+var avoidTwice;
 
 menuTButton.addEventListener('click', function(event){
     event.preventDefault();
     // funktion som bara hämtar artister som börjar på T
-    // getArtist('T');
+    
+    if(!(avoidTwice == 'T')){
+            getArtist('T');
+    
+            avoidTwice = 'T';
+    }
+    
+
+    
+//        menuTButton.removeEventListener('click', function(event){
+//        event.preventDefault();
+//           console.log("it's working");     
+//        });
+
+
+//        inactivateEventListener(menuTButton);
+        
+    
+    
 });
 
- getArtist();
+//function inactivateEventListener(toRemove){
+//    toRemove.removeEventListener('click', myClick);
+//}
 
-function getArtist(){
-    fetch('https://folksa.ga/api/artists?key=flat_eric')
+ //getArtist();
+
+function getArtist(letter){
+    fetch('https://folksa.ga/api/artists?key=flat_eric&sort=asc')
       .then((response) => response.json())
       .then((artists) => {
 
@@ -32,7 +75,7 @@ function getArtist(){
                 let artistName = artists[i].name;
                 let albumsArray = artists[i].albums;
                 
-                if(artistName.substr(0,1) == 'T'){ // nytt test
+                if(artistName.substr(0,1) == letter){ // nytt test
                     
                     for(let i = 0; i < albumsArray.length; i++){
                         let albumId = albumsArray[i];
