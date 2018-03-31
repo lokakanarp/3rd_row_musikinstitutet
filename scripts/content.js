@@ -32,11 +32,13 @@ function getAlbum(artistName, albumId){
       console.log(albums);
         
         let albumTitle = albums.title; 
+        let albumCoverImage = albums.coverImage; 
+        console.log(albumCoverImage);
 
         let tracksArray = albums.tracks;
 //        console.log(tracksArray);
         
-        displayCard(artistName, albumTitle, tracksArray);
+        displayCard(artistName, albumTitle, albumCoverImage, tracksArray);
         
         
     });
@@ -65,10 +67,10 @@ function getTrack(artistName, albumTitle, trackId){
 
 
 
-function displayCard(artistName, albumTitle, tracksArray){
+function displayCard(artistName, albumTitle, albumCoverImage, tracksArray){
     const cardWrapperElement = document.createElement('div');
     cardWrapperElement.classList.add('cardWrapper');
-    //const cardAlbumImgElement = document.createElement('div');
+    const cardAlbumImgElement = document.createElement('div');
     const cardArtistNameElement = document.createElement('div');
     const cardAlbumTitleElement = document.createElement('div');
     const cardTrackListElement = document.createElement('div');
@@ -85,11 +87,13 @@ function displayCard(artistName, albumTitle, tracksArray){
             
         }
     
+    cardAlbumImgElement.innerHTML = '<img src="albumCoverImage">';
     cardArtistNameElement.innerHTML = artistName;
     cardAlbumTitleElement.innerHTML = albumTitle;
 //    cardtrackListElement.innerHTML = trackList;
 //    cardtrackListElement.appendChild(tracklist);
     
+    cardWrapperElement.appendChild(cardAlbumImgElement);
     cardWrapperElement.appendChild(cardArtistNameElement);
     cardWrapperElement.appendChild(cardAlbumTitleElement);
     cardWrapperElement.appendChild(cardTrackListElement);
