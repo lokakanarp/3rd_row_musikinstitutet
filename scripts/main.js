@@ -62,7 +62,8 @@ function postArtist(artistName, born, gender, genres, countryBorn, spotifyURL, c
 		  .then((response) => response.json())
 		  .then((artist) => {
 			console.log(artist);
-			return artist;
+			
+			displayAlbumForm(artist._id);
 			//let artistId = artist._id;
 			//console.log(artistId);
 			//return artistId;
@@ -75,8 +76,9 @@ function postArtist(artistName, born, gender, genres, countryBorn, spotifyURL, c
 	//let artistId = artist._id;
 	//return artistId;
 //}
-function displayAlbumForm() {
+function displayAlbumForm(artistId) {
 	let albumForm = `<form>
+		<input type='hidden' id= 'artistId' value=${artistId}>
 	  Title of album:<br>
 	  <input type='text' name='titleOfAlbum' id='titleOfAlbum'>
 	  <br>
@@ -93,21 +95,23 @@ function displayAlbumForm() {
 	  <input type='text' name='coverImageOfAlbum' id='coverImageOfAlbum'>
 	  <br><br>
 		<button id='albumFormButton'>Post Album</button>
-		<button id='aNewButton'>en ny knapp</button>
 	</form>`;
 	const albumFormElement = document.getElementById('albumFormElement');
-	albumFormElement.insertAdjacentHTML('beforeend', albumForm); 
+	albumFormElement.insertAdjacentHTML('beforeend', albumForm);
+	getElementsfromAlbumForm();
 }
 function getElementsfromAlbumForm() {
+	let artistId = document.getElementById('artistId');
 	let titleOfAlbum = document.getElementById('titleOfAlbum');
 	let dateOfRelease = document.getElementById('dateOfRelease');
 	let genresOfAlbum = document.getElementById('genresOfAlbum');
-	let genderOfArtist = document.getElementById('genderOfArtist');
-	let countryBornArtist = document.getElementById('countryBornArtist');
 	let spotifyURLOfAlbum = document.getElementById('spotifyURLOfAlbum');
 	let coverImageOfAlbum = document.getElementById('coverImageOfAlbum');
 	let albumFormButton = document.getElementById('albumFormButton');
-	let aNewButton = document.getElementById('aNewButton');
+	albumFormButton.addEventListener('click', function(event){
+		event.preventDefault();
+		postAlbum(titleOfAlbum.value, artistId.value, dateOfRelease.value, genresOfAlbum.value, spotifyURLOfAlbum.value, coverImageOfAlbum.value);
+		})
 }
 function postAlbum(title, artistId, date, genres, spotifyURL, coverImage) {
 	let album = {
@@ -139,16 +143,14 @@ getElementsfromArtistForm();
 
 artistFormButton.addEventListener('click', function(event){
 	event.preventDefault();
-	let artistId = {};
-	artistId = postArtist(nameOfArtist.value, bornDateArtist.value, genderOfArtist.value, genresOfArtist.value, countryBornArtist.value, spotifyURLOfArtist.value, coverImageOfArtist.value);
-	console.log(artistId);
-	displayAlbumForm();
-	getElementsfromAlbumForm();
+	postArtist(nameOfArtist.value, bornDateArtist.value, genderOfArtist.value, genresOfArtist.value, countryBornArtist.value, spotifyURLOfArtist.value, coverImageOfArtist.value);
+	//displayAlbumForm();
+	//getElementsfromAlbumForm();
 	
-	albumFormButton.addEventListener('click', function(event){
-		console.log(artistId);
+	
+	/*albumFormButton.addEventListener('click', function(event){
 		event.preventDefault();
-		//postAlbum(titleOfAlbum.value, artistId, dateOfRelease.value, genresOfAlbum.value, spotifyURLOfAlbum.value, //coverImageOfAlbum.value);
-		})	
+		postAlbum(titleOfAlbum.value, artistId.value, dateOfRelease.value, genresOfAlbum.value, spotifyURLOfAlbum.value, coverImageOfAlbum.value);
+		})*/	
 })
 
