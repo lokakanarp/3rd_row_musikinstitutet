@@ -310,7 +310,12 @@ function displayCard(artistName, albumTitle, albumCoverImage, tracksArray){
                     
                     console.log(this);
 
-                console.log(this.dataset.track);
+                        console.log(this.dataset.track);
+                    
+                    let trackId = this.dataset.track;
+                    
+                    addTrackToPlaylist(trackId);
+                    
                // console.log("hej");
             });
                 
