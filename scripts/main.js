@@ -23,8 +23,29 @@ const searchField = document.getElementById('searchField');
 
 searchButton.addEventListener('click', function(event){
     event.preventDefault();
-    getData();
+    lookUpSearchResult();
+    //getData();
 });
+
+function lookUpSearchResult(){
+    let searchWord = searchField.value;
+    
+    const artist = options[0];
+    const track = options[1];
+    const album = options[2];
+    const playlist = options[3];
+    
+    if(artist.selected == true){
+        fetch(`https://folksa.ga/api/artists?key=flat_eric&name=${searchWord}`)
+        .then((response) => response.json())
+        .then((data) => {
+            showSearchResult(data);
+        })
+        .catch((error) => {
+            console.log(error)
+        });
+    }
+}
 
 function getData(){
     const artist = options[0];
@@ -37,6 +58,9 @@ function getData(){
         .then((response) => response.json())
         .then((data) => {
             showSearchResult(data);
+        })
+        .catch((error) => {
+            console.log(error)
         });
     }
     
@@ -45,6 +69,9 @@ function getData(){
         .then((response) => response.json())
         .then((data) => {
             showSearchResult(data);
+        })
+        .catch((error) => {
+            console.log(error)
         });
     }
     
@@ -53,6 +80,9 @@ function getData(){
         .then((response) => response.json())
         .then((data) => {
             showSearchResult(data);
+        })
+        .catch((error) => {
+            console.log(error)
         });
     }
     
@@ -61,15 +91,19 @@ function getData(){
         .then((response) => response.json())
         .then((data) => {
             showSearchResult(data);
+        })
+        .catch((error) => {
+            console.log(error)
         });
     }
 }
 
 function showSearchResult(data){
-    for(let i = 0; i < data.length; i++){
-        if(data[i].name.includes(searchField.value)){
+    if(data[0]){
+        for(let i = 0; i < data.length; i++){
             // Print data to page here
-            console.log(data[i].name);
+            const searchResult = data[i].name;
+            console.log(searchResult);
         }
     }
 }
