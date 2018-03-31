@@ -30,7 +30,7 @@ function displayArtistForm() {
 	const artistFormElement = document.getElementById('artistFormElement');
 	artistFormElement.insertAdjacentHTML('beforeend', artistForm);
 }
-function getElementsfromArtistForm() {
+function getElementsfromArtistForm(callback) {
 	let nameOfArtist = document.getElementById('nameOfArtist');
 	let bornDateArtist = document.getElementById('bornDateArtist');
 	let genderOfArtist = document.getElementById('genderOfArtist');
@@ -39,18 +39,20 @@ function getElementsfromArtistForm() {
 	let spotifyURLOfArtist = document.getElementById('spotifyURLOfArtist');
 	let coverImageOfArtist = document.getElementById('coverImageOfArtist');
 	let artistFormButton = document.getElementById('artistFormButton');
+	let elementsfromArtistForm = {
+		name: nameOfArtist.value,
+		born: bornDateArtist.value,
+		gender: genderOfArtist.value,
+		genres: genresOfArtist.value, 
+		countryBorn: countryBornArtist.value,
+		spotifyURL: spotifyURLOfArtist.value,
+		coverImage: coverImageOfArtist.value	
+	}
+	callback(elementsfromArtistForm);
 }
 
-function postArtist(artistName, born, gender, genres, countryBorn, spotifyURL, coverImage){
-		let artist = {
-		name: artistName,
-		born: born,
-		gender: gender,
-		genres: genres, 
-		countryBorn: countryBorn,
-		spotifyURL: spotifyURL,
-		coverImage: coverImage
-		}
+function postArtist(elementsfromArtistForm){
+		let artist = elementsfromArtistForm;
 		fetch('https://folksa.ga/api/artists?key=flat_eric',{
 			method: 'POST',
 			headers: {
@@ -64,9 +66,6 @@ function postArtist(artistName, born, gender, genres, countryBorn, spotifyURL, c
 			console.log(artist);
 			
 			displayAlbumForm(artist._id);
-			//let artistId = artist._id;
-			//console.log(artistId);
-			//return artistId;
 		  })
 	
 	//return artistId;
@@ -113,6 +112,7 @@ function getElementsfromAlbumForm() {
 		postAlbum(titleOfAlbum.value, artistId.value, dateOfRelease.value, genresOfAlbum.value, spotifyURLOfAlbum.value, coverImageOfAlbum.value);
 		})
 }
+
 function postAlbum(title, artistId, date, genres, spotifyURL, coverImage) {
 	let album = {
     title: title,
@@ -136,17 +136,17 @@ function postAlbum(title, artistId, date, genres, spotifyURL, coverImage) {
 	  });	
 }
 
-//This is where the action is:
+
 
 displayArtistForm();
-getElementsfromArtistForm();
+
 
 artistFormButton.addEventListener('click', function(event){
 	event.preventDefault();
-	postArtist(nameOfArtist.value, bornDateArtist.value, genderOfArtist.value, genresOfArtist.value, countryBornArtist.value, spotifyURLOfArtist.value, coverImageOfArtist.value);
+	getElementsfromArtistForm(postArtist);
+	//postArtist(elementsfromArtistForm);
 	//displayAlbumForm();
 	//getElementsfromAlbumForm();
-	
 	
 	/*albumFormButton.addEventListener('click', function(event){
 		event.preventDefault();
