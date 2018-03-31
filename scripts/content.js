@@ -268,42 +268,96 @@ function displayCard(artistName, albumTitle, albumCoverImage, tracksArray){
     
         const cardTrackListElement = document.createElement('div');
         cardTrackListElement.classList.add('cardTrackList');
-
-
-            for(let i = 0; i < tracksArray.length; i++){
-                console.log(tracksArray[i].title); 
-                console.log(tracksArray[i]._id);
-                
-                let trackId = tracksArray[i]._id;
-
-                let tracklist = `
-                    <button id="${trackId}">Add to playlist</button>
-                    ${i+1}. ${tracksArray[i].title} <br>
-                `;
-                cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
-
-            }
-
+    
+    
         cardAlbumImgElement.innerHTML = '<img src="albumCoverImage">';
         cardArtistNameElement.innerHTML = artistName;
         cardAlbumTitleElement.innerHTML = albumTitle;
-    //    cardtrackListElement.innerHTML = trackList;
-    //    cardtrackListElement.appendChild(tracklist);
 
-        cardWrapperElement.appendChild(cardAlbumImgElement);
-        cardWrapperElement.appendChild(cardArtistNameElement);
-        cardWrapperElement.appendChild(cardAlbumTitleElement);
-        cardWrapperElement.appendChild(cardTrackListElement);
-        contentElement.appendChild(cardWrapperElement);
+
+            for(let i = 0; i < tracksArray.length; i++){
+//                console.log(tracksArray[i].title); 
+//                console.log(tracksArray[i]._id);
+                
+                let trackId = tracksArray[i]._id;
+                
+                
+                
+//                const addTrackButton = document.createElement('button');
+//                addTrackButton.setAttribute('id', trackId);
+//                cardTrackListElement.appendChild(addTrackButton);
+//                
+                let tracklist = `
+                    <button id="addTrackToPlaylist${trackId}" data-track="${trackId}">Add to playlist</button>
+                    ${i+1}. ${tracksArray[i].title} <br>
+                `;
+                
+                //sedan ta typ this.data-id när man skapar eventlistener och skickar vidare som argument till add-funktion???
+                //activateAddFunction(trackId);
+                
+                cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
+                
+                cardWrapperElement.appendChild(cardAlbumImgElement);
+                cardWrapperElement.appendChild(cardArtistNameElement);
+                cardWrapperElement.appendChild(cardAlbumTitleElement);
+                cardWrapperElement.appendChild(cardTrackListElement);
+                contentElement.appendChild(cardWrapperElement);
+                
+                const addTrack = document.getElementById(`addTrackToPlaylist${trackId}`);
+                
+                addTrack.addEventListener('click', function(event){
+                event.preventDefault();
+                    
+                    console.log(this);
+
+                console.log(this.dataset.track);
+               // console.log("hej");
+            });
+                
+                
+
+            }
     
+
+
+//        cardAlbumImgElement.innerHTML = '<img src="albumCoverImage">';
+//        cardArtistNameElement.innerHTML = artistName;
+//        cardAlbumTitleElement.innerHTML = albumTitle;
+
+
+//        cardWrapperElement.appendChild(cardAlbumImgElement);
+//        cardWrapperElement.appendChild(cardArtistNameElement);
+//        cardWrapperElement.appendChild(cardAlbumTitleElement);
+//        cardWrapperElement.appendChild(cardTrackListElement);
+//        contentElement.appendChild(cardWrapperElement);
+    
+
+
 
     
     isThereContentAlready = true;
+    
     
     //const cardTracklistElement = document.createElement('div');
 
 
     //cardArtistNameElement.insertAdjacentHTML('beforeend', artistName);  
+}
+
+
+function activateAddFunction(trackId){
+    
+//    console.log(trackId);
+    
+//        const trackId = document.getElementById('addTrackToPlaylist');
+//
+//        trackId.addEventListener('click', function(event){
+//            event.preventDefault();
+//
+////            console.log(this.dataset.trackId);
+//            console.log(trackId);
+//        });
+
 }
 
 //
