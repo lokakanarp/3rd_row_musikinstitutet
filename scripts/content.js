@@ -33,46 +33,156 @@ const menuÄButton = document.getElementById('menuÄ');
 const menuÖButton = document.getElementById('menuÖ');
 
 
-var avoidTwice;
 
+
+/******* ALPHABETICAL MENU EVENT LISTENERS ******/
+menuAButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('A');
+});
+menuBButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('B');
+});
+menuCButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('C');
+});
+menuDButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('D');
+});
+menuEButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('E');
+});
+menuFButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('F');
+});
+menuGButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('G');
+});
+menuHButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('H');
+});
+menuIButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('I');
+});
+menuJButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('J');
+});
+menuKButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('K');
+});
+menuLButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('L');
+});
+menuMButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('M');
+});
+menuNButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('N');
+});
+menuOButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('O');
+});
+menuPButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('P');
+});
+menuQButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('Q');
+});
+menuRButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('R');
+});
+menuSButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('S');
+});
 menuTButton.addEventListener('click', function(event){
     event.preventDefault();
-    // funktion som bara hämtar artister som börjar på T
-    
-    if(!(avoidTwice == 'T')){
-            getArtist('T');
-    
-            avoidTwice = 'T';
-    }
-    
-
-    
-//        menuTButton.removeEventListener('click', function(event){
-//        event.preventDefault();
-//           console.log("it's working");     
-//        });
-
-
-//        inactivateEventListener(menuTButton);
-        
-    
-    
+    handlingAlphabeticalMenuClick('T');
+});
+menuTButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('T');
+});
+menuTButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('T');
+});
+menuTButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('T');
+});
+menuTButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('T');
+});
+menuTButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('T');
+});
+menuTButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('T');
+});
+menuTButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('T');
+});
+menuTButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('T');
+});
+menuTButton.addEventListener('click', function(event){
+    event.preventDefault();
+    handlingAlphabeticalMenuClick('T');
 });
 
-//function inactivateEventListener(toRemove){
-//    toRemove.removeEventListener('click', myClick);
-//}
+
+
+var avoidClickingSameLetterTwiceInMenu;
+var isThereContentAlready;
+
+function handlingAlphabeticalMenuClick(letter){
+    if(!(avoidClickingSameLetterTwiceInMenu == letter)){
+            getArtist(letter);
+            avoidClickingSameLetterTwiceInMenu = letter;
+    }       
+}
+
+
 
  //getArtist();
 
 function getArtist(letter){
-    fetch('https://folksa.ga/api/artists?key=flat_eric&sort=asc')
+    fetch('https://folksa.ga/api/artists?key=flat_eric&sort=asc&limit=200')
       .then((response) => response.json())
       .then((artists) => {
+//        console.log(artists);
+        
+    if(isThereContentAlready){
+        content.innerHTML = '';
+    }
 
             for(let i = 0; i < artists.length; i++){
                 let artistId = artists[i]._id;
                 let artistName = artists[i].name;
+//                console.log(artistName);
                 let albumsArray = artists[i].albums;
                 
                 if(artistName.substr(0,1) == letter){ // nytt test
@@ -97,14 +207,16 @@ function getAlbum(artistName, albumId){
     fetch('https://folksa.ga/api/albums/' + albumId + '?key=flat_eric')
       .then((response) => response.json())
       .then((albums) => {
-      console.log(albums);
+//      console.log(albums);
         
         let albumTitle = albums.title; 
         let albumCoverImage = albums.coverImage; 
-        console.log(albumCoverImage);
+//        console.log(albumCoverImage);
 
         let tracksArray = albums.tracks;
 //        console.log(tracksArray);
+
+
         
         displayCard(artistName, albumTitle, albumCoverImage, tracksArray);
         
@@ -122,10 +234,10 @@ function getTrack(artistName, albumTitle, trackId){
 //        console.log(tracks)
         
         let numberOfTracksOnAlbum = tracks.length;
-        console.log(numberOfTracksOnAlbum);
+//        console.log(numberOfTracksOnAlbum);
         
         for(let i = 0; i < numberOfTracksOnAlbum; i++){
-            console.log(tracks[i].title);
+//            console.log(tracks[i].title);
             
         
         }
@@ -136,36 +248,57 @@ function getTrack(artistName, albumTitle, trackId){
 
 
 function displayCard(artistName, albumTitle, albumCoverImage, tracksArray){
-    const cardWrapperElement = document.createElement('div');
-    cardWrapperElement.classList.add('cardWrapper');
-    const cardAlbumImgElement = document.createElement('div');
-    const cardArtistNameElement = document.createElement('div');
-    const cardAlbumTitleElement = document.createElement('div');
-    const cardTrackListElement = document.createElement('div');
     
+
+//    if(isThereContentAlready){
+//        content.innerHTML = '';
+//    }
     
-        for(let i = 0; i < tracksArray.length; i++){
-            console.log(tracksArray[i].title); 
-            console.log(tracksArray[i]._id);
-            
-            let tracklist = `
-                ${i+1}. ${tracksArray[i].title} <br>
-            `;
-            cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
-            
-        }
+        const cardWrapperElement = document.createElement('div');
+        cardWrapperElement.classList.add('cardWrapper');
+
+        const cardAlbumImgElement = document.createElement('div');
+        cardAlbumImgElement.classList.add('cardAlbumImg');
     
-    cardAlbumImgElement.innerHTML = '<img src="albumCoverImage">';
-    cardArtistNameElement.innerHTML = artistName;
-    cardAlbumTitleElement.innerHTML = albumTitle;
-//    cardtrackListElement.innerHTML = trackList;
-//    cardtrackListElement.appendChild(tracklist);
+        const cardArtistNameElement = document.createElement('div');
+        cardArtistNameElement.classList.add('cardArtistName');
     
-    cardWrapperElement.appendChild(cardAlbumImgElement);
-    cardWrapperElement.appendChild(cardArtistNameElement);
-    cardWrapperElement.appendChild(cardAlbumTitleElement);
-    cardWrapperElement.appendChild(cardTrackListElement);
-    contentElement.appendChild(cardWrapperElement);
+        const cardAlbumTitleElement = document.createElement('div');
+        cardAlbumTitleElement.classList.add('cardAlbumTitle');
+    
+        const cardTrackListElement = document.createElement('div');
+        cardTrackListElement.classList.add('cardTrackList');
+
+
+            for(let i = 0; i < tracksArray.length; i++){
+                console.log(tracksArray[i].title); 
+                console.log(tracksArray[i]._id);
+                
+                let trackId = tracksArray[i]._id;
+
+                let tracklist = `
+                    <button id="${trackId}">Add to playlist</button>
+                    ${i+1}. ${tracksArray[i].title} <br>
+                `;
+                cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
+
+            }
+
+        cardAlbumImgElement.innerHTML = '<img src="albumCoverImage">';
+        cardArtistNameElement.innerHTML = artistName;
+        cardAlbumTitleElement.innerHTML = albumTitle;
+    //    cardtrackListElement.innerHTML = trackList;
+    //    cardtrackListElement.appendChild(tracklist);
+
+        cardWrapperElement.appendChild(cardAlbumImgElement);
+        cardWrapperElement.appendChild(cardArtistNameElement);
+        cardWrapperElement.appendChild(cardAlbumTitleElement);
+        cardWrapperElement.appendChild(cardTrackListElement);
+        contentElement.appendChild(cardWrapperElement);
+    
+
+    
+    isThereContentAlready = true;
     
     //const cardTracklistElement = document.createElement('div');
 
