@@ -23,11 +23,10 @@ const searchField = document.getElementById('searchField');
 
 searchButton.addEventListener('click', function(event){
     event.preventDefault();
-    lookUpSearchResult();
-    //getData();
+    getData();
 });
 
-function lookUpSearchResult(){
+function getData(){
     let searchWord = searchField.value;
     
     const artist = options[0];
@@ -45,27 +44,9 @@ function lookUpSearchResult(){
             console.log(error)
         });
     }
-}
-
-function getData(){
-    const artist = options[0];
-    const track = options[1];
-    const album = options[2];
-    const playlist = options[3];
-    
-    if(artist.selected == true){
-        fetch('https://folksa.ga/api/artists?key=flat_eric')
-        .then((response) => response.json())
-        .then((data) => {
-            showSearchResult(data);
-        })
-        .catch((error) => {
-            console.log(error)
-        });
-    }
     
     if(track.selected == true){
-        fetch('https://folksa.ga/api/tracks?key=flat_eric')
+        fetch(`https://folksa.ga/api/tracks?key=flat_eric&title=${searchWord}`)
         .then((response) => response.json())
         .then((data) => {
             showSearchResult(data);
@@ -76,7 +57,7 @@ function getData(){
     }
     
     if(album.selected == true){
-        fetch('https://folksa.ga/api/albums?key=flat_eric')
+        fetch(`https://folksa.ga/api/albums?key=flat_eric&title=${searchWord}`)
         .then((response) => response.json())
         .then((data) => {
             showSearchResult(data);
@@ -87,7 +68,7 @@ function getData(){
     }
     
     if(playlist.selected == true){
-        fetch('https://folksa.ga/api/playlists?key=flat_eric')
+        fetch(`https://folksa.ga/api/playlists?key=flat_eric&title=${searchWord}`)
         .then((response) => response.json())
         .then((data) => {
             showSearchResult(data);
@@ -99,14 +80,23 @@ function getData(){
 }
 
 function showSearchResult(data){
-    if(data[0]){
-        for(let i = 0; i < data.length; i++){
+    for(let i = 0; i < data.length; i++){
+        if(data[i].name){
             // Print data to page here
             const searchResult = data[i].name;
             console.log(searchResult);
+        }else{
+            for(let i = 0; i < data.length; i++){
+                // Print data to page here
+                const searchResult = data[i].title;
+                console.log(searchResult);
+            }
         }
     }
 }
+
+
+
 
 //const searchElement = document.getElementById('search');
 //
