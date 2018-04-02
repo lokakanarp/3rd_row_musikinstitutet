@@ -5,6 +5,7 @@ const searchResultOutput = document.getElementById('searchResult');
 
 searchButton.addEventListener('click', function(event){
     event.preventDefault();
+    searchResultOutput.innerHTML = '';
     getData();
 });
 
