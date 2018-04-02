@@ -20,6 +20,7 @@
 const searchButton = document.getElementById('search');
 const options = document.getElementById('selectSearch').children;
 const searchField = document.getElementById('searchField');
+const searchResultOutput = document.getElementById('searchResult');
 
 searchButton.addEventListener('click', function(event){
     event.preventDefault();
@@ -84,13 +85,11 @@ function showSearchResult(data){
         if(data[i].name){
             // Print data to page here
             const searchResult = data[i].name;
-            console.log(searchResult);
+            searchResultOutput.innerHTML += `<p>${searchResult}<p>`;
         }else{
-            for(let i = 0; i < data.length; i++){
-                // Print data to page here
-                const searchResult = data[i].title;
-                console.log(searchResult);
-            }
+            // Print data to page here
+            const searchResult = data[i].title;
+            searchResultOutput.innerHTML += `<p>${searchResult}<p>`;
         }
     }
 }
