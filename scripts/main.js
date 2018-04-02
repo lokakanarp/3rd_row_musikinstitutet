@@ -1,3 +1,11 @@
+displayArtistForm();
+
+artistFormButton.addEventListener('click', function(event){
+	event.preventDefault();
+	getElementsfromArtistForm(postArtist);	
+})
+
+
 function displayArtistForm() {
 	let artistForm = `<form>
 	  Name of artist:<br>
@@ -30,7 +38,7 @@ function displayArtistForm() {
 	const artistFormElement = document.getElementById('artistFormElement');
 	artistFormElement.insertAdjacentHTML('beforeend', artistForm);
 }
-function getElementsfromArtistForm(callback) {
+function getElementsfromArtistForm() {
 	let nameOfArtist = document.getElementById('nameOfArtist');
 	let bornDateArtist = document.getElementById('bornDateArtist');
 	let genderOfArtist = document.getElementById('genderOfArtist');
@@ -48,11 +56,11 @@ function getElementsfromArtistForm(callback) {
 		spotifyURL: spotifyURLOfArtist.value,
 		coverImage: coverImageOfArtist.value	
 	}
-	callback(elementsfromArtistForm);
+	postArtist(elementsfromArtistForm);
 }
 
-function postArtist(elementsfromArtistForm){
-		let artist = elementsfromArtistForm;
+function postArtist(elements){
+		let artist = elements;
 		fetch('https://folksa.ga/api/artists?key=flat_eric',{
 			method: 'POST',
 			headers: {
@@ -64,17 +72,10 @@ function postArtist(elementsfromArtistForm){
 		  .then((response) => response.json())
 		  .then((artist) => {
 			console.log(artist);
-			
 			displayAlbumForm(artist._id);
-		  })
-	
-	//return artistId;
-	
+		  })	
 }
-//function returnResult(artist) {
-	//let artistId = artist._id;
-	//return artistId;
-//}
+
 function displayAlbumForm(artistId) {
 	let albumForm = `<form>
 		<input type='hidden' id= 'artistId' value=${artistId}>
@@ -97,9 +98,17 @@ function displayAlbumForm(artistId) {
 	</form>`;
 	const albumFormElement = document.getElementById('albumFormElement');
 	albumFormElement.insertAdjacentHTML('beforeend', albumForm);
-	getElementsfromAlbumForm();
+	addEventListenerToAlbumFormButton();
 }
-function getElementsfromAlbumForm() {
+
+function addEventListenerToAlbumFormButton() {
+albumFormButton.addEventListener('click', function(event){
+	event.preventDefault();
+	getElementsFromAlbumForm();
+	})
+}
+
+function getElementsFromAlbumForm() {
 	let artistId = document.getElementById('artistId');
 	let titleOfAlbum = document.getElementById('titleOfAlbum');
 	let dateOfRelease = document.getElementById('dateOfRelease');
@@ -107,10 +116,7 @@ function getElementsfromAlbumForm() {
 	let spotifyURLOfAlbum = document.getElementById('spotifyURLOfAlbum');
 	let coverImageOfAlbum = document.getElementById('coverImageOfAlbum');
 	let albumFormButton = document.getElementById('albumFormButton');
-	albumFormButton.addEventListener('click', function(event){
-		event.preventDefault();
-		postAlbum(titleOfAlbum.value, artistId.value, dateOfRelease.value, genresOfAlbum.value, spotifyURLOfAlbum.value, coverImageOfAlbum.value);
-		})
+	postAlbum(titleOfAlbum.value, artistId.value, dateOfRelease.value, genresOfAlbum.value, spotifyURLOfAlbum.value, coverImageOfAlbum.value);
 }
 
 function postAlbum(title, artistId, date, genres, spotifyURL, coverImage) {
@@ -138,19 +144,4 @@ function postAlbum(title, artistId, date, genres, spotifyURL, coverImage) {
 
 
 
-displayArtistForm();
-
-
-artistFormButton.addEventListener('click', function(event){
-	event.preventDefault();
-	getElementsfromArtistForm(postArtist);
-	//postArtist(elementsfromArtistForm);
-	//displayAlbumForm();
-	//getElementsfromAlbumForm();
-	
-	/*albumFormButton.addEventListener('click', function(event){
-		event.preventDefault();
-		postAlbum(titleOfAlbum.value, artistId.value, dateOfRelease.value, genresOfAlbum.value, spotifyURLOfAlbum.value, coverImageOfAlbum.value);
-		})*/	
-})
 
