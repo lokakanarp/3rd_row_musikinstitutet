@@ -1,10 +1,17 @@
 displayArtistForm();
+addEventListenerToButton(artistFormButton, getElementsfromArtistForm);
 
-artistFormButton.addEventListener('click', function(event){
+/*artistFormButton.addEventListener('click', function(event){
 	event.preventDefault();
-	getElementsfromArtistForm(postArtist);	
-})
+	getElementsfromArtistForm();	
+})*/
 
+function addEventListenerToButton(button, callback) {
+button.addEventListener('click', function(event){
+	event.preventDefault();
+	callback();
+	})
+}
 
 function displayArtistForm() {
 	let artistForm = `<form>
@@ -98,15 +105,16 @@ function displayAlbumForm(artistId) {
 	</form>`;
 	const albumFormElement = document.getElementById('albumFormElement');
 	albumFormElement.insertAdjacentHTML('beforeend', albumForm);
-	addEventListenerToAlbumFormButton();
+	addEventListenerToButton(albumFormButton, getElementsFromAlbumForm);
 }
 
-function addEventListenerToAlbumFormButton() {
+/*function addEventListenerToAlbumFormButton() {
 albumFormButton.addEventListener('click', function(event){
 	event.preventDefault();
 	getElementsFromAlbumForm();
 	})
-}
+}*/
+
 
 function getElementsFromAlbumForm() {
 	let artistId = document.getElementById('artistId');
