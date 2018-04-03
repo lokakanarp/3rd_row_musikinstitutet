@@ -4,6 +4,9 @@ const newPlayListTitle = document.getElementById('newPlayListTitle');
 const createdByInput = document.getElementById('createdBy');
 const newPlaylistButton = document.getElementById('newPlaylistButton');
 
+const choosePlaylistButton = document.getElementById('choosePlaylistButton');
+const playlistSelection = document.getElementById('playlistSelection');
+
 newPlaylistButton.addEventListener('click', function(event){
     event.preventDefault();
     
@@ -99,10 +102,13 @@ function getPlaylist(){
       .then((playlists) => {
 //        console.log(playlists);
         
-        chooseWhichPlaylistOutput();
+        //chooseWhichPlaylistOutput();
         
         //få med både id och titel på playlist.....
         
+        createDropdown(playlists);
+        
+        /*
         for(let i = 0; i < playlists.length; i++){
 //            console.log(playlists[i]._id);
 //            console.log(playlists[i].title);
@@ -110,19 +116,23 @@ function getPlaylist(){
             let playlistId = playlists[i]._id;
             let playlistTitle = playlists[i].title;
         
-            createDropdownRow(playlistId, playlistTitle);
+            //createDropdownRow(playlistId, playlistTitle);
+            
+            createDropdown(playlists);
         }
+        */
         
       });
     }
 
-
+/*
 function chooseWhichPlaylistOutput(optionDOM){
     
 const choosePlaylistElement = document.getElementById('choosePlaylist');
     choosePlaylistElement.classList.add('choosePlaylist');
 
     const playlistSelectionElement = document.getElementById('playlistSelection');
+    //const choosePlaylistButton = document.getElementById('choosePlaylistButton');
     
     //console.log("heeeeeeeej");
     
@@ -138,15 +148,93 @@ const choosePlaylistElement = document.getElementById('choosePlaylist');
     
     playlistSelectionElement.insertAdjacentHTML('beforeend', dropdown);
     
+//    dropdown[playlistId].addEventListener('click', function(){
+//        console.log(this);
+//    })
+    
+    
+    
     
     // loopar ur en drop down meny med existerande playlists titlat så att man kan välja.
     // skickar med id till postPlaylist och placerar detta i url:en.
 }
+*/
 
+/*
 function createDropdownRow(playlistId, playlistTitle){
     
-    let optionDOM = `<option value="${playlistId}">${playlistTitle}</option>`;
+    let optionDOM = `<option value="${playlistId}" class="optionClass">${playlistTitle}</option>
+    <button id="${playlistId}">Choose playlist</button>`;
+    
+    playlistId.addEventListener('click', function () {
+				const specificLetter = this.id;
+        
+
+        
+
+			})
+    
     chooseWhichPlaylistOutput(optionDOM);
     
 }
+*/
+
+
+function createDropdown(playlists){
+    const choosePlaylistElement = document.getElementById('choosePlaylist');
+    choosePlaylistElement.classList.add('choosePlaylist');
+
+    const playlistSelectionElement = document.getElementById('playlistSelection');
+    choosePlaylistElement.style.display = "block";
+    
+
+    
+    let optionRow;
+    for(let i = 0; i < playlists.length; i++){
+        
+    let playlistId = playlists[i]._id;
+    let playlistTitle = playlists[i].title;
+        
+        optionRow += `<option value="${playlistId}" class="optionClass">${playlistTitle}</option>`
+        
+//        let options = document.getElementsByClassName("optionClass");
+//		for(let option of options) {
+//			option.addEventListener('click', function () {
+//				
+//                //console.log(this.id);
+//                console.log("funkar det???");
+//                
+//			})
+//		}
+    }
+    
+    
+    let dropdown = `
+        ${optionRow};
+    `;
+    
+    
+    playlistSelectionElement.insertAdjacentHTML('beforeend', dropdown);
+}
+
+playlistSelection.addEventListener('click', function (){
+    console.log(this.value);
+})
+
+
+
+/*
+function addEventlistenersToAlphabet(){
+let alphabetLetters = document.getElementsByClassName("aphabeticalMenu");
+		for(let letter of alphabetLetters) {
+			letter.addEventListener('click', function () {
+				const specificLetter = this.id;
+                //console.log(this.id);
+                handlingAlphabeticalMenuClick(specificLetter);
+			})
+		}
+}
+*/
+
+
     
