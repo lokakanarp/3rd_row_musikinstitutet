@@ -1,11 +1,6 @@
 displayArtistForm();
 addEventListenerToButton(artistFormButton, getElementsfromArtistForm);
 
-/*artistFormButton.addEventListener('click', function(event){
-	event.preventDefault();
-	getElementsfromArtistForm();	
-})*/
-
 function addEventListenerToButton(button, callback) {
 button.addEventListener('click', function(event){
 	event.preventDefault();
@@ -108,14 +103,6 @@ function displayAlbumForm(artistId) {
 	addEventListenerToButton(albumFormButton, getElementsFromAlbumForm);
 }
 
-/*function addEventListenerToAlbumFormButton() {
-albumFormButton.addEventListener('click', function(event){
-	event.preventDefault();
-	getElementsFromAlbumForm();
-	})
-}*/
-
-
 function getElementsFromAlbumForm() {
 	let artistId = document.getElementById('artistId');
 	let titleOfAlbum = document.getElementById('titleOfAlbum');
@@ -124,18 +111,28 @@ function getElementsFromAlbumForm() {
 	let spotifyURLOfAlbum = document.getElementById('spotifyURLOfAlbum');
 	let coverImageOfAlbum = document.getElementById('coverImageOfAlbum');
 	let albumFormButton = document.getElementById('albumFormButton');
-	postAlbum(titleOfAlbum.value, artistId.value, dateOfRelease.value, genresOfAlbum.value, spotifyURLOfAlbum.value, coverImageOfAlbum.value);
+	let elementsFromAlbumForm = {
+    title: titleOfAlbum.value,
+    artists: artistId.value, 
+    releaseDate: dateOfRelease.value,
+    genres: genresOfAlbum.value, 
+    spotifyURL: spotifyURLOfAlbum.value,
+    coverImage: coverImageOfAlbum.value
+	}
+	
+	postAlbum(elementsFromAlbumForm);
 }
 
-function postAlbum(title, artistId, date, genres, spotifyURL, coverImage) {
-	let album = {
+function postAlbum(elements) {
+	let album = elements;
+		/*{
     title: title,
     artists: artistId, 
     releaseDate: date,
     genres: genres, 
     spotifyURL: spotifyURL,
     coverImage: coverImage
-	}
+	}*/
 	fetch('https://folksa.ga/api/albums?key=flat_eric',{
 		method: 'POST',
 		headers: {
