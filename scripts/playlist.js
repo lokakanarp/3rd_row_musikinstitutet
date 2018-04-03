@@ -48,20 +48,30 @@ function createPlaylist(title, createdBy){
 
 
 /* This function is pushing tracks to an array that that will be sent off to actual posting-function */
-var playlistArray = [];
+//var playlistArray = [];
+
+var playlistTrack;
+
 function addTrackToPlaylist(trackId){
 //    console.log('in function: ', trackId);
+    
+    // välj vilken playlist du vill adda till.
+    //funktion som hä,tar playlistnamn och dess id från api, så att man får välja
+    
     
     playlistArray.push(trackId);
 //    console.log(playlistArray);
     
+    //skicka med id från playlist hömtat ovan i denna och gör url:en dynamisk
     postPlaylist();
+    
+    playlistTrack = '';
 }
 
-/* This function posts the playlist array to the API */
+/* This function posts the playlist array to the API. Att göra: skicka med playlist-id som argument */
 function postPlaylist(){
-    let tracks = playlistArray.toString();
-
+    //let tracks = playlistArray.toString();
+    /* sätt in playlist-paramenter i url:en */
     fetch('https://folksa.ga/api/playlists/5abfa9695e9531142f1da683/tracks?key=flat_eric',{
         method: 'POST',
         headers: {
@@ -75,3 +85,23 @@ function postPlaylist(){
         console.log(playlist);
       });
 }
+
+
+getPlaylist();
+
+function getPlaylist(){
+
+    fetch('https://folksa.ga/api/playlists?key=flat_eric')
+      .then((response) => response.json())
+      .then((playlists) => {
+        console.log(playlists);
+        
+        for(let i = 0; i < playlists.length; i++){
+          
+            console.log(playlists[i]._id);
+            console.log(playlists[i].title);
+            
+        }
+      });
+    }
+    
