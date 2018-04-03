@@ -119,7 +119,6 @@ function getElementsFromAlbumForm() {
     spotifyURL: spotifyURLOfAlbum.value,
     coverImage: coverImageOfAlbum.value
 	}
-	
 	postAlbum(elementsFromAlbumForm);
 }
 
@@ -144,8 +143,43 @@ function postAlbum(elements) {
 	  .then((response) => response.json())
 	  .then((album) => {
 		console.log(album);
+		displayTracksForm(album._id, album.artists);
 	  });	
 }
+
+function displayTracksForm(albumId, artistId) {
+	let tracksForm = `<form>
+		
+	  Title of track:<br>
+	  <input type='text' name='titleOfTrack' id='titleOfTrack'>
+	  <br>
+	  <input type='hidden' id='artistId' value=${artistId}>
+	  <input type='hidden' id='artistId' value=${albumId}>
+	  Genres (separate by comma):<br>
+	  <input type='text' name='genresOfTrack' id='genresOfTrack'>
+	  <br>
+	  Cover image:<br>
+	  <input type='text' name='coverImageOfTrack' id='coverImageOfTrack'>
+	  <br>
+	  Cover image color:<br>
+	  <input type='text' name='coverImageColorOfTrack' id='coverImageColorOfTrack'>
+	  SpotifyURL:<br>
+	  <input type='text' name='spotifyURLOfTrack' id='spotifyURLOfTrack'> 
+	  <br>
+	  Youtube URL:<br>
+	  <input type='text' name='youtubeURLOfTrack' id='youtubeURLOfTrack'>
+	  <br>
+	  Soundcloud URL:<br>
+	  <input type='text' name='soundcloudURLOfTrack' id='soundcloudURLOfTrack'>
+	  <br><br>
+		<button id='albumFormButton'>Post Album</button>
+	</form>`;
+	const albumFormElement = document.getElementById('albumFormElement');
+	albumFormElement.insertAdjacentHTML('beforeend', albumForm);
+	addEventListenerToButton(albumFormButton, getElementsFromAlbumForm);
+}
+
+
 
 
 
