@@ -57,6 +57,7 @@ function addTrackToPlaylist(trackId){
     
     // välj vilken playlist du vill adda till.
     //funktion som hä,tar playlistnamn och dess id från api, så att man får välja
+   
     
     
     playlistArray.push(trackId);
@@ -87,21 +88,27 @@ function postPlaylist(){
 }
 
 
-getPlaylist();
+
 
 function getPlaylist(){
 
     fetch('https://folksa.ga/api/playlists?key=flat_eric')
       .then((response) => response.json())
       .then((playlists) => {
-        console.log(playlists);
+//        console.log(playlists);
         
         for(let i = 0; i < playlists.length; i++){
-          
             console.log(playlists[i]._id);
             console.log(playlists[i].title);
-            
         }
+        
       });
     }
+
+
+function chooseWhichPlaylistOutput(){
+    
+    // loopar ur en drop down meny med existerande playlists titlat så att man kan välja.
+    // skickar med id till postPlaylist och placerar detta i url:en.
+}
     

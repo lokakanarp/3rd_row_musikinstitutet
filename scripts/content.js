@@ -2,6 +2,7 @@
 
 const contentElement = document.getElementById('content');
 
+/*
 const menuAButton = document.getElementById('menuA');
 const menuBButton = document.getElementById('menuB');
 const menuCButton = document.getElementById('menuC');
@@ -32,95 +33,20 @@ const menuÅButton = document.getElementById('menuÅ');
 const menuÄButton = document.getElementById('menuÄ');
 const menuÖButton = document.getElementById('menuÖ');
 
-//autoGenerate();
-//function autoGenerate(){
-//    
-//    if(document.classList.contains('aphabeticalMenu')){
-//        console.log(this.innerHTML);
-//    }
-// const eachLetter = document.getElementsByClassName('aphabeticalMenu');
-//    
-//}
-//const aphabeticalMenuWrapper = document.getElementById('aphabeticalMenuWrapper');
-//
-//const menu = document.getElementById('menu');
-//
-//    sels = document.getElementsByClassName('aphabeticalMenu');
-//    for(i=0; i<sels.length; i++) {
-//        sels[i].addEventListener('change', alertMe, false);
-//    }
-//
-//function alertMe(){
-//    console.log(this);
-//}
+*/
 
+addEventlistenersToAlphabet();
 
-//for (i = 0; i < 26; i++) {
-//
-//  var li = document.createElement("li");
-//  li.innerHTML = " " + (i+10).toString(36) + " ";
-//  li.style.listStyle = "none";
-//  li.style.display = "inline";
-//  document.getElementById("letter-main").appendChild(li);
-//
-//    let buttonName = li.innerHTML;
-//    //console.log(buttonName);
-//    createButton(buttonName);
-//}
-//
-//function createButton(buttonName){
-//    
-//    console.log(buttonName);
-//    let button = buttonName;
-//    console.log(button);
-//    
-//    button.addEventListener('click', function(event){
-////        event.preventDefault();
-////        handlingAlphabeticalMenuClick(buttonName);
-//        console.log(button);
-//    });
-//}
-
-    
-//    let letterButton = letter;
-//   
-//    letterButton.addEventListener('click', function(event){
-//        event.preventDefault();
-//        //handlingAlphabeticalMenuClick('A');
-//        console.log("hejsan");
-//    });
-    
-//});
-
-
-//aphabeticalMenuWrapper.addEventListener('click', function (event) {
-//    if ( event.target.classList.contains( 'aphabeticalMenu' ) ) {
-//        console.log("hej");
-//        console.log(this);
-//    }
-//    }, false
-     //                                   );
-//    console.log(this.innerText);
-//    
-////    if ( event.target.classList.contains( 'aphabeticalMenu' ) ) {
-////        //console.log(this.innerHTML);
-////        //handlingAlphabeticalMenuClick('A');
-////        console.log(this.querySelectorAll('[class=aphabeticalMenu]'));
-////        console.log(this.querySelectorAll('[id=menuT]'));
-////    }
-////    }, false
-// 
-//}
-//);
-//
-//menu.addEventListener('click', function (event) {
-//
-//    console.log(this.innerText);
-//
-// 
-//}
-//);
-
+function addEventlistenersToAlphabet(){
+let alphabetLetters = document.getElementsByClassName("aphabeticalMenu");
+		for(let letter of alphabetLetters) {
+			letter.addEventListener('click', function () {
+				const specificLetter = this.id;
+                //console.log(this.id);
+                handlingAlphabeticalMenuClick(specificLetter);
+			})
+		}
+}
 
 
 
@@ -129,6 +55,7 @@ const menuÖButton = document.getElementById('menuÖ');
 
 /******* ALPHABETICAL MENU EVENT LISTENERS ******/
 
+/*
 menuAButton.addEventListener('click', function(event){
     event.preventDefault();
     handlingAlphabeticalMenuClick('A');
@@ -246,7 +173,7 @@ menuTButton.addEventListener('click', function(event){
     handlingAlphabeticalMenuClick('T');
 });
 
-
+*/
 
 
 /* byta ut avoidClickingSameLetterTwiceInMenu mot en funtion i eventListerner som tömmer elementet kanske är normalare...
