@@ -101,39 +101,52 @@ function getPlaylist(){
         
         chooseWhichPlaylistOutput();
         
-//        for(let i = 0; i < playlists.length; i++){
+        //få med både id och titel på playlist.....
+        
+        for(let i = 0; i < playlists.length; i++){
 //            console.log(playlists[i]._id);
 //            console.log(playlists[i].title);
-//        }
+        
+            let playlistId = playlists[i]._id;
+            let playlistTitle = playlists[i].title;
+        
+            createDropdownRow(playlistId, playlistTitle);
+        }
         
       });
     }
 
 
-function chooseWhichPlaylistOutput(){
+function chooseWhichPlaylistOutput(optionDOM){
     
 const choosePlaylistElement = document.getElementById('choosePlaylist');
     choosePlaylistElement.classList.add('choosePlaylist');
+
+    const playlistSelectionElement = document.getElementById('playlistSelection');
     
-    console.log("heeeeeeeej");
+    //console.log("heeeeeeeej");
     
     //document.getElementById("choosePlaylist").style.display = "block";
     
     choosePlaylistElement.style.display = "block";
     
+    
+    
     let dropdown = `
-        <select name="cars">
-          <option value="volvo">Volvo</option>
-          <option value="saab">Saab</option>
-          <option value="fiat">Fiat</option>
-          <option value="audi">Audi</option>
-        </select>
+        ${optionDOM};
     `;
     
-    choosePlaylistElement.insertAdjacentHTML('beforeend', dropdown);
+    playlistSelectionElement.insertAdjacentHTML('beforeend', dropdown);
     
     
     // loopar ur en drop down meny med existerande playlists titlat så att man kan välja.
     // skickar med id till postPlaylist och placerar detta i url:en.
+}
+
+function createDropdownRow(playlistId, playlistTitle){
+    
+    let optionDOM = `<option value="${playlistId}">${playlistTitle}</option>`;
+    chooseWhichPlaylistOutput(optionDOM);
+    
 }
     
