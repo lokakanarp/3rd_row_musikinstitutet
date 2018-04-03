@@ -58,15 +58,17 @@ function addTrackToPlaylist(trackId){
     // välj vilken playlist du vill adda till.
     //funktion som hä,tar playlistnamn och dess id från api, så att man får välja
    
+    getPlaylist();
     
-    
-    playlistArray.push(trackId);
+ //   playlistArray.push(trackId);
 //    console.log(playlistArray);
     
-    //skicka med id från playlist hömtat ovan i denna och gör url:en dynamisk
-    postPlaylist();
     
-    playlistTrack = '';
+    
+    //skicka med id från playlist hömtat ovan i denna och gör url:en dynamisk
+//    postPlaylist();
+//    
+//    playlistTrack = '';
 }
 
 /* This function posts the playlist array to the API. Att göra: skicka med playlist-id som argument */
@@ -97,16 +99,39 @@ function getPlaylist(){
       .then((playlists) => {
 //        console.log(playlists);
         
-        for(let i = 0; i < playlists.length; i++){
-            console.log(playlists[i]._id);
-            console.log(playlists[i].title);
-        }
+        chooseWhichPlaylistOutput();
+        
+//        for(let i = 0; i < playlists.length; i++){
+//            console.log(playlists[i]._id);
+//            console.log(playlists[i].title);
+//        }
         
       });
     }
 
 
 function chooseWhichPlaylistOutput(){
+    
+const choosePlaylistElement = document.getElementById('choosePlaylist');
+    choosePlaylistElement.classList.add('choosePlaylist');
+    
+    console.log("heeeeeeeej");
+    
+    //document.getElementById("choosePlaylist").style.display = "block";
+    
+    choosePlaylistElement.style.display = "block";
+    
+    let dropdown = `
+        <select name="cars">
+          <option value="volvo">Volvo</option>
+          <option value="saab">Saab</option>
+          <option value="fiat">Fiat</option>
+          <option value="audi">Audi</option>
+        </select>
+    `;
+    
+    choosePlaylistElement.insertAdjacentHTML('beforeend', dropdown);
+    
     
     // loopar ur en drop down meny med existerande playlists titlat så att man kan välja.
     // skickar med id till postPlaylist och placerar detta i url:en.
