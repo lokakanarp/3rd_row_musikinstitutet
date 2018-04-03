@@ -32,10 +32,103 @@ const menuÅButton = document.getElementById('menuÅ');
 const menuÄButton = document.getElementById('menuÄ');
 const menuÖButton = document.getElementById('menuÖ');
 
+//autoGenerate();
+//function autoGenerate(){
+//    
+//    if(document.classList.contains('aphabeticalMenu')){
+//        console.log(this.innerHTML);
+//    }
+// const eachLetter = document.getElementsByClassName('aphabeticalMenu');
+//    
+//}
+//const aphabeticalMenuWrapper = document.getElementById('aphabeticalMenuWrapper');
+//
+//const menu = document.getElementById('menu');
+//
+//    sels = document.getElementsByClassName('aphabeticalMenu');
+//    for(i=0; i<sels.length; i++) {
+//        sels[i].addEventListener('change', alertMe, false);
+//    }
+//
+//function alertMe(){
+//    console.log(this);
+//}
+
+
+//for (i = 0; i < 26; i++) {
+//
+//  var li = document.createElement("li");
+//  li.innerHTML = " " + (i+10).toString(36) + " ";
+//  li.style.listStyle = "none";
+//  li.style.display = "inline";
+//  document.getElementById("letter-main").appendChild(li);
+//
+//    let buttonName = li.innerHTML;
+//    //console.log(buttonName);
+//    createButton(buttonName);
+//}
+//
+//function createButton(buttonName){
+//    
+//    console.log(buttonName);
+//    let button = buttonName;
+//    console.log(button);
+//    
+//    button.addEventListener('click', function(event){
+////        event.preventDefault();
+////        handlingAlphabeticalMenuClick(buttonName);
+//        console.log(button);
+//    });
+//}
+
+    
+//    let letterButton = letter;
+//   
+//    letterButton.addEventListener('click', function(event){
+//        event.preventDefault();
+//        //handlingAlphabeticalMenuClick('A');
+//        console.log("hejsan");
+//    });
+    
+//});
+
+
+//aphabeticalMenuWrapper.addEventListener('click', function (event) {
+//    if ( event.target.classList.contains( 'aphabeticalMenu' ) ) {
+//        console.log("hej");
+//        console.log(this);
+//    }
+//    }, false
+     //                                   );
+//    console.log(this.innerText);
+//    
+////    if ( event.target.classList.contains( 'aphabeticalMenu' ) ) {
+////        //console.log(this.innerHTML);
+////        //handlingAlphabeticalMenuClick('A');
+////        console.log(this.querySelectorAll('[class=aphabeticalMenu]'));
+////        console.log(this.querySelectorAll('[id=menuT]'));
+////    }
+////    }, false
+// 
+//}
+//);
+//
+//menu.addEventListener('click', function (event) {
+//
+//    console.log(this.innerText);
+//
+// 
+//}
+//);
+
+
+
+
 
 
 
 /******* ALPHABETICAL MENU EVENT LISTENERS ******/
+
 menuAButton.addEventListener('click', function(event){
     event.preventDefault();
     handlingAlphabeticalMenuClick('A');
@@ -155,12 +248,17 @@ menuTButton.addEventListener('click', function(event){
 
 
 
+
+/* byta ut avoidClickingSameLetterTwiceInMenu mot en funtion i eventListerner som tömmer elementet kanske är normalare...
+Å andra sidan innebär det att innehållet måste laddas om, vilket är dumt? */
+
 var avoidClickingSameLetterTwiceInMenu;
 var isThereContentAlready;
 
 function handlingAlphabeticalMenuClick(letter){
     if(!(avoidClickingSameLetterTwiceInMenu == letter)){
             getArtist(letter);
+            /* Saves first letter of artist in variable to compare next time to avoid duplicate output: */
             avoidClickingSameLetterTwiceInMenu = letter;
     }       
 }

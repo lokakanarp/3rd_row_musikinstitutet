@@ -47,19 +47,20 @@ function createPlaylist(title, createdBy){
 
 
 
+/* This function is pushing tracks to an array that that will be sent off to actual posting-function */
 var playlistArray = [];
-
-
 function addTrackToPlaylist(trackId){
-    console.log('in function: ', trackId);
+//    console.log('in function: ', trackId);
     
     playlistArray.push(trackId);
-    console.log(playlistArray);
+//    console.log(playlistArray);
     
+    postPlaylist();
+}
+
+/* This function posts the playlist array to the API */
+function postPlaylist(){
     let tracks = playlistArray.toString();
-    
-    
-    //let tracks = "5aae2d13b9791d0344d8f717,5aae2e6fb9791d0344d8f71c",
 
     fetch('https://folksa.ga/api/playlists/5abfa9695e9531142f1da683/tracks?key=flat_eric',{
         method: 'POST',
@@ -73,5 +74,4 @@ function addTrackToPlaylist(trackId){
       .then((playlist) => {
         console.log(playlist);
       });
-    
 }
