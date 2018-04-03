@@ -12,3 +12,49 @@
     border: 2px solid black;
     background-color: blue;
 }
+
+.aphabeticalMenuWrapper{
+    margin: 0px auto;
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;   
+}
+
+.aphabeticalMenu{
+    width: 3.44%;
+    text-align: center;
+    background-color: lightgrey;
+    font-size: 16px;
+}
+
+
+.content{
+    margin: 0px auto;
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    
+}
+
+.cardWrapper{
+    width: 48%;
+    height: 300px;
+    border: 1px solid lightgray;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-family: sans-serif;
+    padding: 10px;
+    margin: 5px;
+}
+
+.cardArtistName{
+    font-size: 18px;
+    padding: 5px;
+}
+
+.cardAlbumTitle{
+    font-weight: 600;
+    padding: 5px;
+}
