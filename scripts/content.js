@@ -339,6 +339,7 @@ function displayCard(artistName, albumTitle, albumCoverImage, tracksArray){
                     
                     let trackId = this.dataset.track;
                     
+                    // addTrackToPlaylist-function is to be found in playlist.js:
                     addTrackToPlaylist(trackId);
                     
                // console.log("hej");

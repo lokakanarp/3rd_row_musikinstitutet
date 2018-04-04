@@ -1,17 +1,14 @@
-
+/*************************** DOM Elements ***********************************/
 
 const newPlayListTitle = document.getElementById('newPlayListTitle');
 const createdByInput = document.getElementById('createdBy');
 const newPlaylistButton = document.getElementById('newPlaylistButton');
-
 const choosePlaylistButton = document.getElementById('choosePlaylistButton');
 const playlistSelection = document.getElementById('playlistSelection');
 
+
 newPlaylistButton.addEventListener('click', function(event){
     event.preventDefault();
-    
-    console.log(newPlayListTitle.value);
-    console.log(createdByInput.value);
     
     let title = newPlayListTitle.value;
     let createdBy = createdByInput.value;
@@ -19,16 +16,7 @@ newPlaylistButton.addEventListener('click', function(event){
     createPlaylist(title, createdBy);
 });
 
-//    var playlist = {
-//        title: title,
-//    //    genres: "Folk, Folk Rock",
-//        createdBy: createdBy,
-//        tracks: tracks
-//    //    coverImage: "https://www.internetmuseum.se/wordpress/wp-content/uploads/compisknappar-504x329.jpg",
-//    //    coverImageColor: "#000"
-//    }
-
-
+/*************************** Create playlist functions ***********************************/
 
 function createPlaylist(title, createdBy){
 
@@ -51,55 +39,38 @@ function createPlaylist(title, createdBy){
       })
       .then((response) => response.json())
       .then((playlist) => {
-        console.log(playlist);
+        //console.log(playlist);
+        // Some output that the playlist has been succsessfully created here?
+        
       });
 }
 
-// min playlist-id: 5abfa9695e9531142f1da683
 
+/*************************** Add track to playlist functions ***********************************/
 
-
-/* This function is pushing tracks to an array that that will be sent off to actual posting-function */
-//var playlistArray = [];
-
+// Array that holds the track you're currently adding:
 var playlistTrack = [];
 
+
 function addTrackToPlaylist(trackId){
-//    console.log('in function: ', trackId);
-    
-    // välj vilken playlist du vill adda till.
-    //funktion som hä,tar playlistnamn och dess id från api, så att man får välja
-    
-
-   
+    // Saving track id to array:
     playlistTrack.push(trackId);
-    
-    //playlist.tracks = trackId;
-    
-
-    
-   //playlistArray.push(trackId);
-//    console.log(playlistArray);
-    
-        getPlaylist();
-    
-    //skicka med id från playlist hömtat ovan i denna och gör url:en dynamisk
-//    postPlaylist();
-//    
-
-    //playlist.tracks= '';
+    // Fetching existing playlist so that user can choose which playlist they want to add track to:
+    getExistingPlaylists();
 }
 
-/* This function posts the playlist array to the API. Att göra: skicka med playlist-id som argument */
-function postToPlaylist(playlistId){
-    let tracks = playlistTrack.toString();
-    console.log('efter att man updaterat och strängat tracks', tracks);
-    
+function getExistingPlaylists(){
+    fetch('https://folksa.ga/api/playlists?key=flat_eric')
+      .then((response) => response.json())
+      .then((playlists) => {
+        // Pushing info about existing playlists forward to functions that displays them in a drop down-menu in DOM:
+        createDropdown(playlists); 
+      });
+}
 
-    
-    /* sätt in playlist-paramenter i url:en */
-    //fetch('https://folksa.ga/api/playlists/5abfa9695e9531142f1da683/tracks?key=flat_eric',{
-    
+function postToPlaylist(playlistId){
+    // Make a string out of the track-array:
+    let tracks = playlistTrack.toString();
     
     fetch(`https://folksa.ga/api/playlists/${playlistId}/tracks?key=flat_eric`,{
         method: 'POST',
@@ -114,96 +85,9 @@ function postToPlaylist(playlistId){
         console.log('this is the playlist: ', playlist);
       });
     
-     playlistTrack = '';
-     
+    // Clearing and preparing array for next input:
+     playlistTrack = ''; 
 }
-
-
-
-
-function getPlaylist(){
-
-    fetch('https://folksa.ga/api/playlists?key=flat_eric')
-      .then((response) => response.json())
-      .then((playlists) => {
-//        console.log(playlists);
-        
-        //chooseWhichPlaylistOutput();
-        
-        //få med både id och titel på playlist.....
-        
-        createDropdown(playlists);
-        
-        /*
-        for(let i = 0; i < playlists.length; i++){
-//            console.log(playlists[i]._id);
-//            console.log(playlists[i].title);
-        
-            let playlistId = playlists[i]._id;
-            let playlistTitle = playlists[i].title;
-        
-            //createDropdownRow(playlistId, playlistTitle);
-            
-            createDropdown(playlists);
-        }
-        */
-        
-      });
-    }
-
-/*
-function chooseWhichPlaylistOutput(optionDOM){
-    
-const choosePlaylistElement = document.getElementById('choosePlaylist');
-    choosePlaylistElement.classList.add('choosePlaylist');
-
-    const playlistSelectionElement = document.getElementById('playlistSelection');
-    //const choosePlaylistButton = document.getElementById('choosePlaylistButton');
-    
-    //console.log("heeeeeeeej");
-    
-    //document.getElementById("choosePlaylist").style.display = "block";
-    
-    choosePlaylistElement.style.display = "block";
-    
-    
-    
-    let dropdown = `
-        ${optionDOM};
-    `;
-    
-    playlistSelectionElement.insertAdjacentHTML('beforeend', dropdown);
-    
-//    dropdown[playlistId].addEventListener('click', function(){
-//        console.log(this);
-//    })
-    
-    
-    
-    
-    // loopar ur en drop down meny med existerande playlists titlat så att man kan välja.
-    // skickar med id till postPlaylist och placerar detta i url:en.
-}
-*/
-
-/*
-function createDropdownRow(playlistId, playlistTitle){
-    
-    let optionDOM = `<option value="${playlistId}" class="optionClass">${playlistTitle}</option>
-    <button id="${playlistId}">Choose playlist</button>`;
-    
-    playlistId.addEventListener('click', function () {
-				const specificLetter = this.id;
-        
-
-        
-
-			})
-    
-    chooseWhichPlaylistOutput(optionDOM);
-    
-}
-*/
 
 
 function createDropdown(playlists){
@@ -213,22 +97,17 @@ function createDropdown(playlists){
     const playlistSelectionElement = document.getElementById('playlistSelection');
     choosePlaylistElement.style.display = "block";
     
-
-    
     let optionRow;
+    
     for(let i = 0; i < playlists.length; i++){
-        console.log('id i loop: ', playlists[i]._id);
-        console.log('creator i loop: ', playlists[i].createdBy);
+//        console.log('id i loop: ', playlists[i]._id);
+//        console.log('creator i loop: ', playlists[i].createdBy);
         let playlistId = playlists[i]._id;
         let playlistTitle = playlists[i].title;
-        let playlistCreator = playlists[i].createdBy;
-        console.log('creator i loop, let: ', playlistCreator);
         
-        optionRow += 
-            `<option value="${playlistId}" data-creator="${playlistCreator}" class="optionClass">${playlistTitle}</option>`
-        
+        optionRow +=
+        `<option value="${playlistId}" class="optionClass">${playlistTitle}</option>`  
     }
-    
     
     let dropdown = `
         ${optionRow};
@@ -237,16 +116,18 @@ function createDropdown(playlists){
     playlistSelectionElement.insertAdjacentHTML('beforeend', dropdown);
 }
 
-
+/* BUG THAT NEEDS TO BE FIXED:
+/* This eventListener below does NOT work. 
+/* Why? Because it seems to select the entire selection-element, 
+/* and therefore the default option on top is ALWAYS picked as (this.value)
+/* when you click on it once just to open the menu :( 
+/* All tracks are atm (!) added to playlist "Girls Rock!" because it first in the list.
+*/
 playlistSelection.addEventListener('click', function (){
     // gets playlist id:
     console.log('id i eventlistener: ', this.value);
-    console.log('cretor i eventlisterner: ', this.dataset.creator);
 
     let playlistId = this.value;
-    //let playlistId = this.value;
-    let createdBy = this.dataset.creator;
-    
     
     postToPlaylist(playlistId);
     
@@ -254,18 +135,7 @@ playlistSelection.addEventListener('click', function (){
 
 
 
-/*
-function addEventlistenersToAlphabet(){
-let alphabetLetters = document.getElementsByClassName("aphabeticalMenu");
-		for(let letter of alphabetLetters) {
-			letter.addEventListener('click', function () {
-				const specificLetter = this.id;
-                //console.log(this.id);
-                handlingAlphabeticalMenuClick(specificLetter);
-			})
-		}
-}
-*/
 
 
+// min playlist-id: 5abfa9695e9531142f1da683
     
