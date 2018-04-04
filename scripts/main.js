@@ -38,7 +38,7 @@ function displayArtistForm() {
 	  <br><br>
 	</form>`;
 	const artistFormElement = document.getElementById('artistFormElement');
-	artistFormElement.insertAdjacentHTML('beforeend', artistForm);
+	artistFormElement.insertAdjacentHTML('afterbegin', artistForm);
 }
 function getElementsfromArtistForm() {
 	let nameOfArtist = document.getElementById('nameOfArtist');
@@ -74,8 +74,21 @@ function postArtist(elements){
 		  .then((response) => response.json())
 		  .then((artist) => {
 			console.log(artist);
-			displayAlbumForm(artist._id);
+			messageArtistForm(artist);
+			//displayAlbumForm(artist._id);
 		  })	
+}
+function messageArtistForm(artist) {
+	let confirmationMessageArtist = document.getElementById("confirmationMessageArtist");
+	let message = '';
+	if (artist.name == 'Tim Buckley') {
+		message = 'Something went wrong. Please try again';
+	} else {
+		message = `You added ${artist.name} to Musikinstitutet.<br> 
+		To add an album by ${artist.name} use the form below.`
+		displayAlbumForm(artist._id);
+	}
+	confirmationMessageArtist.innerHTML = message;
 }
 
 function displayAlbumForm(artistId) {
@@ -99,7 +112,7 @@ function displayAlbumForm(artistId) {
 		<button id='albumFormButton'>Post Album</button>
 	</form>`;
 	const albumFormElement = document.getElementById('albumFormElement');
-	albumFormElement.insertAdjacentHTML('beforeend', albumForm);
+	albumFormElement.insertAdjacentHTML('afterbegin', albumForm);
 	let albumFormButton = document.getElementById('albumFormButton');
 	addEventListenerToButton(albumFormButton, getElementsFromAlbumForm);
 }
@@ -136,8 +149,22 @@ function postAlbum(elements) {
 	  .then((response) => response.json())
 	  .then((album) => {
 		console.log(album);
-		displayTracksForm(album._id, album.artists, album.coverImage);
+		messageAlbumForm(album);
+		//displayTracksForm(album._id, album.artists, album.coverImage);
 	  });	
+}
+
+function messageAlbumForm(album) {
+	let confirmationMessageAlbum = document.getElementById("confirmationMessageAlbum");
+	let message = '';
+	if (album.title == 'Goodbye and Hello') {
+		message = 'Something went wrong. Please try again';
+	} else {
+		message = `You added ${album.title} to Musikinstitutet.<br> 
+		To add a track by ${album.title} use the form below.`
+		displayTracksForm(album._id, album.artists, album.coverImage);
+	}
+	confirmationMessageAlbum.innerHTML = message;
 }
 
 function displayTracksForm(albumId, artistId, coverImage) {
@@ -153,6 +180,7 @@ function displayTracksForm(albumId, artistId, coverImage) {
 	  <br>
 	  Cover image color:<br>
 	  <input type='text' name='coverImageColorOfTrack' id='coverImageColorOfTrack'>
+	  <br>
 	  Spotify URL:<br>
 	  <input type='text' name='spotifyURLOfTrack' id='spotifyURLOfTrack'> 
 	  <br>
@@ -165,7 +193,7 @@ function displayTracksForm(albumId, artistId, coverImage) {
 		<button id='tracksFormButton'>Post Track</button>
 	</form>`;
 	const tracksFormElement = document.getElementById('tracksFormElement');
-	tracksFormElement.insertAdjacentHTML('beforeend', tracksForm);
+	tracksFormElement.insertAdjacentHTML('afterbegin', tracksForm);
 	let tracksFormButton = document.getElementById('tracksFormButton');
 	addEventListenerToButton(tracksFormButton, getElementsFromTracksForm);
 }
@@ -209,7 +237,11 @@ function postTrack(elements) {
 	  .then((response) => response.json())
 	  .then((track) => {
 		console.log(track);
-		//displayTracksForm(album._id, album.artists, album.coverImage);
+		if (track.title == "No Man Can Find The War") {
+			console.log("adding track failed");
+		} else {
+			console.log(`You successfully added ${track.title}`)
+		}
 	  });	
 
 }
