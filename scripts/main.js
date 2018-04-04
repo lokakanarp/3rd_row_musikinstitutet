@@ -100,6 +100,7 @@ function displayAlbumForm(artistId) {
 	</form>`;
 	const albumFormElement = document.getElementById('albumFormElement');
 	albumFormElement.insertAdjacentHTML('beforeend', albumForm);
+	let albumFormButton = document.getElementById('albumFormButton');
 	addEventListenerToButton(albumFormButton, getElementsFromAlbumForm);
 }
 
@@ -110,7 +111,7 @@ function getElementsFromAlbumForm() {
 	let genresOfAlbum = document.getElementById('genresOfAlbum');
 	let spotifyURLOfAlbum = document.getElementById('spotifyURLOfAlbum');
 	let coverImageOfAlbum = document.getElementById('coverImageOfAlbum');
-	let albumFormButton = document.getElementById('albumFormButton');
+	//let albumFormButton = document.getElementById('albumFormButton');
 	let elementsFromAlbumForm = {
     title: titleOfAlbum.value,
     artists: artistId.value, 
@@ -161,10 +162,11 @@ function displayTracksForm(albumId, artistId, coverImage) {
 	  Soundcloud URL:<br>
 	  <input type='text' name='soundcloudURLOfTrack' id='soundcloudURLOfTrack'>
 	  <br><br>
-		<button id='albumFormButton'>Post Track</button>
+		<button id='tracksFormButton'>Post Track</button>
 	</form>`;
 	const tracksFormElement = document.getElementById('tracksFormElement');
 	tracksFormElement.insertAdjacentHTML('beforeend', tracksForm);
+	let tracksFormButton = document.getElementById('tracksFormButton');
 	addEventListenerToButton(tracksFormButton, getElementsFromTracksForm);
 }
 
@@ -178,7 +180,7 @@ function getElementsFromTracksForm() {
 	let spotifyURLOfTrack = document.getElementById('spotifyURLOfTrack');
 	let youtubeURLOfTrack = document.getElementById('youtubeURLOfTrack');
 	let soundcloudURLOfTrack = document.getElementById('soundcloudURLOfTrack');
-	let albumFormButton = document.getElementById('albumFormButton');
+	//let tracksFormButton = document.getElementById('tracksFormButton');
 	
 	let elementsFromTracksForm = {
     title: titleOfTrack.value,
@@ -191,7 +193,25 @@ function getElementsFromTracksForm() {
     youtubeURL: youtubeURLOfTrack.value,
 	soundcloudURL: soundcloudURLOfTrack.value
 	}
-	postTrack(elementsFromTrackForm);
+	postTrack(elementsFromTracksForm);
+}
+
+function postTrack(elements) {
+	let track = elements;
+	fetch('https://folksa.ga/api/tracks?key=flat_eric',{
+		method: 'POST',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(track)
+	  })
+	  .then((response) => response.json())
+	  .then((track) => {
+		console.log(track);
+		//displayTracksForm(album._id, album.artists, album.coverImage);
+	  });	
+
 }
 
 
