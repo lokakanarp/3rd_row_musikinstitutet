@@ -19,6 +19,15 @@ newPlaylistButton.addEventListener('click', function(event){
     createPlaylist(title, createdBy);
 });
 
+//    var playlist = {
+//        title: title,
+//    //    genres: "Folk, Folk Rock",
+//        createdBy: createdBy,
+//        tracks: tracks
+//    //    coverImage: "https://www.internetmuseum.se/wordpress/wp-content/uploads/compisknappar-504x329.jpg",
+//    //    coverImageColor: "#000"
+//    }
+
 
 
 function createPlaylist(title, createdBy){
@@ -53,32 +62,46 @@ function createPlaylist(title, createdBy){
 /* This function is pushing tracks to an array that that will be sent off to actual posting-function */
 //var playlistArray = [];
 
-var playlistTrack;
+var playlistTrack = [];
 
 function addTrackToPlaylist(trackId){
 //    console.log('in function: ', trackId);
     
     // välj vilken playlist du vill adda till.
     //funktion som hä,tar playlistnamn och dess id från api, så att man får välja
-   
-    getPlaylist();
     
- //   playlistArray.push(trackId);
+
+   
+    playlistTrack.push(trackId);
+    
+    //playlist.tracks = trackId;
+    
+
+    
+   //playlistArray.push(trackId);
 //    console.log(playlistArray);
     
-    
+        getPlaylist();
     
     //skicka med id från playlist hömtat ovan i denna och gör url:en dynamisk
 //    postPlaylist();
 //    
-//    playlistTrack = '';
+
+    //playlist.tracks= '';
 }
 
 /* This function posts the playlist array to the API. Att göra: skicka med playlist-id som argument */
-function postPlaylist(){
-    //let tracks = playlistArray.toString();
+function postToPlaylist(playlistId){
+    let tracks = playlistTrack.toString();
+    console.log('efter att man updaterat och strängat tracks', tracks);
+    
+
+    
     /* sätt in playlist-paramenter i url:en */
-    fetch('https://folksa.ga/api/playlists/5abfa9695e9531142f1da683/tracks?key=flat_eric',{
+    //fetch('https://folksa.ga/api/playlists/5abfa9695e9531142f1da683/tracks?key=flat_eric',{
+    
+    
+    fetch(`https://folksa.ga/api/playlists/${playlistId}/tracks?key=flat_eric`,{
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -88,8 +111,11 @@ function postPlaylist(){
       })
       .then((response) => response.json())
       .then((playlist) => {
-        console.log(playlist);
+        console.log('this is the playlist: ', playlist);
       });
+    
+     playlistTrack = '';
+     
 }
 
 
@@ -191,21 +217,16 @@ function createDropdown(playlists){
     
     let optionRow;
     for(let i = 0; i < playlists.length; i++){
+        console.log('id i loop: ', playlists[i]._id);
+        console.log('creator i loop: ', playlists[i].createdBy);
+        let playlistId = playlists[i]._id;
+        let playlistTitle = playlists[i].title;
+        let playlistCreator = playlists[i].createdBy;
+        console.log('creator i loop, let: ', playlistCreator);
         
-    let playlistId = playlists[i]._id;
-    let playlistTitle = playlists[i].title;
+        optionRow += 
+            `<option value="${playlistId}" data-creator="${playlistCreator}" class="optionClass">${playlistTitle}</option>`
         
-        optionRow += `<option value="${playlistId}" class="optionClass">${playlistTitle}</option>`
-        
-//        let options = document.getElementsByClassName("optionClass");
-//		for(let option of options) {
-//			option.addEventListener('click', function () {
-//				
-//                //console.log(this.id);
-//                console.log("funkar det???");
-//                
-//			})
-//		}
     }
     
     
@@ -213,12 +234,22 @@ function createDropdown(playlists){
         ${optionRow};
     `;
     
-    
     playlistSelectionElement.insertAdjacentHTML('beforeend', dropdown);
 }
 
+
 playlistSelection.addEventListener('click', function (){
-    console.log(this.value);
+    // gets playlist id:
+    console.log('id i eventlistener: ', this.value);
+    console.log('cretor i eventlisterner: ', this.dataset.creator);
+
+    let playlistId = this.value;
+    //let playlistId = this.value;
+    let createdBy = this.dataset.creator;
+    
+    
+    postToPlaylist(playlistId);
+    
 })
 
 
