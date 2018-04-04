@@ -24,12 +24,12 @@ function displayArtistForm() {
       </select>
 	  <br>
 	  Genres (separate by comma):<br>
-	  <input type="text" name='genres' id='genresOfArtist'>
+	  <input type='text' name='genres' id='genresOfArtist'>
 	  <br>
 	  Born Country:<br>
 	  <input type='text' name='countryBorn' id='countryBornArtist'>
 	  <br>
-	  SpotifyURL:<br>
+	  Spotify URL:<br>
 	  <input type='text' name='spotifyURL' id='spotifyURLOfArtist'>
 	  <br>
 	  Cover image:<br>
@@ -88,9 +88,9 @@ function displayAlbumForm(artistId) {
 	  <input type='text' name='dateOfRelease' id='dateOfRelease'>
 	  <br>
 	  Genres (separate by comma):<br>
-	  <input type="text" name='genresOfAlbum' id='genresOfAlbum'>
+	  <input type='text' name='genresOfAlbum' id='genresOfAlbum'>
 	  <br>
-	  SpotifyURL:<br>
+	  Spotify URL:<br>
 	  <input type='text' name='spotifyURLOfAlbum' id='spotifyURLOfAlbum'>
 	  <br>
 	  Cover image:<br>
@@ -124,14 +124,6 @@ function getElementsFromAlbumForm() {
 
 function postAlbum(elements) {
 	let album = elements;
-		/*{
-    title: title,
-    artists: artistId, 
-    releaseDate: date,
-    genres: genres, 
-    spotifyURL: spotifyURL,
-    coverImage: coverImage
-	}*/
 	fetch('https://folksa.ga/api/albums?key=flat_eric',{
 		method: 'POST',
 		headers: {
@@ -143,27 +135,24 @@ function postAlbum(elements) {
 	  .then((response) => response.json())
 	  .then((album) => {
 		console.log(album);
-		displayTracksForm(album._id, album.artists);
+		displayTracksForm(album._id, album.artists, album.coverImage);
 	  });	
 }
 
-function displayTracksForm(albumId, artistId) {
+function displayTracksForm(albumId, artistId, coverImage) {
 	let tracksForm = `<form>
-		
 	  Title of track:<br>
 	  <input type='text' name='titleOfTrack' id='titleOfTrack'>
 	  <br>
 	  <input type='hidden' id='artistId' value=${artistId}>
-	  <input type='hidden' id='artistId' value=${albumId}>
+	  <input type='hidden' id='albumId' value=${albumId}>
+	  <input type='hidden' id='coverImageOfAlbum' value=${coverImage}>
 	  Genres (separate by comma):<br>
 	  <input type='text' name='genresOfTrack' id='genresOfTrack'>
 	  <br>
-	  Cover image:<br>
-	  <input type='text' name='coverImageOfTrack' id='coverImageOfTrack'>
-	  <br>
 	  Cover image color:<br>
 	  <input type='text' name='coverImageColorOfTrack' id='coverImageColorOfTrack'>
-	  SpotifyURL:<br>
+	  Spotify URL:<br>
 	  <input type='text' name='spotifyURLOfTrack' id='spotifyURLOfTrack'> 
 	  <br>
 	  Youtube URL:<br>
@@ -172,11 +161,37 @@ function displayTracksForm(albumId, artistId) {
 	  Soundcloud URL:<br>
 	  <input type='text' name='soundcloudURLOfTrack' id='soundcloudURLOfTrack'>
 	  <br><br>
-		<button id='albumFormButton'>Post Album</button>
+		<button id='albumFormButton'>Post Track</button>
 	</form>`;
-	const albumFormElement = document.getElementById('albumFormElement');
-	albumFormElement.insertAdjacentHTML('beforeend', albumForm);
-	addEventListenerToButton(albumFormButton, getElementsFromAlbumForm);
+	const tracksFormElement = document.getElementById('tracksFormElement');
+	tracksFormElement.insertAdjacentHTML('beforeend', tracksForm);
+	addEventListenerToButton(tracksFormButton, getElementsFromTracksForm);
+}
+
+function getElementsFromTracksForm() {
+	let titleOfTrack = document.getElementById('titleOfTrack');
+	let artistId = document.getElementById('artistId');
+	let albumId = document.getElementById('albumId');
+	let genresOfTrack = document.getElementById('genresOfTrack');
+	let coverImageOfAlbum = document.getElementById('coverImageOfAlbum')
+	let coverImageColor = document.getElementById('coverImageColorOfTrack');
+	let spotifyURLOfTrack = document.getElementById('spotifyURLOfTrack');
+	let youtubeURLOfTrack = document.getElementById('youtubeURLOfTrack');
+	let soundcloudURLOfTrack = document.getElementById('soundcloudURLOfTrack');
+	let albumFormButton = document.getElementById('albumFormButton');
+	
+	let elementsFromTracksForm = {
+    title: titleOfTrack.value,
+	artists: artistId.value,
+    album: albumId.value, 
+    genres: genresOfTrack.value,
+    coverImage: coverImageOfAlbum.value, 
+	coverImageColor: coverImageColor.value,
+    spotifyURL: spotifyURLOfTrack.value,
+    youtubeURL: youtubeURLOfTrack.value,
+	soundcloudURL: soundcloudURLOfTrack.value
+	}
+	postTrack(elementsFromTrackForm);
 }
 
 
