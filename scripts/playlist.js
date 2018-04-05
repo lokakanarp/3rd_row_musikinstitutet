@@ -83,10 +83,18 @@ function postToPlaylist(playlistId){
       .then((response) => response.json())
       .then((playlist) => {
         console.log('this is the playlist: ', playlist);
+        
+        /* Weird bugsolving regarding double clicks in option-eventlisterners,
+        /* If this returns Error, means that user have just clicked "Choose one",
+        /* and the playListTrack must only been cleard once the track has been 
+        /* added to choosen list, when the user has clicked eventListener TWICE:
+        */
+        if(playlist.type != "Error"){
+            // Clearing and preparing array for next input:
+            playlistTrack = '';    
+        }
       });
-    
-    // Clearing and preparing array for next input:
-     playlistTrack = ''; 
+
 }
 
 
@@ -99,6 +107,9 @@ function createDropdown(playlists){
     
     let optionRow;
     
+    optionRow =
+    `<option class="optionClass">Choose one</option>` 
+    
     for(let i = 0; i < playlists.length; i++){
 //        console.log('id i loop: ', playlists[i]._id);
 //        console.log('creator i loop: ', playlists[i].createdBy);
@@ -106,35 +117,40 @@ function createDropdown(playlists){
         let playlistTitle = playlists[i].title;
         
         optionRow +=
-        `<option value="${playlistId}" class="optionClass">${playlistTitle}</option>`  
+        `<option value="${playlistId}" class="optionClass">${playlistTitle}</option>` 
+
+
     }
     
-    let dropdown = `
-        ${optionRow};
-    `;
+
     
-    playlistSelectionElement.insertAdjacentHTML('beforeend', dropdown);
+    playlistSelectionElement.insertAdjacentHTML('beforeend', optionRow);
 }
 
-/* BUG THAT NEEDS TO BE FIXED:
+/* **SOLVED*** BUG THAT NEEDS TO BE FIXED:
 /* This eventListener below does NOT work. 
 /* Why? Because it seems to select the entire selection-element, 
 /* and therefore the default option on top is ALWAYS picked as (this.value)
 /* when you click on it once just to open the menu :( 
 /* All tracks are atm (!) added to playlist "Girls Rock!" because it first in the list.
+/* Maybe syntax is wrong and should be something like "this.selected" instead,
+/* or make a loop of eventListerners, like with alphabet-menu?
 */
+
 playlistSelection.addEventListener('click', function (){
     // gets playlist id:
     console.log('id i eventlistener: ', this.value);
+    console.log('id selected i eventlistener: ', this.optSelected);
+    
+    console.log('trackarray ', playlistTrack);
 
     let playlistId = this.value;
     
     postToPlaylist(playlistId);
     
+    
+    
 })
-
-
-
 
 
 // min playlist-id: 5abfa9695e9531142f1da683
