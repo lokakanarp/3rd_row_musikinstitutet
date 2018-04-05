@@ -118,24 +118,11 @@ function createDropdown(playlists){
         
         optionRow +=
         `<option value="${playlistId}" class="optionClass">${playlistTitle}</option>` 
-
-
     }
-    
-
     
     playlistSelectionElement.insertAdjacentHTML('beforeend', optionRow);
 }
 
-/* **SOLVED*** BUG THAT NEEDS TO BE FIXED:
-/* This eventListener below does NOT work. 
-/* Why? Because it seems to select the entire selection-element, 
-/* and therefore the default option on top is ALWAYS picked as (this.value)
-/* when you click on it once just to open the menu :( 
-/* All tracks are atm (!) added to playlist "Girls Rock!" because it first in the list.
-/* Maybe syntax is wrong and should be something like "this.selected" instead,
-/* or make a loop of eventListerners, like with alphabet-menu?
-*/
 
 playlistSelection.addEventListener('click', function (){
     // gets playlist id:
@@ -147,9 +134,6 @@ playlistSelection.addEventListener('click', function (){
     let playlistId = this.value;
     
     postToPlaylist(playlistId);
-    
-    
-    
 })
 
 
