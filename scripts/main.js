@@ -1,152 +1,75 @@
-displayArtistForm();
-addEventListenerToButton(artistFormButton, getElementsfromArtistForm);
+const searchButton = document.getElementById('search');
+const options = document.getElementById('selectSearch').children;
+const searchField = document.getElementById('searchField');
+const searchResultOutput = document.getElementById('searchResult');
 
-function addEventListenerToButton(button, callback) {
-button.addEventListener('click', function(event){
-	event.preventDefault();
-	callback();
-	})
+searchButton.addEventListener('click', function(event){
+    event.preventDefault();
+    searchResultOutput.innerHTML = '';
+    getData();
+});
+
+function getData(){
+    let searchWord = searchField.value;
+    
+    const artist = options[0];
+    const track = options[1];
+    const album = options[2];
+    const playlist = options[3];
+    
+    if(artist.selected == true){
+        fetch(`https://folksa.ga/api/artists?key=flat_eric&name=${searchWord}`)
+        .then((response) => response.json())
+        .then((data) => {
+            showSearchResult(data);
+        })
+        .catch((error) => {
+            console.log(error)
+        });
+    }
+    
+    if(track.selected == true){
+        fetch(`https://folksa.ga/api/tracks?key=flat_eric&title=${searchWord}`)
+        .then((response) => response.json())
+        .then((data) => {
+            showSearchResult(data);
+        })
+        .catch((error) => {
+            console.log(error)
+        });
+    }
+    
+    if(album.selected == true){
+        fetch(`https://folksa.ga/api/albums?key=flat_eric&title=${searchWord}`)
+        .then((response) => response.json())
+        .then((data) => {
+            showSearchResult(data);
+        })
+        .catch((error) => {
+            console.log(error)
+        });
+    }
+    
+    if(playlist.selected == true){
+        fetch(`https://folksa.ga/api/playlists?key=flat_eric&title=${searchWord}`)
+        .then((response) => response.json())
+        .then((data) => {
+            showSearchResult(data);
+        })
+        .catch((error) => {
+            console.log(error)
+        });
+    }
 }
 
-function displayArtistForm() {
-	let artistForm = `<form>
-	  Name of artist:<br>
-	  <input type='text' name='nameOfArtist' id='nameOfArtist'>
-	  <br>
-	  Born:<br>
-	  <input type='text' name='born' id='bornDateArtist'>
-	  <br>
-	  Gender:<br>
-	  <select name='gender' id='genderOfArtist'>
-		  <option value='female'>Female</option>
-		  <option value='male'>Male</option>
-		  <option value='other'>Other</option>
-      </select>
-	  <br>
-	  Genres (separate by comma):<br>
-	  <input type="text" name='genres' id='genresOfArtist'>
-	  <br>
-	  Born Country:<br>
-	  <input type='text' name='countryBorn' id='countryBornArtist'>
-	  <br>
-	  SpotifyURL:<br>
-	  <input type='text' name='spotifyURL' id='spotifyURLOfArtist'>
-	  <br>
-	  Cover image:<br>
-	  <input type='text' name='coverImage' id='coverImageOfArtist'>
-		<button id='artistFormButton'>Post Artist</button>
-	  <br><br>
-	</form>`;
-	const artistFormElement = document.getElementById('artistFormElement');
-	artistFormElement.insertAdjacentHTML('beforeend', artistForm);
+function showSearchResult(data){
+    for(let i = 0; i < data.length; i++){
+        if(data[i].name){
+            const searchResult = data[i].name;
+            searchResultOutput.innerHTML += `<p>${searchResult}<p>`;
+        }else{
+            const searchResult = data[i].title;
+            searchResultOutput.innerHTML += `<p>${searchResult}<p>`;
+        }
+    }
 }
-function getElementsfromArtistForm() {
-	let nameOfArtist = document.getElementById('nameOfArtist');
-	let bornDateArtist = document.getElementById('bornDateArtist');
-	let genderOfArtist = document.getElementById('genderOfArtist');
-	let genresOfArtist = document.getElementById('genresOfArtist');
-	let countryBornArtist = document.getElementById('countryBornArtist');
-	let spotifyURLOfArtist = document.getElementById('spotifyURLOfArtist');
-	let coverImageOfArtist = document.getElementById('coverImageOfArtist');
-	let artistFormButton = document.getElementById('artistFormButton');
-	let elementsfromArtistForm = {
-		name: nameOfArtist.value,
-		born: bornDateArtist.value,
-		gender: genderOfArtist.value,
-		genres: genresOfArtist.value, 
-		countryBorn: countryBornArtist.value,
-		spotifyURL: spotifyURLOfArtist.value,
-		coverImage: coverImageOfArtist.value	
-	}
-	postArtist(elementsfromArtistForm);
-}
-
-function postArtist(elements){
-		let artist = elements;
-		fetch('https://folksa.ga/api/artists?key=flat_eric',{
-			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(artist)
-		  })
-		  .then((response) => response.json())
-		  .then((artist) => {
-			console.log(artist);
-			displayAlbumForm(artist._id);
-		  })	
-}
-
-function displayAlbumForm(artistId) {
-	let albumForm = `<form>
-		<input type='hidden' id= 'artistId' value=${artistId}>
-	  Title of album:<br>
-	  <input type='text' name='titleOfAlbum' id='titleOfAlbum'>
-	  <br>
-	  Release date:<br>
-	  <input type='text' name='dateOfRelease' id='dateOfRelease'>
-	  <br>
-	  Genres (separate by comma):<br>
-	  <input type="text" name='genresOfAlbum' id='genresOfAlbum'>
-	  <br>
-	  SpotifyURL:<br>
-	  <input type='text' name='spotifyURLOfAlbum' id='spotifyURLOfAlbum'>
-	  <br>
-	  Cover image:<br>
-	  <input type='text' name='coverImageOfAlbum' id='coverImageOfAlbum'>
-	  <br><br>
-		<button id='albumFormButton'>Post Album</button>
-	</form>`;
-	const albumFormElement = document.getElementById('albumFormElement');
-	albumFormElement.insertAdjacentHTML('beforeend', albumForm);
-	addEventListenerToButton(albumFormButton, getElementsFromAlbumForm);
-}
-
-function getElementsFromAlbumForm() {
-	let artistId = document.getElementById('artistId');
-	let titleOfAlbum = document.getElementById('titleOfAlbum');
-	let dateOfRelease = document.getElementById('dateOfRelease');
-	let genresOfAlbum = document.getElementById('genresOfAlbum');
-	let spotifyURLOfAlbum = document.getElementById('spotifyURLOfAlbum');
-	let coverImageOfAlbum = document.getElementById('coverImageOfAlbum');
-	let albumFormButton = document.getElementById('albumFormButton');
-	let elementsFromAlbumForm = {
-    title: titleOfAlbum.value,
-    artists: artistId.value, 
-    releaseDate: dateOfRelease.value,
-    genres: genresOfAlbum.value, 
-    spotifyURL: spotifyURLOfAlbum.value,
-    coverImage: coverImageOfAlbum.value
-	}
-	
-	postAlbum(elementsFromAlbumForm);
-}
-
-function postAlbum(elements) {
-	let album = elements;
-		/*{
-    title: title,
-    artists: artistId, 
-    releaseDate: date,
-    genres: genres, 
-    spotifyURL: spotifyURL,
-    coverImage: coverImage
-	}*/
-	fetch('https://folksa.ga/api/albums?key=flat_eric',{
-		method: 'POST',
-		headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(album)
-	  })
-	  .then((response) => response.json())
-	  .then((album) => {
-		console.log(album);
-	  });	
-}
-
-
-
-
