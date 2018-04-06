@@ -59,6 +59,16 @@ function getElementsfromArtistForm() {
 		coverImage: coverImageOfArtist.value	
 	}
 	postArtist(elementsfromArtistForm);
+	emptyFields(elementsfromArtistForm);
+}
+
+function emptyFields(elements) {
+	nameOfArtist.value = '';
+	bornDateArtist.value = '';
+	genresOfArtist.value = '';
+	countryBornArtist.value = '';
+	spotifyURLOfArtist.value = '';
+	coverImageOfArtist.value = '';	
 }
 
 function postArtist(elements){
@@ -161,7 +171,7 @@ function messageAlbumForm(album) {
 		message = 'Something went wrong. Please try again';
 	} else {
 		message = `You added ${album.title} to Musikinstitutet.<br> 
-		To add a track by ${album.title} use the form below.`
+		To add a track to ${album.title} use the form below.`
 		displayTracksForm(album._id, album.artists, album.coverImage);
 	}
 	confirmationMessageAlbum.innerHTML = message;
@@ -237,13 +247,19 @@ function postTrack(elements) {
 	  .then((response) => response.json())
 	  .then((track) => {
 		console.log(track);
-		if (track.title == "No Man Can Find The War") {
-			console.log("adding track failed");
-		} else {
-			console.log(`You successfully added ${track.title}`)
-		}
+		messageTrackForm(track);
 	  });	
-
+}
+function messageTrackForm(track) {
+	let confirmationMessageTracks = document.getElementById("confirmationMessageTracks");
+	let message = '';
+	if (track.title == 'No Man Can Find The War') {
+		message = 'Something went wrong. Please try again';
+	} else {
+		message = `You added ${track.title} to Musikinstitutet.<br> 
+		To add anoyher track to the same album use the same form again.`
+	}
+	confirmationMessageTracks.innerHTML = message;
 }
 
 
