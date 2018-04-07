@@ -155,6 +155,18 @@ function displayCard(artistName, albumTitle, albumYear, albumCoverImage, genresA
                     <button id="addTrackToPlaylist${trackId}" data-track="${trackId}">Add to playlist</button>
                     ${i+1}. ${tracksArray[i].title}
                     <button id="deleteTrack${trackId}" data-track="${trackId}">Delete</button>
+                    <select id="rateTrack${trackId}" data-track="${trackId}">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select><br>
                 `;
                 
                 //sedan ta typ this.data-id när man skapar eventlistener och skickar vidare som argument till add-funktion???
@@ -191,6 +203,17 @@ function displayCard(artistName, albumTitle, albumYear, albumCoverImage, genresA
                     let trackId = this.dataset.track;
                     // addTrackToPlaylist-function is to be found in playlist.js:
                     deleteTrack(trackId);
+                });
+                
+                //Rate track
+                const rateTrack = document.getElementById(`rateTrack${trackId}`);
+                rateTrack.addEventListener('click', function(event){
+                    event.preventDefault();
+                    //console.log(this);
+                    //console.log(this.dataset.track);
+                    let trackId = this.dataset.track;
+                    // addTrackToPlaylist-function is to be found in playlist.js:
+                    rateTrack(trackId);
                 });
                 
                 
