@@ -82,10 +82,11 @@ function getAlbum(artistName, albumId){
         let genresArray = albums.genres;
         let albumRatingsArray = albums.ratings;
         let tracksArray = albums.tracks;
+        let albumURL = albums.spotifyURL;
 
 
         
-        displayCard(artistName, albumId, albumTitle, albumYear, albumCoverImage, genresArray, albumRatingsArray, tracksArray);
+        displayCard(artistName, albumId, albumTitle, albumYear, albumCoverImage, genresArray, albumRatingsArray, tracksArray, albumURL);
         
         
     });
@@ -114,7 +115,7 @@ function getTrack(artistName, albumTitle, trackId){
 
 
 
-function displayCard(artistName, albumId, albumTitle, albumYear, albumCoverImage, genresArray, albumRatingsArray, tracksArray){
+function displayCard(artistName, albumId, albumTitle, albumYear, albumCoverImage, genresArray, albumRatingsArray, tracksArray, albumURL){
     
 
 //    if(isThereContentAlready){
@@ -148,7 +149,7 @@ function displayCard(artistName, albumId, albumTitle, albumYear, albumCoverImage
         //cardAlbumTitleElement.innerHTML = albumTitle + ' (' + albumYear + ') ' + albumRating;
     
         cardAlbumTitleElement.innerHTML = 
-            `${albumTitle} (${albumYear}) 
+            `<a href="${albumURL}">${albumTitle}</a> (${albumYear}) 
                     <select id="rateAlbum${albumId}" data-track="${albumId}">
                         <option value="1">1</option>
                         <option value="2">2</option>
