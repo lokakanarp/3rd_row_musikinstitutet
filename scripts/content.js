@@ -207,13 +207,14 @@ function displayCard(artistName, albumTitle, albumYear, albumCoverImage, genresA
                 
                 //Rate track
                 const rateTrack = document.getElementById(`rateTrack${trackId}`);
-                rateTrack.addEventListener('click', function(event){
+                rateTrack.addEventListener('change', function(event){
                     event.preventDefault();
                     //console.log(this);
-                    //console.log(this.dataset.track);
+                    console.log('id: ', this.dataset.track);
                     let trackId = this.dataset.track;
-                    // addTrackToPlaylist-function is to be found in playlist.js:
-                    rateTrack(trackId);
+                    
+                    console.log('maybe the rating: ',  this[this.selectedIndex].value);
+                    //rateTrack(trackId);
                 });
                 
                 
@@ -225,4 +226,7 @@ function displayCard(artistName, albumTitle, albumYear, albumCoverImage, genresA
      
 }
 
+
+
+    
 
