@@ -72,7 +72,7 @@ function getAlbum(artistName, albumId){
     fetch('https://folksa.ga/api/albums/' + albumId + '?key=flat_eric')
       .then((response) => response.json())
       .then((albums) => {
-      console.log(albums);
+  //    console.log(albums);
         
         let albumTitle = albums.title;
         let albumId = albums._id;
@@ -94,21 +94,35 @@ function getAlbum(artistName, albumId){
     
 }
 
-function getTrack(artistName, albumTitle, trackId){
-    fetch(`https://folksa.ga/api/tracks?${trackId}&key=flat_eric`)
+function getTrackURL(trackId){
+    fetch(`https://folksa.ga/api/tracks/${trackId}?key=flat_eric`)
   .then((response) => response.json())
-  .then((tracks) => {
+  .then((singleTrack) => {
         
-//        console.log(tracks)
+        console.log(singleTrack)
         
-        let numberOfTracksOnAlbum = tracks.length;
-//        console.log(numberOfTracksOnAlbum);
+//        console.log(singleTrack.spotifyURL);
+//        console.log(singleTrack.youtubeURL);
+//        console.log(singleTrack.soundcloudURL);
         
-        for(let i = 0; i < numberOfTracksOnAlbum; i++){
-//            console.log(tracks[i].title);
-            
-        
+        if(singleTrack.spotifyURL != ""){
+            return singleTrack.spotifyURL;
+        }else if(singleTrack.youtubeURL != ""){
+            return singleTrack.youtubeURL;
+        }else if(singleTrack.soundcloudURL != ""){
+            return singleTrack.soundcloudURL;
         }
+        
+//        let numberOfTracksOnAlbum = tracks.length;
+////        console.log(numberOfTracksOnAlbum);
+//        
+//        for(let i = 0; i < numberOfTracksOnAlbum; i++){
+////            console.log(tracks[i].title);
+//            
+//        
+//        }
+        
+      //  return singleTrack;
       
   });
 }
@@ -178,10 +192,17 @@ function displayCard(artistName, albumId, albumTitle, albumYear, albumCoverImage
                 let trackRatingArray = tracksArray[i].ratings;
                 let singleTrackRating = calculateAverageRating(trackRatingArray);
                 
+                console.log(trackId);
+                //let singleTrackObject = getTrack(trackId);
+                //console.log(singleTrackObject); 
+                
+                let trackLink = getTrackURL(trackId);
+                console.log(trackLink);
+                
                
                 let tracklist = `
                     <button id="addTrackToPlaylist${trackId}" data-track="${trackId}">Add to playlist</button>
-                    ${i+1}. ${tracksArray[i].title}
+                    ${i+1}. <a href="${trackLink}">${tracksArray[i].title}</a>
                     <button id="deleteTrack${trackId}" data-track="${trackId}">Delete</button>
                     <select id="rateTrack${trackId}" data-track="${trackId}">
                         <option value="1">1</option>
