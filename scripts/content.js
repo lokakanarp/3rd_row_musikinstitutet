@@ -72,7 +72,7 @@ function getAlbum(artistName, albumId){
     fetch('https://folksa.ga/api/albums/' + albumId + '?key=flat_eric')
       .then((response) => response.json())
       .then((albums) => {
-      console.log(albums);
+      //console.log(albums);
         
         let albumTitle = albums.title;
         let albumYear = albums.releaseDate; 
@@ -206,15 +206,16 @@ function displayCard(artistName, albumTitle, albumYear, albumCoverImage, genresA
                 });
                 
                 //Rate track
-                const rateTrack = document.getElementById(`rateTrack${trackId}`);
-                rateTrack.addEventListener('change', function(event){
+                const rateTrackDropdown = document.getElementById(`rateTrack${trackId}`);
+                rateTrackDropdown.addEventListener('change', function(event){
                     event.preventDefault();
                     //console.log(this);
-                    console.log('id: ', this.dataset.track);
+                    //console.log('id: ', this.dataset.track);
                     let trackId = this.dataset.track;
+                    let trackRating = this[this.selectedIndex].value;
                     
-                    console.log('maybe the rating: ',  this[this.selectedIndex].value);
-                    //rateTrack(trackId);
+                    //console.log('maybe the rating: ',  this[this.selectedIndex].value);
+                    rateTrack(trackId, trackRating);
                 });
                 
                 
