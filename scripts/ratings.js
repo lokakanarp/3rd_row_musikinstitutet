@@ -1,3 +1,20 @@
+function rateAlbum(albumId, albumRating){
+    fetch(`https://folksa.ga/api/albums/${albumId}/vote?key=flat_eric`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ rating: albumRating })
+        })
+        .then((response) => response.json())
+        .then((album) => {
+            console.log(album);
+        });
+    
+}
+
+
 function rateTrack(trackId, trackRating){
 
     fetch(`https://folksa.ga/api/tracks/${trackId}/vote?key=flat_eric`, {
@@ -24,9 +41,6 @@ function calculateAverageRating(incomingArrayOfRatings){
     }
     
     let numerator = incomingArrayOfRatings.length;
-    
-    console.log(denominator);
-    console.log(numerator);
     
     return denominator / numerator;
 }

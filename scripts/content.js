@@ -72,18 +72,20 @@ function getAlbum(artistName, albumId){
     fetch('https://folksa.ga/api/albums/' + albumId + '?key=flat_eric')
       .then((response) => response.json())
       .then((albums) => {
-      //console.log(albums);
+      console.log(albums);
         
         let albumTitle = albums.title;
+        let albumId = albums._id;
         let albumYear = albums.releaseDate; 
         let albumCoverImage = albums.coverImage; 
 //        console.log(albumCoverImage);
         let genresArray = albums.genres;
+        let albumRatingsArray = albums.ratings;
         let tracksArray = albums.tracks;
 
 
         
-        displayCard(artistName, albumTitle, albumYear, albumCoverImage, genresArray, tracksArray);
+        displayCard(artistName, albumId, albumTitle, albumYear, albumCoverImage, genresArray, albumRatingsArray, tracksArray);
         
         
     });
@@ -112,7 +114,7 @@ function getTrack(artistName, albumTitle, trackId){
 
 
 
-function displayCard(artistName, albumTitle, albumYear, albumCoverImage, genresArray, tracksArray){
+function displayCard(artistName, albumId, albumTitle, albumYear, albumCoverImage, genresArray, albumRatingsArray, tracksArray){
     
 
 //    if(isThereContentAlready){
@@ -137,10 +139,30 @@ function displayCard(artistName, albumTitle, albumYear, albumCoverImage, genresA
         const cardTrackListElement = document.createElement('div');
         cardTrackListElement.classList.add('cardTrackList');
     
+        let albumRating = calculateAverageRating(albumRatingsArray);
     
         cardAlbumImgElement.innerHTML = '<img src="albumCoverImage">';
         cardArtistNameElement.innerHTML = artistName;
-        cardAlbumTitleElement.innerHTML = albumTitle + ' (' + albumYear + ')';
+    
+        
+        //cardAlbumTitleElement.innerHTML = albumTitle + ' (' + albumYear + ') ' + albumRating;
+    
+        cardAlbumTitleElement.innerHTML = 
+            `${albumTitle} (${albumYear}) 
+                    <select id="rateAlbum${albumId}" data-track="${albumId}">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                ${albumRating};`
+    
         cardAlbumGenresElement.innerHTML = genresArray[0];
 
 
@@ -187,7 +209,20 @@ function displayCard(artistName, albumTitle, albumYear, albumCoverImage, genresA
                 cardWrapperElement.appendChild(cardTrackListElement);
                 contentElement.appendChild(cardWrapperElement);
                 
-                /***** Buttons with events *****/
+                /***** Buttons/dropdowns with events *****/
+                
+                //Rate album
+                const rateAlbumDropdown = document.getElementById(`rateAlbum${albumId}`);
+                rateAlbumDropdown.addEventListener('change', function(event){
+                    event.preventDefault();
+                    //console.log(this);
+                    //console.log('id: ', this.dataset.track);
+                    let albumId = this.dataset.track;
+                    let albumRating = this[this.selectedIndex].value;
+                    
+                    //console.log('maybe the rating: ',  this[this.selectedIndex].value);
+                    rateAlbum(albumId, albumRating);
+                });
                 
                 // Add track to playlist
                 const addTrack = document.getElementById(`addTrackToPlaylist${trackId}`);
