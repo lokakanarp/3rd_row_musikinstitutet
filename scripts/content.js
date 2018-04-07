@@ -78,9 +78,8 @@ function getAlbum(artistName, albumId){
         let albumYear = albums.releaseDate; 
         let albumCoverImage = albums.coverImage; 
 //        console.log(albumCoverImage);
-        let genresArray = albums.genres; 
+        let genresArray = albums.genres;
         let tracksArray = albums.tracks;
-//        console.log(tracksArray);
 
 
         
@@ -148,8 +147,14 @@ function displayCard(artistName, albumTitle, albumYear, albumCoverImage, genresA
             for(let i = 0; i < tracksArray.length; i++){
 //                console.log(tracksArray[i].title); 
 //                console.log(tracksArray[i]._id);
+                //console.log(tracksArray[i].genres);
+                
+                //console.log(tracksArray[i].ratings);
                 
                 let trackId = tracksArray[i]._id;
+                let trackRatingArray = tracksArray[i].ratings;
+                let singleTrackRating = calculateAverageRating(trackRatingArray);
+                
                
                 let tracklist = `
                     <button id="addTrackToPlaylist${trackId}" data-track="${trackId}">Add to playlist</button>
@@ -166,7 +171,8 @@ function displayCard(artistName, albumTitle, albumYear, albumCoverImage, genresA
                         <option value="8">8</option>
                         <option value="9">9</option>
                         <option value="10">10</option>
-                    </select><br>
+                    </select>
+                    ${singleTrackRating}<br>
                 `;
                 
                 //sedan ta typ this.data-id när man skapar eventlistener och skickar vidare som argument till add-funktion???
