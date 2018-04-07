@@ -153,7 +153,8 @@ function displayCard(artistName, albumTitle, albumYear, albumCoverImage, genresA
                
                 let tracklist = `
                     <button id="addTrackToPlaylist${trackId}" data-track="${trackId}">Add to playlist</button>
-                    ${i+1}. ${tracksArray[i].title} <br>
+                    ${i+1}. ${tracksArray[i].title}
+                    <button id="deleteTrack${trackId}" data-track="${trackId}">Delete</button>
                 `;
                 
                 //sedan ta typ this.data-id när man skapar eventlistener och skickar vidare som argument till add-funktion???
@@ -168,22 +169,29 @@ function displayCard(artistName, albumTitle, albumYear, albumCoverImage, genresA
                 cardWrapperElement.appendChild(cardTrackListElement);
                 contentElement.appendChild(cardWrapperElement);
                 
-                const addTrack = document.getElementById(`addTrackToPlaylist${trackId}`);
+                /***** Buttons with events *****/
                 
+                // Add track to playlist
+                const addTrack = document.getElementById(`addTrackToPlaylist${trackId}`);
                 addTrack.addEventListener('click', function(event){
-                event.preventDefault();
-                    
-                    console.log(this);
-
-                        console.log(this.dataset.track);
-                    
+                    event.preventDefault();
+                    //console.log(this);
+                    //console.log(this.dataset.track);
                     let trackId = this.dataset.track;
-                    
                     // addTrackToPlaylist-function is to be found in playlist.js:
                     addTrackToPlaylist(trackId);
-                    
-               // console.log("hej");
-            });
+                });
+                
+                // Delete track
+                const deleteTrack = document.getElementById(`deleteTrack${trackId}`);
+                addTrack.addEventListener('click', function(event){
+                    event.preventDefault();
+                    //console.log(this);
+                    //console.log(this.dataset.track);
+                    let trackId = this.dataset.track;
+                    // addTrackToPlaylist-function is to be found in playlist.js:
+                    deleteTrack(trackId);
+                });
                 
                 
 

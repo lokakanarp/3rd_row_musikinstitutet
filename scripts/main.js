@@ -59,7 +59,8 @@ function getData(){
         .catch((error) => {
             console.log(error)
         });
-    }
+    } 
+}
 
 function showSearchResult(data){
     for(let i = 0; i < data.length; i++){
