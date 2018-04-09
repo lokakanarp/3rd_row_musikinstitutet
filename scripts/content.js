@@ -71,22 +71,27 @@ function getArtist(letter){
 function getAlbum(artistName, albumId){
     fetch('https://folksa.ga/api/albums/' + albumId + '?key=flat_eric')
       .then((response) => response.json())
-      .then((albums) => {
+      .then((album) => {
   //    console.log(albums);
         
-        let albumTitle = albums.title;
-        let albumId = albums._id;
-        let albumYear = albums.releaseDate; 
-        let albumCoverImage = albums.coverImage; 
-//        console.log(albumCoverImage);
-        let genresArray = albums.genres;
-        let albumRatingsArray = albums.ratings;
-        let tracksArray = albums.tracks;
-        let albumURL = albums.spotifyURL;
 
+        /*
+        let albumTitle = album.title;
+        let albumId = album._id;
+        let albumYear = album.releaseDate; 
+        let albumCoverImage = album.coverImage; 
+        let genresArray = album.genres;
+        let albumRatingsArray = album.ratings;
+        let tracksArray = album.tracks;
+        let albumURL = album.spotifyURL;
 
-        
         displayCard(artistName, albumId, albumTitle, albumYear, albumCoverImage, genresArray, albumRatingsArray, tracksArray, albumURL);
+        */
+        
+        
+        //console.log(artistName);
+       // displayCard(album);
+        displayCard(artistName, album);
         
         
     });
@@ -128,14 +133,93 @@ function getTrackURL(trackId){
 }
 
 
-
+/*
 function displayCard(artistName, albumId, albumTitle, albumYear, albumCoverImage, genresArray, albumRatingsArray, tracksArray, albumURL){
+*/
+
+ 
+function displayCard(artistName, album){
+        let albumTitle = album.title;
+        let albumId = album._id;
+        let albumYear = album.releaseDate;
+        let albumCoverImage = album.coverImage;
+        let genresArray = album.genres;
+        let albumRatingsArray = album.ratings;
+        let tracksArray = album.tracks;
+        let albumURL = album.spotifyURL;
+    
+    
+    
+//    //console.log(album);
+//    
+//    
+//        let albumTitle = album.title;
+//        let albumId = album._id;
+//        let albumYear = album.releaseDate;
+//        let albumCoverImage = album.coverImage;
+//        let genresArray = album.genres;
+//        let albumRatingsArray = album.ratings;
+//        let tracksArray = album.tracks;
+//        let albumURL = album.spotifyURL;
+//    
+        console.log(artistName);
+        console.log(albumTitle);
+        console.log(albumId);
+        console.log(albumYear);
+        console.log(albumCoverImage);
+        console.log(genresArray);
+        console.log(albumRatingsArray);
+        console.log(tracksArray);
+        console.log(albumURL);
+//    
+//
+//    for(let i = 0; 0 < album.artists.length; i++){
+//        if(album.artists[i]){
+//            let artistName = album.artists[i].name;
+//            console.log(artistName);
+//        }
+//    }
+    
+
+        
+    
+    
+    //console.log("hej");
+    
+//        for(let i = 0; 0 < albums.length; i++){
+//            console.log(albums.artists[i].name);
+//            console.log("hej");
+////            
+////        let artistName = albums.artists[i].name   
+////        let albumTitle = albums.title;
+////        let albumId = albums._id;
+////        let albumYear = albums.releaseDate; 
+////        let albumCoverImage = albums.coverImage; 
+////        let genresArray = albums.genres;
+////        let albumRatingsArray = albums.ratings;
+////        let tracksArray = albums.tracks;
+////        let albumURL = albums.spotifyURL;
+//            
+//        }
+    
+
+    
+//        let albumTitle = albums.title;
+//        let albumId = albums._id;
+//        let albumYear = albums.releaseDate; 
+//        let albumCoverImage = albums.coverImage; 
+//        let genresArray = albums.genres;
+//        let albumRatingsArray = albums.ratings;
+//        let tracksArray = albums.tracks;
+//        let albumURL = albums.spotifyURL;
     
 
 //    if(isThereContentAlready){
 //        content.innerHTML = '';
 //    }
     
+
+
         const cardWrapperElement = document.createElement('div');
         cardWrapperElement.classList.add('cardWrapper');
 
@@ -231,8 +315,14 @@ function displayCard(artistName, albumId, albumTitle, albumYear, albumCoverImage
                 cardWrapperElement.appendChild(cardTrackListElement);
                 contentElement.appendChild(cardWrapperElement);
                 
+                
+                
+
+    
                 /***** Buttons/dropdowns with events *****/
                 
+    
+
                 //Rate album
                 const rateAlbumDropdown = document.getElementById(`rateAlbum${albumId}`);
                 rateAlbumDropdown.addEventListener('change', function(event){
