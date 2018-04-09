@@ -124,14 +124,24 @@ function createDropdown(playlists){
 }
 
 
-playlistSelection.addEventListener('click', function (){
+playlistSelection.addEventListener('change', function (){
+    event.preventDefault();
     // gets playlist id:
-    console.log('id i eventlistener: ', this.value);
-    console.log('id selected i eventlistener: ', this.optSelected);
+//    console.log('id i eventlistener: ', this.value);
+//    console.log('id selected i eventlistener: ', this.optSelected);
+//    
+//    console.log('trackarray ', playlistTrack);
+//
+//    let playlistId = this.value;
     
-    console.log('trackarray ', playlistTrack);
-
-    let playlistId = this.value;
+    
+                    //console.log(this);
+                    //console.log('id: ', this.dataset.track);
+                    //let trackId = this.dataset.track;
+                    let playlistId = this[this.selectedIndex].value;
+                    console.log(this[this.selectedIndex].value);
+    console.log(playlistId);
+    
     
     postToPlaylist(playlistId);
 })
