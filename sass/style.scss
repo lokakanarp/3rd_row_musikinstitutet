@@ -1,3 +1,23 @@
+*{
+    box-sizing: border-box;    
+}
+
+body{
+    margin: 0;
+}
+
+.header{
+    width: 100%;
+    height: 100vh;
+    background: #4a6d89; /* Old browsers */
+    background: -moz-linear-gradient(top, #4a6d89 0%, #000000 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #4a6d89 0%,#000000 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #4a6d89 0%,#000000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .artistSearchField{
     width: 300px;
     font-size: 20px;
@@ -34,29 +54,87 @@
     width: 80%;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    
+    flex-wrap: wrap;   
 }
 
 .cardWrapper{
-    width: 48%;
-    height: 300px;
-    border: 1px solid lightgray;
-    box-sizing: border-box;
+    width: 32%;
+    overflow: hidden;
+    border: 1px solid #363636;
+    border-radius: 5px;
     font-size: 16px;
-    font-family: sans-serif;
-    padding: 10px;
+    font-family: 'Raleway', sans-serif;
     margin: 5px;
+    
+    .cardAlbumImg{
+        max-height: 350px;
+        overflow: hidden;
+        
+        img{
+            width: 100%;
+        }
+    }
+    
+    .cardTrackList{
+        padding: 25px;
+        p{
+            margin: 15px 0 3px 0;
+            
+            a{
+                color: black;
+                text-decoration: none;
+            }
+        }
+    }
 }
 
 .cardArtistName{
-    font-size: 18px;
-    padding: 5px;
+    padding: 0 25px;
+    font-size: 1.8em;
+    margin-top: 15px;
 }
 
 .cardAlbumTitle{
     font-weight: 600;
-    padding: 5px;
+    padding: 0 25px;
+    
+    a{
+        color: black;
+        text-decoration: none;
+    }
+}
+
+.cardAlbumGenres{
+    padding: 0 25px;
+}
+
+.trackOptions{
+    display: block;
+    font-size: 0.8em;
+    
+    select{
+        font-size: 0.8em;
+        margin-right: 10px;
+    }
+    
+    img{
+        width: 10px;
+    }
+}
+
+.addTrackToPlaylist, .deleteTrack{
+    border: none;
+    padding: 0;
+    background: transparent;
+    margin-right: 10px;
+    
+    img{
+        width: 10px
+    }
+}
+
+.deleteTrack{
+    margin-left: 10px;
 }
 
 .choosePlaylist{
@@ -68,4 +146,34 @@
     top: 10;
     left: 10;
     background-color: hotpink;
+}
+
+.mainSearch{
+    margin: 0 auto;
+    width: 400px;
+}
+
+.searchField{
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    display: block;
+    width: 100%;
+    margin: 0 0 10px 0;
+}
+
+.selectSearch{
+    border: 1px solid #ccc;
+    background: white;
+    width: 48%;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.searchButton{
+    width: 48%;
+    background: #d1d1d1;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
 }

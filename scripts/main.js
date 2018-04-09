@@ -59,7 +59,7 @@ function getData(){
         .catch((error) => {
             console.log(error)
         });
-    } 
+    }
 }
 
 function showSearchResult(data){
