@@ -109,8 +109,10 @@ function displayCardPlaylist(playlist){
 			}
          cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
 		 cardCommentElement.innerHTML = `
+					<p>Comment on playlist:</p>
 					<input type='text' name='playlistComment' 
 					id='playlistComment${playlist._id}'><br>
+					<p>Name:</p>
 					<input type='text'name='commentCreatedBy' id='commentCreatedBy${playlist._id}'><br>
 					<button id='addCommentButton${playlist._id}' 
 					class='addCommentButton' 
@@ -144,9 +146,8 @@ function postComment(input, createdBy, id) {
     playlist: id,
     body: input,
     username: createdBy
-}
-
-fetch(`https://folksa.ga/api/playlists/${id}/comments?key=flat_eric`,{
+	}
+	fetch(`https://folksa.ga/api/playlists/${id}/comments?key=flat_eric`,{
         method: 'POST',
         headers: {
             'Accept': 'application/json',
