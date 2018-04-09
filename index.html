@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <link rel="icon" href="images/favicon.png" sizes="16x16" type="image/png">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <title>Musikinstitutet</title>
 </head>
 <body>
-    <form>
-        <input type="text" id="searchField">
-            <select name="selectSearch" id="selectSearch">
-            <option value="artist">Artist</option>
-            <option value="track">Track</option>
-            <option value="album">Album</option>
-            <option value="playlist">Playlist</option>
-        </select>
-        <button id="search">Sök</button>
-    </form>
+    <header class="header">    
+        <form class="mainSearch">
+            <input type="text" id="searchField" class="searchField" placeholder="Sök artist, track, ablum eller playlist här">
+            <select name="selectSearch" id="selectSearch" class="selectSearch">
+                <option value="artist">Artist</option>
+                <option value="track">Track</option>
+                <option value="album">Album</option>
+                <option value="playlist">Playlist</option>
+            </select>
+            <button id="search" class="searchButton">Sök</button>
+        </form>
+    </header>
     
     <div id="searchResult"></div>
-   
-
-   <div id="search"></div>
    
     <div id="createPlaylistWrapper">
       <form>
