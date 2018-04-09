@@ -87,8 +87,16 @@ function getTrackURL(trackId){
   .then((response) => response.json())
   .then((singleTrack) => {
         
+<<<<<<< HEAD
         //console.log(singleTrack)
 
+=======
+       // console.log(singleTrack)
+        
+//        console.log(singleTrack.spotifyURL);
+//        console.log(singleTrack.youtubeURL);
+//        console.log(singleTrack.soundcloudURL);
+>>>>>>> 307fbfb85f04d2d35af126f2010ddd0b95a69af0
         
         if(singleTrack.spotifyURL != ""){
             return singleTrack.spotifyURL;
@@ -167,7 +175,7 @@ function displayCard(artistName, album){
     
         let albumRating = calculateAverageRating(albumRatingsArray);
     
-        cardAlbumImgElement.innerHTML = '<img src="albumCoverImage">';
+        cardAlbumImgElement.innerHTML = `<img src="${albumCoverImage}">`;
         cardArtistNameElement.innerHTML = artistName;
     
         
@@ -203,31 +211,35 @@ function displayCard(artistName, album){
                 let trackRatingArray = tracksArray[i].ratings;
                 let singleTrackRating = calculateAverageRating(trackRatingArray);
                 
-                console.log(trackId);
+               // console.log(trackId);
                 //let singleTrackObject = getTrack(trackId);
                 //console.log(singleTrackObject); 
                 
                 let trackLink = getTrackURL(trackId);
-                console.log(trackLink);
+               // console.log(trackLink);
                 
                
                 let tracklist = `
-                    <button id="addTrackToPlaylist${trackId}" data-track="${trackId}">Add to playlist</button>
-                    ${i+1}. <a href="${trackLink}">${tracksArray[i].title}</a>
-                    <button id="deleteTrack${trackId}" data-track="${trackId}">Delete</button>
-                    <select id="rateTrack${trackId}" data-track="${trackId}">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                    </select>
-                    ${singleTrackRating}<br>
+                    <div>
+                        <p><a href="${trackLink}">${tracksArray[i].title}</a></p>
+                        <span class="trackOptions">
+                            <button id="addTrackToPlaylist${trackId}" data-track="${trackId}" class="addTrackToPlaylist"><img src="images/plus.svg" alt="Add track to playlist" title="Add track to playlist" /></button>
+                            <select id="rateTrack${trackId}" data-track="${trackId}">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                            <img src="images/star.svg" alt="stars" /> ${singleTrackRating}
+                            <button id="deleteTrack${trackId}" data-track="${trackId}" class="deleteTrack"><img src="images/delete.svg" alt="Delete track" title="Delete track" /></button>
+                        </span>
+                    </div>
                 `;
                 
                 //sedan ta typ this.data-id när man skapar eventlistener och skickar vidare som argument till add-funktion???
@@ -275,8 +287,8 @@ function displayCard(artistName, album){
                 });
                 
                 // Delete track
-                const deleteTrack = document.getElementById(`deleteTrack${trackId}`);
-                addTrack.addEventListener('click', function(event){
+                const deleteTrackButton = document.getElementById(`deleteTrack${trackId}`);
+                deleteTrackButton.addEventListener('click', function(event){
                     event.preventDefault();
                     //console.log(this);
                     //console.log(this.dataset.track);
@@ -305,6 +317,17 @@ function displayCard(artistName, album){
     
     isThereContentAlready = true;
      
+}
+
+function deleteTrack(trackId){
+    fetch(`https://folksa.ga/api/tracks/${trackId}?key=flat_eric`,{
+			method: 'DELETE'
+		  })
+		  .then((response) => response.json())
+		  .then((track) => {
+			console.log(track);
+			//displayAlbumForm(artist._id);
+		  })
 }
 
 

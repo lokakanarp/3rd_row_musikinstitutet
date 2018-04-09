@@ -59,7 +59,8 @@ function getData(){
         .catch((error) => {
             console.log(error)
         });
-    } 
+
+    }
 }
 
 function showSearchResult(data){
@@ -68,8 +69,101 @@ function showSearchResult(data){
             const searchResult = data[i].name;
             searchResultOutput.innerHTML += `<p>${searchResult}<p>`;
         }else{
-            const searchResult = data[i].title;
-            searchResultOutput.innerHTML += `<p>${searchResult}<p>`;
+			let playlist = data[i];
+			displayCardPlaylist(playlist);
+            //const searchResult = data[i].title;
+           // searchResultOutput.innerHTML += `<p>${searchResult}<p>`;
         }
     }
 }
+
+function displayCardPlaylist(playlist){
+ 		console.log(playlist);
+        const cardWrapperElement = document.createElement('div');
+        cardWrapperElement.classList.add('cardWrapper');
+        const cardPlaylistTitleElement = document.createElement('div');
+        cardPlaylistTitleElement.classList.add('cardPlaylistTitle');
+        const cardPlaylistGenresElement = document.createElement('div');
+        cardPlaylistGenresElement.classList.add('cardPlaylistGenres');
+		const cardCreatedByElement = document.createElement('div');
+        cardCreatedByElement.classList.add('cardCreatedBy');
+		const cardMenuElement = document.createElement('div');
+		cardMenuElement.classList.add('cardMenuElement');
+        const cardTrackListElement = document.createElement('div');
+        cardTrackListElement.classList.add('cardTrackList');
+		const cardCommentElement = document.createElement('div');
+		cardCommentElement.classList.add('cardComment');
+    	
+        cardPlaylistTitleElement.innerHTML = playlist.title;
+		for (let genre of playlist.genres) {
+			cardPlaylistGenresElement.insertAdjacentHTML('beforeend', `${genre} `);
+		}
+		cardCreatedByElement.innerHTML = playlist.createdBy;
+		
+		//cardMenuElement.innerHTML = Väntar med denna
+		
+		let tracklist = "";
+        for(let i = 0; i < playlist.tracks.length; i++){
+             //console.log(playlist.tracks[i].title); 
+             tracklist += `${i+1}. ${playlist.tracks[i].title} by ${playlist.tracks[i].artists[0].name}<br>`;
+			}
+         cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
+		 cardCommentElement.innerHTML = `
+					<p>Comment on playlist:</p>
+					<input type='text' name='playlistComment' 
+					id='playlistComment${playlist._id}'><br>
+					<p>Name:</p>
+					<input type='text'name='commentCreatedBy' id='commentCreatedBy${playlist._id}'><br>
+					<button id='addCommentButton${playlist._id}' 
+					class='addCommentButton' 
+					data-id='${playlist._id}'>add comment</button>`
+                
+         cardWrapperElement.appendChild(cardPlaylistTitleElement);
+         cardWrapperElement.appendChild(cardPlaylistGenresElement);
+         cardWrapperElement.appendChild(cardCreatedByElement);
+         cardWrapperElement.appendChild(cardMenuElement);
+         cardWrapperElement.appendChild(cardTrackListElement);
+	     cardWrapperElement.appendChild(cardCommentElement);
+         contentElement.appendChild(cardWrapperElement);
+	
+		let playlistComment = document.getElementById(`playlistComment${playlist._id}`);
+		let commentCreatedBy = document.getElementById(`commentCreatedBy${playlist._id}`);
+		let addCommentButton = document.getElementById(`addCommentButton${playlist._id}`);
+		addCommentButton.addEventListener('click', function(){
+			//console.log("hej");
+			postComment(playlistComment.value, commentCreatedBy.value, this.dataset.id, );
+		});
+	
+		 
+    //isThereContentAlready = true;
+	
+     
+}
+
+function postComment(input, createdBy, id) {
+	console.log(input, createdBy, id);
+	let comment = {
+    playlist: id,
+    body: input,
+    username: createdBy
+	}
+	fetch(`https://folksa.ga/api/playlists/${id}/comments?key=flat_eric`,{
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(comment)
+    })
+    .then((response) => response.json())
+    .then((playlist) => {
+    console.log(playlist);
+  });
+	
+}
+
+ 
+  
+	
+
+
