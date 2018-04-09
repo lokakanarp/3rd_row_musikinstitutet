@@ -87,16 +87,6 @@ function getTrackURL(trackId){
   .then((response) => response.json())
   .then((singleTrack) => {
         
-<<<<<<< HEAD
-        //console.log(singleTrack)
-
-=======
-       // console.log(singleTrack)
-        
-//        console.log(singleTrack.spotifyURL);
-//        console.log(singleTrack.youtubeURL);
-//        console.log(singleTrack.soundcloudURL);
->>>>>>> 307fbfb85f04d2d35af126f2010ddd0b95a69af0
         
         if(singleTrack.spotifyURL != ""){
             return singleTrack.spotifyURL;
@@ -201,24 +191,12 @@ function displayCard(artistName, album){
 
 
             for(let i = 0; i < tracksArray.length; i++){
-//                console.log(tracksArray[i].title); 
-//                console.log(tracksArray[i]._id);
-                //console.log(tracksArray[i].genres);
-                
-                //console.log(tracksArray[i].ratings);
                 
                 let trackId = tracksArray[i]._id;
                 let trackRatingArray = tracksArray[i].ratings;
                 let singleTrackRating = calculateAverageRating(trackRatingArray);
-                
-               // console.log(trackId);
-                //let singleTrackObject = getTrack(trackId);
-                //console.log(singleTrackObject); 
-                
                 let trackLink = getTrackURL(trackId);
-               // console.log(trackLink);
                 
-               
                 let tracklist = `
                     <div>
                         <p><a href="${trackLink}">${tracksArray[i].title}</a></p>
@@ -254,13 +232,9 @@ function displayCard(artistName, album){
                 cardWrapperElement.appendChild(cardTrackListElement);
                 contentElement.appendChild(cardWrapperElement);
                 
-                
-                
 
     
                 /***** Buttons/dropdowns with events *****/
-                
-    
 
                 //Rate album
                 const rateAlbumDropdown = document.getElementById(`rateAlbum${albumId}`);
