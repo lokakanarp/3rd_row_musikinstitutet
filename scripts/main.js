@@ -77,4 +77,78 @@ function showSearchResult(data){
     }
 }
 
+function displayCardPlaylist(playlist){
+ 		console.log(playlist);
+        const cardWrapperElement = document.createElement('div');
+        cardWrapperElement.classList.add('cardWrapper');
+        const cardPlaylistTitleElement = document.createElement('div');
+        cardPlaylistTitleElement.classList.add('cardPlaylistTitle');
+        const cardPlaylistGenresElement = document.createElement('div');
+        cardPlaylistGenresElement.classList.add('cardPlaylistGenres');
+		const cardCreatedByElement = document.createElement('div');
+        cardCreatedByElement.classList.add('cardCreatedBy');
+		const cardMenuElement = document.createElement('div');
+		cardMenuElement.classList.add('cardMenuElement');
+        const cardTrackListElement = document.createElement('div');
+        cardTrackListElement.classList.add('cardTrackList');
+		const cardCommentElement = document.createElement('div');
+		cardCommentElement.classList.add('cardComment');
+    	
+        cardPlaylistTitleElement.innerHTML = playlist.title;
+		for (let genre of playlist.genres) {
+			cardPlaylistGenresElement.insertAdjacentHTML('beforeend', `${genre} `);
+		}
+		cardCreatedByElement.innerHTML = playlist.createdBy;
+		
+		//cardMenuElement.innerHTML = Väntar med denna
+		
+		let tracklist = "";
+        for(let i = 0; i < playlist.tracks.length; i++){
+             //console.log(playlist.tracks[i].title); 
+             tracklist += `${i+1}. ${playlist.tracks[i].title} by ${playlist.tracks[i].artists[0].name}<br>`;
+			}
+         cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
+		 cardCommentElement.innerHTML = `
+					<input type='text' name='playlistComment' 
+					id='playlistComment'><br><input type='text' 
+					name='commentCreatedBy' id='commentCreatedBy'><br>
+					
+<button id='addCommentButton${playlist._id}' class='addCommentButton' data-track='${playlist._id}'>add comment</button>`
+                
+         cardWrapperElement.appendChild(cardPlaylistTitleElement);
+         cardWrapperElement.appendChild(cardPlaylistGenresElement);
+         cardWrapperElement.appendChild(cardCreatedByElement);
+         cardWrapperElement.appendChild(cardMenuElement);
+         cardWrapperElement.appendChild(cardTrackListElement);
+	     cardWrapperElement.appendChild(cardCommentElement);
+         contentElement.appendChild(cardWrapperElement);
+	
+	let addCommentButton = document.getElementById(`addCommentButton${playlist._id}`);
+	addCommentButton.addEventListener('click', function(){
+		console.log("hej");
+	});
+	
+		 
+    //isThereContentAlready = true;
+	
+     
+}
+
+//function postComment(input) {
+	
+//}
+
+  /*let playlistComment = document.getElementById('playlistComment');
+  
+		 let addCommentButtons = document.getElementsByClassName('addCommentButton');
+	
+		for (let button of addCommentButtons){
+		 addCommentButton.addEventListener('click', function(event){
+			 event.preventDefault();
+			 console.log("hej");
+			 //postComment(playlistComment.value);
+		 })
+		}*/
+
+
 
