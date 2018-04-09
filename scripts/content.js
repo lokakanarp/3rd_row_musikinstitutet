@@ -99,7 +99,7 @@ function getTrackURL(trackId){
   .then((response) => response.json())
   .then((singleTrack) => {
         
-        console.log(singleTrack)
+       // console.log(singleTrack)
         
 //        console.log(singleTrack.spotifyURL);
 //        console.log(singleTrack.youtubeURL);
@@ -192,12 +192,12 @@ function displayCard(artistName, albumId, albumTitle, albumYear, albumCoverImage
                 let trackRatingArray = tracksArray[i].ratings;
                 let singleTrackRating = calculateAverageRating(trackRatingArray);
                 
-                console.log(trackId);
+               // console.log(trackId);
                 //let singleTrackObject = getTrack(trackId);
                 //console.log(singleTrackObject); 
                 
                 let trackLink = getTrackURL(trackId);
-                console.log(trackLink);
+               // console.log(trackLink);
                 
                
                 let tracklist = `
@@ -262,8 +262,8 @@ function displayCard(artistName, albumId, albumTitle, albumYear, albumCoverImage
                 });
                 
                 // Delete track
-                const deleteTrack = document.getElementById(`deleteTrack${trackId}`);
-                addTrack.addEventListener('click', function(event){
+                const deleteTrackButton = document.getElementById(`deleteTrack${trackId}`);
+                deleteTrackButton.addEventListener('click', function(event){
                     event.preventDefault();
                     //console.log(this);
                     //console.log(this.dataset.track);
@@ -292,6 +292,17 @@ function displayCard(artistName, albumId, albumTitle, albumYear, albumCoverImage
     
     isThereContentAlready = true;
      
+}
+
+function deleteTrack(trackId){
+    fetch(`https://folksa.ga/api/tracks/${trackId}?key=flat_eric`,{
+			method: 'DELETE'
+		  })
+		  .then((response) => response.json())
+		  .then((track) => {
+			console.log(track);
+			//displayAlbumForm(artist._id);
+		  })
 }
 
 
