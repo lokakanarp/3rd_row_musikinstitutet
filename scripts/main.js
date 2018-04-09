@@ -93,6 +93,7 @@ function displayCardPlaylist(playlist){
         cardTrackListElement.classList.add('cardTrackList');
 		const cardCommentElement = document.createElement('div');
 		cardCommentElement.classList.add('cardComment');
+		cardCommentElement.id = `cardComment${playlist._id}`;
     	
         cardPlaylistTitleElement.innerHTML = playlist.title;
 		for (let genre of playlist.genres) {
@@ -116,7 +117,8 @@ function displayCardPlaylist(playlist){
 					<input type='text'name='commentCreatedBy' id='commentCreatedBy${playlist._id}'><br>
 					<button id='addCommentButton${playlist._id}' 
 					class='addCommentButton' 
-					data-id='${playlist._id}'>add comment</button>`
+					data-id='${playlist._id}'>add comment</button>
+					<div id='viewCommentsLink${playlist._id}' data-id='${playlist._id}'><p>View comments</p></div>`
                 
          cardWrapperElement.appendChild(cardPlaylistTitleElement);
          cardWrapperElement.appendChild(cardPlaylistGenresElement);
@@ -129,10 +131,15 @@ function displayCardPlaylist(playlist){
 		let playlistComment = document.getElementById(`playlistComment${playlist._id}`);
 		let commentCreatedBy = document.getElementById(`commentCreatedBy${playlist._id}`);
 		let addCommentButton = document.getElementById(`addCommentButton${playlist._id}`);
+		let viewCommentsLink = document.getElementById(`viewCommentsLink${playlist._id}`);
 		addCommentButton.addEventListener('click', function(){
 			//console.log("hej");
-			postComment(playlistComment.value, commentCreatedBy.value, this.dataset.id, );
+			postComment(playlistComment.value, commentCreatedBy.value, this.dataset.id);
 		});
+		viewCommentsLink.addEventListener('click', function(event){
+			event.preventDefault();
+			getComments(this.dataset.id);
+		})
 	
 		 
     //isThereContentAlready = true;
@@ -160,6 +167,25 @@ function postComment(input, createdBy, id) {
     console.log(playlist);
   });
 	
+}
+function getComments(id) {
+	fetch(`https://folksa.ga/api/playlists/${id}/comments?key=flat_eric`)
+    .then((response) => response.json())
+    .then((comments) => {
+        console.log(comments);
+		displayComments(comments, id);
+    });
+}
+
+function displayComments(comments, id) {
+	let commentList = "";
+	for (let comment of comments){
+		commentList += 
+			`<h3>${comment.username}</h3>
+			 <p>${comment.body}</p>`
+	}
+	let cardCommentElement = document.getElementById(`cardComment${id}`);
+	cardCommentElement.insertAdjacentHTML('beforeend', commentList);
 }
 
  

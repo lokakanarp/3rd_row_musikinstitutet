@@ -87,16 +87,6 @@ function getTrackURL(trackId){
   .then((response) => response.json())
   .then((singleTrack) => {
         
-<<<<<<< HEAD
-        //console.log(singleTrack)
-
-=======
-       // console.log(singleTrack)
-        
-//        console.log(singleTrack.spotifyURL);
-//        console.log(singleTrack.youtubeURL);
-//        console.log(singleTrack.soundcloudURL);
->>>>>>> 307fbfb85f04d2d35af126f2010ddd0b95a69af0
         
         if(singleTrack.spotifyURL != ""){
             return singleTrack.spotifyURL;
