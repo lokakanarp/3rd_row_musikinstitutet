@@ -110,10 +110,11 @@ function displayCardPlaylist(playlist){
          cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
 		 cardCommentElement.innerHTML = `
 					<input type='text' name='playlistComment' 
-					id='playlistComment'><br><input type='text' 
-					name='commentCreatedBy' id='commentCreatedBy'><br>
-					
-<button id='addCommentButton${playlist._id}' class='addCommentButton' data-track='${playlist._id}'>add comment</button>`
+					id='playlistComment${playlist._id}'><br>
+					<input type='text'name='commentCreatedBy' id='commentCreatedBy${playlist._id}'><br>
+					<button id='addCommentButton${playlist._id}' 
+					class='addCommentButton' 
+					data-id='${playlist._id}'>add comment</button>`
                 
          cardWrapperElement.appendChild(cardPlaylistTitleElement);
          cardWrapperElement.appendChild(cardPlaylistGenresElement);
@@ -123,10 +124,13 @@ function displayCardPlaylist(playlist){
 	     cardWrapperElement.appendChild(cardCommentElement);
          contentElement.appendChild(cardWrapperElement);
 	
-	let addCommentButton = document.getElementById(`addCommentButton${playlist._id}`);
-	addCommentButton.addEventListener('click', function(){
-		console.log("hej");
-	});
+		let playlistComment = document.getElementById(`playlistComment${playlist._id}`);
+		let commentCreatedBy = document.getElementById(`commentCreatedBy${playlist._id}`);
+		let addCommentButton = document.getElementById(`addCommentButton${playlist._id}`);
+		addCommentButton.addEventListener('click', function(){
+			//console.log("hej");
+			postComment(playlistComment.value, commentCreatedBy.value, this.dataset.id, );
+		});
 	
 		 
     //isThereContentAlready = true;
@@ -134,21 +138,31 @@ function displayCardPlaylist(playlist){
      
 }
 
-//function postComment(input) {
-	
-//}
+function postComment(input, createdBy, id) {
+	console.log(input, createdBy, id);
+	let comment = {
+    playlist: id,
+    body: input,
+    username: createdBy
+}
 
-  /*let playlistComment = document.getElementById('playlistComment');
+fetch(`https://folksa.ga/api/playlists/${id}/comments?key=flat_eric`,{
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(comment)
+    })
+    .then((response) => response.json())
+    .then((playlist) => {
+    console.log(playlist);
+  });
+	
+}
+
+ 
   
-		 let addCommentButtons = document.getElementsByClassName('addCommentButton');
 	
-		for (let button of addCommentButtons){
-		 addCommentButton.addEventListener('click', function(event){
-			 event.preventDefault();
-			 console.log("hej");
-			 //postComment(playlistComment.value);
-		 })
-		}*/
-
 
 
