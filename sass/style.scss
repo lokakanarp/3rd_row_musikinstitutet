@@ -1,3 +1,11 @@
+*{
+    box-sizing: border-box;    
+}
+
+body{
+    margin: 0;
+}
+
 .artistSearchField{
     width: 300px;
     font-size: 20px;
@@ -34,29 +42,73 @@
     width: 80%;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    
+    flex-wrap: wrap;   
 }
 
 .cardWrapper{
     width: 48%;
-    height: 300px;
-    border: 1px solid lightgray;
-    box-sizing: border-box;
+    overflow: hidden;
+    border: 1px solid #363636;
+    border-radius: 5px;
     font-size: 16px;
     font-family: sans-serif;
-    padding: 10px;
     margin: 5px;
+    
+    .cardAlbumImg{
+        img{
+            width: 100%;
+        }
+    }
+    
+    .cardTrackList{
+        padding: 25px;
+        p{
+            margin: 15px 0 3px 0;
+            
+            a{
+                color: black;
+                text-decoration: none;
+            }
+        }
+    }
 }
 
 .cardArtistName{
     font-size: 18px;
-    padding: 5px;
+    padding: 0 25px;
 }
 
 .cardAlbumTitle{
     font-weight: 600;
-    padding: 5px;
+    padding: 0 25px;
+}
+
+.cardAlbumGenres{
+    padding: 0 25px;
+}
+
+.trackOptions{
+    display: block;
+    font-size: 0.8em;
+    
+    img{
+        width: 10px;
+    }
+}
+
+.addTrackToPlaylist, .deleteTrack{
+    border: none;
+    padding: 0;
+    background: transparent;
+    margin-right: 10px;
+    
+    img{
+        width: 10px
+    }
+}
+
+.deleteTrack{
+    margin-left: 10px;
 }
 
 .choosePlaylist{

@@ -156,7 +156,7 @@ function displayCard(artistName, albumId, albumTitle, albumYear, albumCoverImage
     
         let albumRating = calculateAverageRating(albumRatingsArray);
     
-        cardAlbumImgElement.innerHTML = '<img src="albumCoverImage">';
+        cardAlbumImgElement.innerHTML = `<img src="${albumCoverImage}">`;
         cardArtistNameElement.innerHTML = artistName;
     
         
@@ -201,22 +201,26 @@ function displayCard(artistName, albumId, albumTitle, albumYear, albumCoverImage
                 
                
                 let tracklist = `
-                    <button id="addTrackToPlaylist${trackId}" data-track="${trackId}">Add to playlist</button>
-                    ${i+1}. <a href="${trackLink}">${tracksArray[i].title}</a>
-                    <button id="deleteTrack${trackId}" data-track="${trackId}">Delete</button>
-                    <select id="rateTrack${trackId}" data-track="${trackId}">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                    </select>
-                    ${singleTrackRating}<br>
+                    <div>
+                        <p><a href="${trackLink}">${tracksArray[i].title}</a></p>
+                        <span class="trackOptions">
+                            <button id="addTrackToPlaylist${trackId}" data-track="${trackId}" class="addTrackToPlaylist"><img src="images/plus.svg" alt="Add track to playlist" title="Add track to playlist" /></button>
+                            <select id="rateTrack${trackId}" data-track="${trackId}">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                            <img src="images/star.svg" alt="stars" /> ${singleTrackRating}
+                            <button id="deleteTrack${trackId}" data-track="${trackId}" class="deleteTrack"><img src="images/delete.svg" alt="Delete track" title="Delete track" /></button>
+                        </span>
+                    </div>
                 `;
                 
                 //sedan ta typ this.data-id när man skapar eventlistener och skickar vidare som argument till add-funktion???
