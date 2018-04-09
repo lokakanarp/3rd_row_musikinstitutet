@@ -84,6 +84,7 @@ function postToPlaylist(playlistId){
       .then((playlist) => {
         console.log('this is the playlist: ', playlist);
         
+        // THIS SHOULD NOT BE NECESSARY ANYMORE since solved in a much better way. Just keep "playlistTrack = '';"?
         /* Weird bugsolving regarding double clicks in option-eventlisterners,
         /* If this returns Error, means that user have just clicked "Choose one",
         /* and the playListTrack must only been cleard once the track has been 
@@ -124,14 +125,10 @@ function createDropdown(playlists){
 }
 
 
-playlistSelection.addEventListener('click', function (){
-    // gets playlist id:
-    console.log('id i eventlistener: ', this.value);
-    console.log('id selected i eventlistener: ', this.optSelected);
-    
-    console.log('trackarray ', playlistTrack);
+playlistSelection.addEventListener('change', function (){
+    event.preventDefault();
 
-    let playlistId = this.value;
+    let playlistId = this[this.selectedIndex].value;
     
     postToPlaylist(playlistId);
 })
