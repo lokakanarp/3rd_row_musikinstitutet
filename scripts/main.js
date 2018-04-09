@@ -91,6 +91,8 @@ function displayCardPlaylist(playlist){
 		cardMenuElement.classList.add('cardMenuElement');
         const cardTrackListElement = document.createElement('div');
         cardTrackListElement.classList.add('cardTrackList');
+		const cardCommentInputElement = document.createElement('div');
+		cardCommentInputElement.classList.add('cardCommentInput');
 		const cardCommentElement = document.createElement('div');
 		cardCommentElement.classList.add('cardComment');
 		cardCommentElement.id = `cardComment${playlist._id}`;
@@ -109,7 +111,7 @@ function displayCardPlaylist(playlist){
              tracklist += `${i+1}. ${playlist.tracks[i].title} by ${playlist.tracks[i].artists[0].name}<br>`;
 			}
          cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
-		 cardCommentElement.innerHTML = `
+		 cardCommentInputElement.innerHTML = `
 					<p>Comment on playlist:</p>
 					<input type='text' name='playlistComment' 
 					id='playlistComment${playlist._id}'><br>
@@ -125,6 +127,7 @@ function displayCardPlaylist(playlist){
          cardWrapperElement.appendChild(cardCreatedByElement);
          cardWrapperElement.appendChild(cardMenuElement);
          cardWrapperElement.appendChild(cardTrackListElement);
+		 cardWrapperElement.appendChild(cardCommentInputElement);
 	     cardWrapperElement.appendChild(cardCommentElement);
          contentElement.appendChild(cardWrapperElement);
 	
@@ -185,7 +188,7 @@ function displayComments(comments, id) {
 			 <p>${comment.body}</p>`
 	}
 	let cardCommentElement = document.getElementById(`cardComment${id}`);
-	cardCommentElement.insertAdjacentHTML('beforeend', commentList);
+	cardCommentElement.innerHTML = commentList;
 }
 
  
