@@ -38,7 +38,7 @@ function getArtist(letter){
     fetch('https://folksa.ga/api/artists?key=flat_eric&sort=asc&limit=200')
       .then((response) => response.json())
       .then((artists) => {
-//        console.log(artists);
+        console.log(artists);
         
     if(isThereContentAlready){
         content.innerHTML = '';

@@ -11,7 +11,6 @@ searchButton.addEventListener('click', function(event){
 
 function getData(){
     let searchWord = searchField.value;
-    
     const artist = options[0];
     const track = options[1];
     const album = options[2];
@@ -55,7 +54,7 @@ function getData(){
         fetch(`https://folksa.ga/api/playlists?key=flat_eric&title=${searchWord}`)
         .then((response) => response.json())
         .then((data) => {
-            showSearchResult(data);
+            showPlaylists(data);
         })
         .catch((error) => {
             console.log(error)
@@ -70,12 +69,16 @@ function showSearchResult(data){
             const searchResult = data[i].name;
             searchResultOutput.innerHTML += `<p>${searchResult}<p>`;
         }else{
-			let playlist = data[i];
-			displayCardPlaylist(playlist);
-            //const searchResult = data[i].title;
-           // searchResultOutput.innerHTML += `<p>${searchResult}<p>`;
+            const searchResult = data[i].title;
+           searchResultOutput.innerHTML += `<p>${searchResult}<p>`;
         }
     }
+}
+
+function showPlaylists(data) {
+	for(let i = 0; i < data.length; i++){
+		displayCardPlaylist(data[i]);
+	}
 }
 
 function displayCardPlaylist(playlist){
@@ -92,9 +95,12 @@ function displayCardPlaylist(playlist){
 		cardMenuElement.classList.add('cardMenuElement');
         const cardTrackListElement = document.createElement('div');
         cardTrackListElement.classList.add('cardTrackList');
+		const cardCommentInputElement = document.createElement('div');
+		cardCommentInputElement.classList.add('cardCommentInput');
 		const cardCommentElement = document.createElement('div');
 		cardCommentElement.classList.add('cardComment');
-    	
+		cardCommentElement.id = `cardComment${playlist._id}`;
+	    
         cardPlaylistTitleElement.innerHTML = playlist.title;
 		for (let genre of playlist.genres) {
 			cardPlaylistGenresElement.insertAdjacentHTML('beforeend', `${genre} `);
@@ -105,11 +111,10 @@ function displayCardPlaylist(playlist){
 		
 		let tracklist = "";
         for(let i = 0; i < playlist.tracks.length; i++){
-             //console.log(playlist.tracks[i].title); 
              tracklist += `${i+1}. ${playlist.tracks[i].title} by ${playlist.tracks[i].artists[0].name}<br>`;
 			}
          cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
-		 cardCommentElement.innerHTML = `
+		 cardCommentInputElement.innerHTML = `
 					<p>Comment on playlist:</p>
 					<input type='text' name='playlistComment' 
 					id='playlistComment${playlist._id}'><br>
@@ -117,23 +122,30 @@ function displayCardPlaylist(playlist){
 					<input type='text'name='commentCreatedBy' id='commentCreatedBy${playlist._id}'><br>
 					<button id='addCommentButton${playlist._id}' 
 					class='addCommentButton' 
-					data-id='${playlist._id}'>add comment</button>`
+					data-id='${playlist._id}'>add comment</button>
+					<div id='viewCommentsLink${playlist._id}' data-id='${playlist._id}'><p>View comments</p></div>`
                 
          cardWrapperElement.appendChild(cardPlaylistTitleElement);
          cardWrapperElement.appendChild(cardPlaylistGenresElement);
          cardWrapperElement.appendChild(cardCreatedByElement);
          cardWrapperElement.appendChild(cardMenuElement);
          cardWrapperElement.appendChild(cardTrackListElement);
+		 cardWrapperElement.appendChild(cardCommentInputElement);
 	     cardWrapperElement.appendChild(cardCommentElement);
          contentElement.appendChild(cardWrapperElement);
 	
 		let playlistComment = document.getElementById(`playlistComment${playlist._id}`);
 		let commentCreatedBy = document.getElementById(`commentCreatedBy${playlist._id}`);
 		let addCommentButton = document.getElementById(`addCommentButton${playlist._id}`);
+		let viewCommentsLink = document.getElementById(`viewCommentsLink${playlist._id}`);
 		addCommentButton.addEventListener('click', function(){
 			//console.log("hej");
-			postComment(playlistComment.value, commentCreatedBy.value, this.dataset.id, );
+			postComment(playlistComment.value, commentCreatedBy.value, this.dataset.id);
 		});
+		viewCommentsLink.addEventListener('click', function(event){
+			event.preventDefault();
+			getComments(this.dataset.id);
+		})
 	
 		 
     //isThereContentAlready = true;
@@ -161,6 +173,25 @@ function postComment(input, createdBy, id) {
     console.log(playlist);
   });
 	
+}
+function getComments(id) {
+	fetch(`https://folksa.ga/api/playlists/${id}/comments?key=flat_eric&limit=1000`)
+    .then((response) => response.json())
+    .then((comments) => {
+        console.log(comments);
+		displayComments(comments, id);
+    });
+}
+
+function displayComments(comments, id) {
+	let commentList = "";
+	for (let comment of comments){
+		commentList += 
+			`<h3>${comment.username}</h3>
+			 <p>${comment.body}</p>`
+	}
+	let cardCommentElement = document.getElementById(`cardComment${id}`);
+	cardCommentElement.innerHTML = commentList;
 }
 
  
