@@ -26,11 +26,65 @@ var isThereContentAlready;
 
 function handlingAlphabeticalMenuClick(letter){
     if(!(avoidClickingSameLetterTwiceInMenu == letter)){
-            getArtist(letter);
+        
+            getAlbums();
+            //getArtist(letter);
             /* Saves first letter of artist in variable to compare next time to avoid duplicate output: */
             avoidClickingSameLetterTwiceInMenu = letter;
     }       
 }
+
+
+
+function getAlbums(){  
+    fetch('https://folksa.ga/api/albums?key=flat_eric&populateArtists=true&limit=200')
+      .then((response) => response.json())
+      .then((albums) => {
+      console.log(albums);
+        
+        sortAlbums(albums);
+        
+        /* viktiga att denna kalla på displayCard när jag har all info istället för när jag ahr en viss typ av info, 
+        vill kalla på denna när jag redan har alla artister hämtade!!! */
+        //displayCard(albums);    
+        
+    });
+}
+
+
+let sortedObjectArray = [];
+
+function sortAlbums(albums){
+    
+    
+    for(let i = 0; i < albums.length; i++){
+        let oneAlbumObject = albums[i];
+        //console.log(albums[i]);
+        
+        sortedObjectArray.push(oneAlbumObject);
+        
+        //console.log(albums[i].artists[0].name);
+        //let artistName = albums[i].artists[0].name; 
+    }
+    
+    console.log(sortedObjectArray);
+    sortedObjectArray.sort((a,b) => {
+        var nameA = a.artists[0] ?  a.artists[0].name : '';
+        var nameB = b.artists[0] ?  b.artists[0].name : '';
+        return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+    })
+    
+    //for(let i = 0; i < sortedObjectArray.length; i++){
+        
+        //sortArtistsAlhabetically(sortedObjectArray);
+        console.log(sortedObjectArray.map(obj => obj.artists[0] ? obj.artists[0].name : ''));
+            
+    //}
+    
+    
+    
+}
+
 
 
 
@@ -44,14 +98,51 @@ function getArtist(letter){
         content.innerHTML = '';
     }
 
+            let artistObjectArray = [];
+
             for(let i = 0; i < artists.length; i++){
+                
                 let artistId = artists[i]._id;
                 let artistName = artists[i].name;
-//                console.log(artistName);
                 let albumsArray = artists[i].albums;
                 
-                if(artistName.substr(0,1) == letter){ // nytt test
+                /* Only save those which begins with the letter clicked upon in alphabet-menu in DOM (letter parameter) */
+                if(artistName.substr(0,1) == letter){
+                  
+                /* Saving artistinfo and albums id-array as objects in array to sort that array 
+                in alphabetical order on it's property artistName */ 
+                artistObjectArray.push({artistName, artistId, albumsArray });                    
+                sortArtistsAlhabetically(artistObjectArray); //Sorterar enligt bokstavordning på artistnamn. Verkar funka?
                     
+                // console.log('sorterat objekt:', artistObjectArray); // se denna log: artister i bokstavsordning.
+                    
+                }   
+            }
+                            
+            for(let i = 0; i < artistObjectArray.length; i++){
+                
+                // console.log('objekt i loop 2:', artistObjectArray); // objekt fortf i bokstavsordning enligt artistnamn
+                
+                let artistNameFromObjArray = artistObjectArray[i].artistName;
+                
+                // console.log('artistnamn i loop 2: ', artistName2); // artistnamn loopas ut i bokstavsordning
+
+                let singleArtistAlbumsArray =  artistObjectArray[i].albumsArray;
+                
+               //  console.log('enskild artists album: ', singleArtistAlbumsArray); 
+                
+                // eftersom jag har en enskild artists album i denna array borde de rimligtvis loopas ut i klump i DOMen???
+                for(let j = 0; j < singleArtistAlbumsArray.length; j++){
+                    let albumId = singleArtistAlbumsArray[j];
+                    console.log(albumId);
+                    
+                    getAlbum(artistNameFromObjArray, albumId);
+                }
+            }
+                    
+                    
+                    
+                    /* FUNKAR MEN EJ I BOKSTAVORDNIGN:
                     for(let i = 0; i < albumsArray.length; i++){
                         let albumId = albumsArray[i];
 
@@ -59,12 +150,46 @@ function getArtist(letter){
 
                     }
                     
-                } //end nytt test
-                
+                    
 
-                
-            }
+                }   
+            }    
+            */ 
+
       });
+}
+
+
+
+
+function sortArtistsAlhabetically(objArray){ 
+
+        for(let i = 0; i < objArray.length; i++){
+            //if(objArray[i].artists[0].name){
+            if(objArray[i].artists[0]){
+                //console.log(objArray[i].artists[0].name);
+
+                objArray.sort(function(a, b) {
+            //    var textA = a.artistName.toUpperCase();
+            //    var textB = b.artistName.toUpperCase();
+    
+                var textA = a.artists[0] ? a.artists[0].name : '';   
+                var textB = b.artists[0] ? b.artists[0].name : '';
+
+                    
+//                console.log(textA);
+//                console.log(textB);
+                    //(textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+            
+                return textB > textA;
+            
+                    
+//                let hej= (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+//                    
+//                console.log(hej);
+                }); 
+            }
+        }
 }
 
 
@@ -74,6 +199,8 @@ function getAlbum(artistName, albumId){
       .then((album) => {
   //    console.log(albums);
         
+        /* viktiga att denna kalla på displayCard när jag har all info istället för när jag ahr en viss typ av info, 
+        vill kalla på denna när jag redan har alla artister hämtade!!! */
         displayCard(artistName, album);
         
         
@@ -123,15 +250,15 @@ function displayCard(artistName, album){
         let albumURL = album.spotifyURL;
     
       
-        console.log(artistName);
-        console.log(albumTitle);
-        console.log(albumId);
-        console.log(albumYear);
-        console.log(albumCoverImage);
-        console.log(genresArray);
-        console.log(albumRatingsArray);
-        console.log(tracksArray);
-        console.log(albumURL);
+//        console.log(artistName);
+//        console.log(albumTitle);
+//        console.log(albumId);
+//        console.log(albumYear);
+//        console.log(albumCoverImage);
+//        console.log(genresArray);
+//        console.log(albumRatingsArray);
+//        console.log(tracksArray);
+//        console.log(albumURL);
 
 // if-sats, kanske behövs användas ngnstans?
 //    for(let i = 0; 0 < album.artists.length; i++){
