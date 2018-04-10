@@ -15,9 +15,6 @@ function rateAlbum(albumId, albumRating){
 }
 
 
-
-
-
 function rateTrack(trackId, trackRating){
 
     fetch(`https://folksa.ga/api/tracks/${trackId}/vote?key=flat_eric`, {
@@ -32,6 +29,22 @@ function rateTrack(trackId, trackRating){
         .then((track) => {
             //console.log(track);
         });
+}
+
+function ratePlaylist(playlistId, playlistRating){
+	console.log("hej");
+   fetch(`https://folksa.ga/api/playlists/${playlistId}/vote?key=flat_eric`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ rating: playlistRating })
+        })
+        .then((response) => response.json())
+        .then((playlist) => {
+            console.log(playlist);
+        });  
 }
 
 

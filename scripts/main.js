@@ -146,6 +146,7 @@ function displayCardPlaylist(playlist){
  		console.log(playlist);
         const cardWrapperElement = document.createElement('div');
         cardWrapperElement.classList.add('cardWrapper');
+		cardWrapperElement.id = playlist._id;
         const cardPlaylistTitleElement = document.createElement('div');
         cardPlaylistTitleElement.classList.add('cardPlaylistTitle');
         const cardPlaylistGenresElement = document.createElement('div');
@@ -170,8 +171,6 @@ function displayCardPlaylist(playlist){
 		cardWrapperElement.appendChild(cardCommentInputElement);
 	    cardWrapperElement.appendChild(cardCommentElement);
         contentElement.appendChild(cardWrapperElement);
-	    
-       // cardPlaylistTitleElement.innerHTML = playlist.title;
 	
 	 	cardPlaylistTitleElement.innerHTML = 
             `${playlist.title} 
@@ -196,9 +195,10 @@ playlistRating
         deletePlaylistButton.addEventListener('click', function(event){
         	event.preventDefault();
             let playlistId = this.dataset.track;
-            //deletePlaylist(playlistId);
+            deletePlaylist(playlistId);
 			console.log(playlistId);
             });
+	
 		//Rate playlist
         const ratePlaylistDropdown = document.getElementById(`ratePlaylist${playlist._id}`);
         ratePlaylistDropdown.addEventListener('change', function(event){
@@ -206,7 +206,6 @@ playlistRating
              let playlistId = this.dataset.track;
              let playlistRating = this[this.selectedIndex].value;
          	 ratePlaylist(playlistId, playlistRating);
-			console.log(playlistId, playlistRating);
              });
 	
 		for (let genre of playlist.genres) {
@@ -214,15 +213,12 @@ playlistRating
 		}
 		cardCreatedByElement.innerHTML = playlist.createdBy;
 		
-		//cardMenuElement.innerHTML = Väntar med denna
-		
 		let tracklist = "";
         for(let i = 0; i < playlist.tracks.length; i++){
 			console.log(playlist);
-            // tracklist += `${i+1}. ${playlist.tracks[i].title} by //${playlist.tracks[i].artists[0].name}<br>`;
-			//}
-			let playlistId = playlist._id
-			let trackId = playlist.tracks[i]._id;
+          
+			//let playlistId = playlist._id
+			//let trackId = playlist.tracks[i]._id;
 	
 	 		tracklist = `${i+1}. ${playlist.tracks[i].title} by ${playlist.tracks[i].artists[0].name}<br>`;
 			
@@ -230,8 +226,6 @@ playlistRating
 			
 		}
 		
-	
-        // cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
 		 cardCommentInputElement.innerHTML = `
 					<p>Comment on playlist:</p>
 					<input type='text' name='playlistComment' 
@@ -242,15 +236,7 @@ playlistRating
 					class='addCommentButton' 
 					data-id='${playlist._id}'>add comment</button>
 					<div id='viewCommentsLink${playlist._id}' data-id='${playlist._id}'><p>View comments</p></div>`
-                
-        // cardWrapperElement.appendChild(cardPlaylistTitleElement);
-        // cardWrapperElement.appendChild(cardPlaylistGenresElement);
-        // cardWrapperElement.appendChild(cardCreatedByElement);
-        // cardWrapperElement.appendChild(cardMenuElement);
-        // cardWrapperElement.appendChild(cardTrackListElement);
-		// cardWrapperElement.appendChild(cardCommentInputElement);
-	    // cardWrapperElement.appendChild(cardCommentElement);
-        // contentElement.appendChild(cardWrapperElement);
+      
 	
 		let playlistComment = document.getElementById(`playlistComment${playlist._id}`);
 		let commentCreatedBy = document.getElementById(`commentCreatedBy${playlist._id}`);
@@ -312,35 +298,23 @@ function displayComments(comments, id) {
 	cardCommentElement.innerHTML = commentList;
 }
 
-function deleteTrackFromPlaylist(playlistId, trackId){
-   //const deleteConfirm = confirm("Vill du verkligen ta bort låten?");
-   //let tracks = trackId;
-    
-    fetch(`https://folksa.ga/api/playlists/${playlistId}/tracks/${trackId}?key=flat_eric`,{
-        method: 'DELETE'
-      })
-      .then((response) => response.json());
-      //.then((playlist) => {
-        //console.log('this is the playlist: ', playlist);
-      //});
-
+function deletePlaylist(playlistId){
+    const deleteConfirm = confirm("Vill du verkligen ta bort spellistan?");
+    if(deleteConfirm){
+        fetch(`https://folksa.ga/api/playlists/${playlistId}?key=flat_eric`,{
+			method: 'DELETE'
+		  })
+		  .then((response) => response.json())
+        deletePlaylistFromDOM(playlistId);
+    }
 }
 
-function ratePlaylist(playlistId, playlistRating){
-	console.log("hej");
-   fetch(`https://folksa.ga/api/playlists/${playlistId}/vote?key=flat_eric`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ rating: playlistRating })
-        })
-        .then((response) => response.json())
-        .then((playlist) => {
-            console.log(playlist);
-        });  
+function deletePlaylistFromDOM(playlistId){
+    const playlistToDelete = document.getElementById(playlistId);
+    playlistToDelete.parentNode.removeChild(playlistToDelete);
 }
+
+
 
  
   
