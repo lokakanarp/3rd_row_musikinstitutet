@@ -21,6 +21,7 @@ function getData(){
         fetch(`https://folksa.ga/api/artists?key=flat_eric&name=${searchWord}`)
         .then((response) => response.json())
         .then((data) => {
+            console.log(data)
             showSearchResult(data);
         })
         .catch((error) => {
