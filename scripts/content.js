@@ -147,18 +147,19 @@ function displayCard(artistName, album){
 
         const cardWrapperElement = document.createElement('div');
         cardWrapperElement.classList.add('cardWrapper');
+        cardWrapperElement.id = `album${albumId}`;
 
         const cardAlbumImgElement = document.createElement('div');
         cardAlbumImgElement.classList.add('cardAlbumImg');
     
-        const cardArtistNameElement = document.createElement('div');
+        const cardArtistNameElement = document.createElement('h2');
         cardArtistNameElement.classList.add('cardArtistName');
     
         const cardAlbumTitleElement = document.createElement('div');
         cardAlbumTitleElement.classList.add('cardAlbumTitle');
     
-        const cardAlbumGenresElement = document.createElement('div');
-        cardAlbumGenresElement.classList.add('cardAlbumGenres');
+        const cardGenresElement = document.createElement('div');
+        cardGenresElement.classList.add('cardAlbumGenres');
     
         const cardTrackListElement = document.createElement('div');
         cardTrackListElement.classList.add('cardTrackList');
@@ -185,9 +186,9 @@ function displayCard(artistName, album){
                         <option value="9">9</option>
                         <option value="10">10</option>
                     </select>
-                <img src="images/star.svg" alt="stars" class="ratingStar" /> ${albumRating}`
+                <img src="images/star.svg" alt="stars" class="ratingStar" /> ${albumRating} <button id="deleteAlbum${albumId}" data-track="${albumId}" class="deleteButton"><img src="images/delete.svg" alt="Delete album" title="Delete album" /></button>`
     
-        cardAlbumGenresElement.innerHTML = genresArray[0];
+        cardGenresElement.innerHTML = genresArray[0];
 
 
             for(let i = 0; i < tracksArray.length; i++){
@@ -227,7 +228,7 @@ function displayCard(artistName, album){
                                 <option value="10">10</option>
                             </select>
                             <img src="images/star.svg" alt="stars" class="ratingStar" /> ${singleTrackRating}
-                            <button id="deleteTrack${trackId}" data-track="${trackId}" class="deleteTrack"><img src="images/delete.svg" alt="Delete track" title="Delete track" /></button>
+                            <button id="deleteTrack${trackId}" data-track="${trackId}" class="deleteButton"><img src="images/delete.svg" alt="Delete track" title="Delete track" /></button>
                         </span>
                     </div>
                 `;
@@ -240,7 +241,7 @@ function displayCard(artistName, album){
                 cardWrapperElement.appendChild(cardAlbumImgElement);
                 cardWrapperElement.appendChild(cardArtistNameElement);
                 cardWrapperElement.appendChild(cardAlbumTitleElement);
-                cardWrapperElement.appendChild(cardAlbumGenresElement);
+                cardWrapperElement.appendChild(cardGenresElement);
                 cardWrapperElement.appendChild(cardTrackListElement);
                 contentElement.appendChild(cardWrapperElement);
                 
@@ -287,6 +288,14 @@ function displayCard(artistName, album){
                     deleteTrack(trackId);
                 });
                 
+                //Delete album
+                const deleteAlbumButton = document.getElementById(`deleteAlbum${albumId}`);
+                deleteAlbumButton.addEventListener('click', function(event){
+                    event.preventDefault();
+                    let albumId = this.dataset.track;
+                    deleteAlbum(albumId);
+                });
+                
                 //Rate track
                 const rateTrackDropdown = document.getElementById(`rateTrack${trackId}`);
                 rateTrackDropdown.addEventListener('change', function(event){
@@ -299,9 +308,6 @@ function displayCard(artistName, album){
                     //console.log('maybe the rating: ',  this[this.selectedIndex].value);
                     rateTrack(trackId, trackRating);
                 });
-                
-                
-
             }
     
     
@@ -327,6 +333,21 @@ function deleteTrackFromDOM(trackId){
     trackToDelete.parentNode.removeChild(trackToDelete);
 }
 
-
+function deleteAlbum(albumId){
+    const deleteConfirm = confirm("Vill du verkligen ta bort albumet? Albumets låtar kommer försvinna.");
     
+    if(deleteConfirm){
+        fetch(`https://folksa.ga/api/albums/${albumId}?key=flat_eric`,{
+			method: 'DELETE'
+		  })
+		  .then((response) => response.json())
+        
+        deleteAlbumFromDOM(albumId);
+    }
+}
+
+function deleteAlbumFromDOM(albumId){
+    const albumToDelete = document.getElementById(`${albumId}`);
+    albumToDelete.parentNode.removeChild(albumToDelete);
+}
 
