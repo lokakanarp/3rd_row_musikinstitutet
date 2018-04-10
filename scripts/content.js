@@ -22,12 +22,12 @@ let alphabetLetters = document.getElementsByClassName("aphabeticalMenu");
 Å andra sidan innebär det att innehållet måste laddas om, vilket är dumt? */
 
 var avoidClickingSameLetterTwiceInMenu;
-var isThereContentAlready;
+//var isThereContentAlready;
 
 function handlingAlphabeticalMenuClick(letter){
     if(!(avoidClickingSameLetterTwiceInMenu == letter)){
         
-            getAlbums();
+            getAlbums(letter);
             //getArtist(letter);
             /* Saves first letter of artist in variable to compare next time to avoid duplicate output: */
             avoidClickingSameLetterTwiceInMenu = letter;
@@ -36,13 +36,13 @@ function handlingAlphabeticalMenuClick(letter){
 
 
 
-function getAlbums(){  
+function getAlbums(letter){  
     fetch('https://folksa.ga/api/albums?key=flat_eric&populateArtists=true&limit=200')
       .then((response) => response.json())
       .then((albums) => {
-      console.log(albums);
+      //console.log(albums);
         
-        sortAlbums(albums);
+        sortAlbums(albums,letter);
         
         /* viktiga att denna kalla på displayCard när jag har all info istället för när jag ahr en viss typ av info, 
         vill kalla på denna när jag redan har alla artister hämtade!!! */
@@ -54,7 +54,7 @@ function getAlbums(){
 
 let sortedObjectArray = [];
 
-function sortAlbums(albums){
+function sortAlbums(albums, letter){
     
     
     for(let i = 0; i < albums.length; i++){
@@ -67,7 +67,7 @@ function sortAlbums(albums){
         //let artistName = albums[i].artists[0].name; 
     }
     
-    console.log(sortedObjectArray);
+    //console.log(sortedObjectArray);
     sortedObjectArray.sort((a,b) => {
         var nameA = a.artists[0] ?  a.artists[0].name : '';
         var nameB = b.artists[0] ?  b.artists[0].name : '';
@@ -77,7 +77,14 @@ function sortAlbums(albums){
     //for(let i = 0; i < sortedObjectArray.length; i++){
         
         //sortArtistsAlhabetically(sortedObjectArray);
-        console.log(sortedObjectArray.map(obj => obj.artists[0] ? obj.artists[0].name : ''));
+        //console.log(sortedObjectArray.map(obj => obj.artists[0] ? obj.artists[0].name : ''));
+    
+    
+//    for(let i = 0; i < sortedObjectArray.length; i++){
+//        console.log(sortedObjectArray);
+//    }
+    
+        displayCard(sortedObjectArray, letter); 
             
     //}
     
@@ -88,126 +95,126 @@ function sortAlbums(albums){
 
 
 
-function getArtist(letter){
-    fetch('https://folksa.ga/api/artists?key=flat_eric&sort=asc&limit=200')
-      .then((response) => response.json())
-      .then((artists) => {
-//        console.log(artists);
-        
-    if(isThereContentAlready){
-        content.innerHTML = '';
-    }
-
-            let artistObjectArray = [];
-
-            for(let i = 0; i < artists.length; i++){
-                
-                let artistId = artists[i]._id;
-                let artistName = artists[i].name;
-                let albumsArray = artists[i].albums;
-                
-                /* Only save those which begins with the letter clicked upon in alphabet-menu in DOM (letter parameter) */
-                if(artistName.substr(0,1) == letter){
-                  
-                /* Saving artistinfo and albums id-array as objects in array to sort that array 
-                in alphabetical order on it's property artistName */ 
-                artistObjectArray.push({artistName, artistId, albumsArray });                    
-                sortArtistsAlhabetically(artistObjectArray); //Sorterar enligt bokstavordning på artistnamn. Verkar funka?
-                    
-                // console.log('sorterat objekt:', artistObjectArray); // se denna log: artister i bokstavsordning.
-                    
-                }   
-            }
-                            
-            for(let i = 0; i < artistObjectArray.length; i++){
-                
-                // console.log('objekt i loop 2:', artistObjectArray); // objekt fortf i bokstavsordning enligt artistnamn
-                
-                let artistNameFromObjArray = artistObjectArray[i].artistName;
-                
-                // console.log('artistnamn i loop 2: ', artistName2); // artistnamn loopas ut i bokstavsordning
-
-                let singleArtistAlbumsArray =  artistObjectArray[i].albumsArray;
-                
-               //  console.log('enskild artists album: ', singleArtistAlbumsArray); 
-                
-                // eftersom jag har en enskild artists album i denna array borde de rimligtvis loopas ut i klump i DOMen???
-                for(let j = 0; j < singleArtistAlbumsArray.length; j++){
-                    let albumId = singleArtistAlbumsArray[j];
-                    console.log(albumId);
-                    
-                    getAlbum(artistNameFromObjArray, albumId);
-                }
-            }
-                    
-                    
-                    
-                    /* FUNKAR MEN EJ I BOKSTAVORDNIGN:
-                    for(let i = 0; i < albumsArray.length; i++){
-                        let albumId = albumsArray[i];
-
-                        getAlbum(artistName, albumId);
-
-                    }
-                    
-                    
-
-                }   
-            }    
-            */ 
-
-      });
-}
-
-
-
-
-function sortArtistsAlhabetically(objArray){ 
-
-        for(let i = 0; i < objArray.length; i++){
-            //if(objArray[i].artists[0].name){
-            if(objArray[i].artists[0]){
-                //console.log(objArray[i].artists[0].name);
-
-                objArray.sort(function(a, b) {
-            //    var textA = a.artistName.toUpperCase();
-            //    var textB = b.artistName.toUpperCase();
-    
-                var textA = a.artists[0] ? a.artists[0].name : '';   
-                var textB = b.artists[0] ? b.artists[0].name : '';
-
-                    
-//                console.log(textA);
-//                console.log(textB);
-                    //(textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-            
-                return textB > textA;
-            
-                    
-//                let hej= (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+//function getArtist(letter){
+//    fetch('https://folksa.ga/api/artists?key=flat_eric&sort=asc&limit=200')
+//      .then((response) => response.json())
+//      .then((artists) => {
+////        console.log(artists);
+//        
+//    if(isThereContentAlready){
+//        content.innerHTML = '';
+//    }
+//
+//            let artistObjectArray = [];
+//
+//            for(let i = 0; i < artists.length; i++){
+//                
+//                let artistId = artists[i]._id;
+//                let artistName = artists[i].name;
+//                let albumsArray = artists[i].albums;
+//                
+//                /* Only save those which begins with the letter clicked upon in alphabet-menu in DOM (letter parameter) */
+//                if(artistName.substr(0,1) == letter){
+//                  
+//                /* Saving artistinfo and albums id-array as objects in array to sort that array 
+//                in alphabetical order on it's property artistName */ 
+//                artistObjectArray.push({artistName, artistId, albumsArray });                    
+//                sortArtistsAlhabetically(artistObjectArray); //Sorterar enligt bokstavordning på artistnamn. Verkar funka?
 //                    
-//                console.log(hej);
-                }); 
-            }
-        }
-}
+//                // console.log('sorterat objekt:', artistObjectArray); // se denna log: artister i bokstavsordning.
+//                    
+//                }   
+//            }
+//                            
+//            for(let i = 0; i < artistObjectArray.length; i++){
+//                
+//                // console.log('objekt i loop 2:', artistObjectArray); // objekt fortf i bokstavsordning enligt artistnamn
+//                
+//                let artistNameFromObjArray = artistObjectArray[i].artistName;
+//                
+//                // console.log('artistnamn i loop 2: ', artistName2); // artistnamn loopas ut i bokstavsordning
+//
+//                let singleArtistAlbumsArray =  artistObjectArray[i].albumsArray;
+//                
+//               //  console.log('enskild artists album: ', singleArtistAlbumsArray); 
+//                
+//                // eftersom jag har en enskild artists album i denna array borde de rimligtvis loopas ut i klump i DOMen???
+//                for(let j = 0; j < singleArtistAlbumsArray.length; j++){
+//                    let albumId = singleArtistAlbumsArray[j];
+//                    console.log(albumId);
+//                    
+//                    getAlbum(artistNameFromObjArray, albumId);
+//                }
+//            }
+//                    
+//                    
+//                    
+//                    /* FUNKAR MEN EJ I BOKSTAVORDNIGN:
+//                    for(let i = 0; i < albumsArray.length; i++){
+//                        let albumId = albumsArray[i];
+//
+//                        getAlbum(artistName, albumId);
+//
+//                    }
+//                    
+//                    
+//
+//                }   
+//            }    
+//            */ 
+//
+//      });
+//}
 
 
-function getAlbum(artistName, albumId){
-    fetch('https://folksa.ga/api/albums/' + albumId + '?key=flat_eric')
-      .then((response) => response.json())
-      .then((album) => {
-  //    console.log(albums);
-        
-        /* viktiga att denna kalla på displayCard när jag har all info istället för när jag ahr en viss typ av info, 
-        vill kalla på denna när jag redan har alla artister hämtade!!! */
-        displayCard(artistName, album);
-        
-        
-    });
-    
-    
-}
+
+//
+//function sortArtistsAlhabetically(objArray){ 
+//
+//        for(let i = 0; i < objArray.length; i++){
+//            //if(objArray[i].artists[0].name){
+//            if(objArray[i].artists[0]){
+//                //console.log(objArray[i].artists[0].name);
+//
+//                objArray.sort(function(a, b) {
+//            //    var textA = a.artistName.toUpperCase();
+//            //    var textB = b.artistName.toUpperCase();
+//    
+//                var textA = a.artists[0] ? a.artists[0].name : '';   
+//                var textB = b.artists[0] ? b.artists[0].name : '';
+//
+//                    
+////                console.log(textA);
+////                console.log(textB);
+//                    //(textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+//            
+//                return textB > textA;
+//            
+//                    
+////                let hej= (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+////                    
+////                console.log(hej);
+//                }); 
+//            }
+//        }
+//}
+
+
+//function getAlbum(artistName, albumId){
+//    fetch('https://folksa.ga/api/albums/' + albumId + '?key=flat_eric')
+//      .then((response) => response.json())
+//      .then((album) => {
+//  //    console.log(albums);
+//        
+//        /* viktiga att denna kalla på displayCard när jag har all info istället för när jag ahr en viss typ av info, 
+//        vill kalla på denna när jag redan har alla artister hämtade!!! */
+//        displayCard(artistName, album);
+//        
+//        
+//    });
+//    
+//    
+//}
 
 function getTrackURL(trackId){
     fetch(`https://folksa.ga/api/tracks/${trackId}?key=flat_eric`)
@@ -237,39 +244,46 @@ function getTrackURL(trackId){
   });
 }
 
+function clearElement(element){
+    element.innerHTML= '';   
+}
 
  
-function displayCard(artistName, album){
-        let albumTitle = album.title;
-        let albumId = album._id;
-        let albumYear = album.releaseDate;
-        let albumCoverImage = album.coverImage;
-        let genresArray = album.genres;
-        let albumRatingsArray = album.ratings;
-        let tracksArray = album.tracks;
-        let albumURL = album.spotifyURL;
-    
-      
-//        console.log(artistName);
-//        console.log(albumTitle);
-//        console.log(albumId);
-//        console.log(albumYear);
-//        console.log(albumCoverImage);
-//        console.log(genresArray);
-//        console.log(albumRatingsArray);
-//        console.log(tracksArray);
-//        console.log(albumURL);
+function displayCard(albums,letter){
 
-// if-sats, kanske behövs användas ngnstans?
-//    for(let i = 0; 0 < album.artists.length; i++){
-//        if(album.artists[i]){
-//            let artistName = album.artists[i].name;
-//            console.log(artistName);
-//        }
-//    }
+    
+    clearElement(contentElement);
+
     
 
+    
+    for(let i = 0; i < albums.length; i++){
         
+        //console.log(albums[i]);
+        
+        if(albums[i].artists[0] && (albums[i].artists[0].name.substr(0,1) == letter)){
+            let artistName = albums[i].artists[0].name
+            let albumTitle = albums[i].title
+            let albumId = albums[i]._id;
+            let albumYear = albums[i].releaseDate;
+            let albumCoverImage = albums[i].coverImage;
+            let genresArray = albums[i].genres;
+            let albumRatingsArray = albums[i].ratings;
+            let tracksArray = albums[i].tracks;
+            let albumURL = albums[i].spotifyURL;
+        
+            console.log(artistName);
+            console.log(albumTitle);
+            console.log(albumId);
+            console.log(albumYear);
+            console.log(albumCoverImage);
+            console.log(genresArray);
+            console.log(albumRatingsArray);
+            console.log(tracksArray);
+            console.log(albumURL);
+
+    
+
 
 
         const cardWrapperElement = document.createElement('div');
@@ -321,7 +335,7 @@ function displayCard(artistName, album){
                 
                 let trackId = tracksArray[i]._id;
                 let trackRatingArray = tracksArray[i].ratings;
-                let singleTrackRating = calculateAverageRating(trackRatingArray);
+                let singleTrackRating = '' /* calculateAverageRating(trackRatingArray) */;
                 let trackLink = getTrackURL(trackId);
                 
                 let tracklist = `
@@ -415,8 +429,17 @@ function displayCard(artistName, album){
 
             }
     
+
     
-    isThereContentAlready = true;
+    
+    //isThereContentAlready = true;
+    
+
+    
+
+        }
+    }
+    
      
 }
 
