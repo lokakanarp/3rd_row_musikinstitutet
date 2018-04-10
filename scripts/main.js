@@ -171,7 +171,44 @@ function displayCardPlaylist(playlist){
 	    cardWrapperElement.appendChild(cardCommentElement);
         contentElement.appendChild(cardWrapperElement);
 	    
-        cardPlaylistTitleElement.innerHTML = playlist.title;
+       // cardPlaylistTitleElement.innerHTML = playlist.title;
+	
+	 	cardPlaylistTitleElement.innerHTML = 
+            `${playlist.title} 
+                <select id="ratePlaylist${playlist._id}" data-track="${playlist._id}" class="rateTrack">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                <img src="images/star.svg" alt="stars" class="ratingStar" /> 
+playlistRating
+<button id="deletePlaylist${playlist._id}" data-track="${playlist._id}" class="deleteButton"><img src="images/delete.svg" alt="Delete playlist" title="Delete playlist" /></button>`
+	
+		//Delete playlist
+        const deletePlaylistButton = document.getElementById(`deletePlaylist${playlist._id}`);
+        deletePlaylistButton.addEventListener('click', function(event){
+        	event.preventDefault();
+            let playlistId = this.dataset.track;
+            //deletePlaylist(playlistId);
+			console.log(playlistId);
+            });
+		//Rate playlist
+        const ratePlaylistDropdown = document.getElementById(`ratePlaylist${playlist._id}`);
+        ratePlaylistDropdown.addEventListener('change', function(event){
+             event.preventDefault();
+             let playlistId = this.dataset.track;
+             let playlistRating = this[this.selectedIndex].value;
+         	 ratePlaylist(playlistId, playlistRating);
+			console.log(playlistId, playlistRating);
+             });
+	
 		for (let genre of playlist.genres) {
 			cardPlaylistGenresElement.insertAdjacentHTML('beforeend', `${genre} `);
 		}
@@ -187,24 +224,9 @@ function displayCardPlaylist(playlist){
 			let playlistId = playlist._id
 			let trackId = playlist.tracks[i]._id;
 	
-	 		tracklist = `
-                    <div id="${trackId}">
-                        <p>${playlist.tracks[i].title} <span class="trackOptions">
-                        <button id="deleteTrack${trackId}" data-track="${trackId}" data-playlist="${playlistId}"class="deleteTrack"><img src="images/delete.svg" alt="Delete track" title="Delete track" /></button>
-                        </span></p>
-                    </div>
-                `;
-			cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
+	 		tracklist = `${i+1}. ${playlist.tracks[i].title} by ${playlist.tracks[i].artists[0].name}<br>`;
 			
-			 const deleteTrackButton = document.getElementById(`deleteTrack${trackId}`);
-                deleteTrackButton.addEventListener('click', function(event){
-                    event.preventDefault();
-                    //console.log(this);
-                    console.log(this.dataset.track);
-					deleteTrackFromPlaylist(this.dataset.playlist, this.dataset.track)
-                    //let trackId = this.dataset.track;
-                    //deleteTrack(trackId);
-                });
+			cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
 			
 		}
 		
@@ -302,6 +324,22 @@ function deleteTrackFromPlaylist(playlistId, trackId){
         //console.log('this is the playlist: ', playlist);
       //});
 
+}
+
+function ratePlaylist(playlistId, playlistRating){
+	console.log("hej");
+   fetch(`https://folksa.ga/api/playlists/${playlistId}/vote?key=flat_eric`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ rating: playlistRating })
+        })
+        .then((response) => response.json())
+        .then((playlist) => {
+            console.log(playlist);
+        });  
 }
 
  

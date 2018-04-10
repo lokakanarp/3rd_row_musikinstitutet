@@ -15,6 +15,9 @@ function rateAlbum(albumId, albumRating){
 }
 
 
+
+
+
 function rateTrack(trackId, trackRating){
 
     fetch(`https://folksa.ga/api/tracks/${trackId}/vote?key=flat_eric`, {
