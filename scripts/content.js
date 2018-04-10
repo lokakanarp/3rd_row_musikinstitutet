@@ -198,7 +198,7 @@ function displayCard(albums,letter){
                 
               getTrackInfo(trackId).then((singleTrackObject) => {
    
-                console.log(singleTrackObject);
+                //console.log(singleTrackObject);
                   
                   //console.log(singleTrackObject.title);
                   
@@ -213,6 +213,16 @@ function displayCard(albums,letter){
                         trackLink = singleTrackObject.soundcloudURL;    
                     }else{
                         trackLink = ''; //ändra här kanske??
+                    }
+                  
+                  let trackRatingArray = singleTrackObject.ratings;
+                  console.log(trackRatingArray);
+                  
+                   let singleTrackRating;
+                  if(!(trackRatingArray.length == 0)){
+                        singleTrackRating = calculateAverageRating(trackRatingArray); 
+                    }else{
+                         singleTrackRating = ''; 
                     }
 
                   
@@ -236,7 +246,7 @@ function displayCard(albums,letter){
                                 <option value="9">9</option>
                                 <option value="10">10</option>
                             </select>
-                            <img src="images/star.svg" alt="stars" /> singletrackratingvariabel här 
+                            <img src="images/star.svg" alt="stars" /> ${singleTrackRating} 
                             <button id="deleteTrack${trackId}" data-track="${trackId}" class="deleteTrack"><img src="images/delete.svg" alt="Delete track" title="Delete track" /></button>
                         </span>
                     </div>

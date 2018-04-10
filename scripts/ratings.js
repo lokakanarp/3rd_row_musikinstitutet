@@ -42,5 +42,12 @@ function calculateAverageRating(incomingArrayOfRatings){
     
     let numerator = incomingArrayOfRatings.length;
     
-    return denominator / numerator;
+    let result = denominator / numerator;
+    
+    if(isNaN(result)){
+        return ''; // Returns blank if result is NaN (probably means no one has votes)
+    }else{
+        return result;
+    }
+    
 }
