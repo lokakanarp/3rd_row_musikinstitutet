@@ -131,7 +131,8 @@ function displayCard(albums,letter){
 //            console.log(tracksArray);
 //            console.log(albumURL);
 
-    
+        let averageAlbumRating = calculateAverageRating(albumRatingsArray);
+        console.log(averageAlbumRating);
 
 
 
@@ -175,7 +176,7 @@ function displayCard(albums,letter){
                         <option value="9">9</option>
                         <option value="10">10</option>
                     </select>
-                ${albumRating};`
+                ${averageAlbumRating};`
     
         cardAlbumGenresElement.innerHTML = genresArray[0];
 
