@@ -32,7 +32,7 @@ function getAlbums(letter){
 }
 
 
-let sortedObjectArray = [];
+//let sortedObjectArray = [];
 
 function sortAlbums(albums, letter){
     
@@ -72,27 +72,32 @@ function getTrackURL(trackId){
   .then((singleTrack) => {
         
         
-        if(singleTrack.spotifyURL != ""){
-            return singleTrack.spotifyURL;
-        }else if(singleTrack.youtubeURL != ""){
-            return singleTrack.youtubeURL;
-        }else if(singleTrack.soundcloudURL != ""){
-            return singleTrack.soundcloudURL;
-        }
-        
-//        let numberOfTracksOnAlbum = tracks.length;
-////        console.log(numberOfTracksOnAlbum);
-//        
-//        for(let i = 0; i < numberOfTracksOnAlbum; i++){
-////            console.log(tracks[i].title);
-//            
-//        
+//        if(singleTrack.spotifyURL != ""){
+//            return singleTrack.spotifyURL;
+//        }else if(singleTrack.youtubeURL != ""){
+//            return singleTrack.youtubeURL;
+//        }else if(singleTrack.soundcloudURL != ""){
+//            return singleTrack.soundcloudURL;
 //        }
-        
-      //  return singleTrack;
-      
+//        
+
+        console.log("hej");
   });
 }
+
+
+function getTrackInfo(trackId){
+    return fetch(`https://folksa.ga/api/tracks/${trackId}?key=flat_eric`)
+  .then((response) => response.json())
+  .then((singleTrack) => {
+        
+        //console.log(singleTrack);
+        
+        return singleTrack;
+  });
+}
+
+
 
 function clearElement(element){
     element.innerHTML= '';   
@@ -116,15 +121,15 @@ function displayCard(albums,letter){
             let tracksArray = albums[i].tracks;
             let albumURL = albums[i].spotifyURL;
         
-            console.log(artistName);
-            console.log(albumTitle);
-            console.log(albumId);
-            console.log(albumYear);
-            console.log(albumCoverImage);
-            console.log(genresArray);
-            console.log(albumRatingsArray);
-            console.log(tracksArray);
-            console.log(albumURL);
+//            console.log(artistName);
+//            console.log(albumTitle);
+//            console.log(albumId);
+//            console.log(albumYear);
+//            console.log(albumCoverImage);
+//            console.log(genresArray);
+//            console.log(albumRatingsArray);
+//            console.log(tracksArray);
+//            console.log(albumURL);
 
     
 
@@ -176,15 +181,47 @@ function displayCard(albums,letter){
 
 
             for(let i = 0; i < tracksArray.length; i++){
+                //console.log(tracksArray);
+                //console.log(tracksArray[i]);
+                //let trackId = tracksArray[i]._id;
                 
-                let trackId = tracksArray[i]._id;
-                let trackRatingArray = tracksArray[i].ratings;
-                let singleTrackRating = '' /* calculateAverageRating(trackRatingArray) */;
-                let trackLink = getTrackURL(trackId);
+                let trackId = tracksArray[i];
+                //console.log(trackId);
                 
+                
+                //let trackRatingArray = tracksArray[i].ratings;
+                //let singleTrackRating = '' /* calculateAverageRating(trackRatingArray) */;
+                //let trackLink = getTrackURL(trackId);
+                //console.log(trackLink);
+                
+                //let trackLink = getTrackURL(trackId);
+                
+              getTrackInfo(trackId).then((singleTrackObject) => {
+   
+                console.log(singleTrackObject);
+                  
+                  //console.log(singleTrackObject.title);
+                  
+                  let trackTitle = singleTrackObject.title;
+                  
+                  let trackLink;
+                  if(!(singleTrackObject.spotifyURL == '')){
+                    trackLink = singleTrackObject.spotifyURL;
+                  }else if(!(singleTrackObject.youtubeURL == '')){
+                      trackLink = singleTrackObject.youtubeURL; 
+                  }else if(!(singleTrackObject.souncloudURL == '')){
+                        trackLink = singleTrackObject.soundcloudURL;    
+                    }else{
+                        trackLink = ''; //ändra här kanske??
+                    }
+
+                  
+                  
+                // Check if there's a tracktitle, only write out if there is one:            
+                if(!(singleTrackObject.type == 'error')){
                 let tracklist = `
                     <div>
-                        <p><a href="${trackLink}">${tracksArray[i].title}</a></p>
+                        <p><a target="_blank" href="${trackLink}">${trackTitle}</a></p>
                         <span class="trackOptions">
                             <button id="addTrackToPlaylist${trackId}" data-track="${trackId}" class="addTrackToPlaylist"><img src="images/plus.svg" alt="Add track to playlist" title="Add track to playlist" /></button>
                             <select id="rateTrack${trackId}" data-track="${trackId}">
@@ -199,7 +236,7 @@ function displayCard(albums,letter){
                                 <option value="9">9</option>
                                 <option value="10">10</option>
                             </select>
-                            <img src="images/star.svg" alt="stars" /> ${singleTrackRating}
+                            <img src="images/star.svg" alt="stars" /> singletrackratingvariabel här 
                             <button id="deleteTrack${trackId}" data-track="${trackId}" class="deleteTrack"><img src="images/delete.svg" alt="Delete track" title="Delete track" /></button>
                         </span>
                     </div>
@@ -267,6 +304,9 @@ function displayCard(albums,letter){
                     
                     //console.log('maybe the rating: ',  this[this.selectedIndex].value);
                     rateTrack(trackId, trackRating);
+                });
+} // end 
+                
                 });
                 
             }
