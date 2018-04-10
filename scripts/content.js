@@ -108,8 +108,6 @@ function displayCard(albums,letter){
     
     for(let i = 0; i < albums.length; i++){
         
-        //console.log(albums[i]);
-        
         if(albums[i].artists[0] && (albums[i].artists[0].name.substr(0,1) == letter)){
             let artistName = albums[i].artists[0].name
             let albumTitle = albums[i].title
@@ -121,226 +119,179 @@ function displayCard(albums,letter){
             let tracksArray = albums[i].tracks;
             let albumURL = albums[i].spotifyURL;
         
-//            console.log(artistName);
-//            console.log(albumTitle);
-//            console.log(albumId);
-//            console.log(albumYear);
-//            console.log(albumCoverImage);
-//            console.log(genresArray);
-//            console.log(albumRatingsArray);
-//            console.log(tracksArray);
-//            console.log(albumURL);
-
-        let averageAlbumRating = calculateAverageRating(albumRatingsArray);
-        console.log(averageAlbumRating);
+            let averageAlbumRating = calculateAverageRating(albumRatingsArray);
 
 
+            const cardWrapperElement = document.createElement('div');
+            cardWrapperElement.classList.add('cardWrapper');
 
-        const cardWrapperElement = document.createElement('div');
-        cardWrapperElement.classList.add('cardWrapper');
+            const cardAlbumImgElement = document.createElement('div');
+            cardAlbumImgElement.classList.add('cardAlbumImg');
 
-        const cardAlbumImgElement = document.createElement('div');
-        cardAlbumImgElement.classList.add('cardAlbumImg');
+            const cardArtistNameElement = document.createElement('div');
+            cardArtistNameElement.classList.add('cardArtistName');
+
+            const cardAlbumTitleElement = document.createElement('div');
+            cardAlbumTitleElement.classList.add('cardAlbumTitle');
+
+            const cardAlbumGenresElement = document.createElement('div');
+            cardAlbumGenresElement.classList.add('cardAlbumGenres');
+
+            const cardTrackListElement = document.createElement('div');
+            cardTrackListElement.classList.add('cardTrackList');
     
-        const cardArtistNameElement = document.createElement('div');
-        cardArtistNameElement.classList.add('cardArtistName');
+            cardAlbumImgElement.innerHTML = `<img src="${albumCoverImage}">`;
+            cardArtistNameElement.innerHTML = artistName;
     
-        const cardAlbumTitleElement = document.createElement('div');
-        cardAlbumTitleElement.classList.add('cardAlbumTitle');
-    
-        const cardAlbumGenresElement = document.createElement('div');
-        cardAlbumGenresElement.classList.add('cardAlbumGenres');
-    
-        const cardTrackListElement = document.createElement('div');
-        cardTrackListElement.classList.add('cardTrackList');
-    
-        let albumRating = calculateAverageRating(albumRatingsArray);
-    
-        cardAlbumImgElement.innerHTML = `<img src="${albumCoverImage}">`;
-        cardArtistNameElement.innerHTML = artistName;
-    
-        
-        //cardAlbumTitleElement.innerHTML = albumTitle + ' (' + albumYear + ') ' + albumRating;
-    
-        cardAlbumTitleElement.innerHTML = 
-            `<a href="${albumURL}">${albumTitle}</a> (${albumYear}) 
-                    <select id="rateAlbum${albumId}" data-track="${albumId}">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                    </select>
-                ${averageAlbumRating};`
-    
-        cardAlbumGenresElement.innerHTML = genresArray[0];
+            cardAlbumTitleElement.innerHTML = 
+                `<a href="${albumURL}">${albumTitle}</a> (${albumYear}) 
+                        <select id="rateAlbum${albumId}" data-track="${albumId}">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    ${averageAlbumRating};`
+
+            cardAlbumGenresElement.innerHTML = genresArray[0];
 
 
             for(let i = 0; i < tracksArray.length; i++){
-                //console.log(tracksArray);
-                //console.log(tracksArray[i]);
-                //let trackId = tracksArray[i]._id;
-                
                 let trackId = tracksArray[i];
-                //console.log(trackId);
                 
-                
-                //let trackRatingArray = tracksArray[i].ratings;
-                //let singleTrackRating = '' /* calculateAverageRating(trackRatingArray) */;
-                //let trackLink = getTrackURL(trackId);
-                //console.log(trackLink);
-                
-                //let trackLink = getTrackURL(trackId);
-                
-              getTrackInfo(trackId).then((singleTrackObject) => {
-   
-                //console.log(singleTrackObject);
-                  
-                  //console.log(singleTrackObject.title);
-                  
-                  let trackTitle = singleTrackObject.title;
-                  
-                  let trackLink;
-                  if(!(singleTrackObject.spotifyURL == '')){
-                    trackLink = singleTrackObject.spotifyURL;
-                  }else if(!(singleTrackObject.youtubeURL == '')){
-                      trackLink = singleTrackObject.youtubeURL; 
-                  }else if(!(singleTrackObject.souncloudURL == '')){
+                getTrackInfo(trackId).then((singleTrackObject) => {
+
+                    let trackTitle = singleTrackObject.title;
+
+                    let trackLink;
+                    if(!(singleTrackObject.spotifyURL == '')){
+                        trackLink = singleTrackObject.spotifyURL;
+                    }else if(!(singleTrackObject.youtubeURL == '')){
+                        trackLink = singleTrackObject.youtubeURL; 
+                    }else if(!(singleTrackObject.souncloudURL == '')){
                         trackLink = singleTrackObject.soundcloudURL;    
                     }else{
-                        trackLink = ''; //ändra här kanske??
+                        trackLink = ''; // Just empty if no link??
                     }
                   
-                  let trackRatingArray = singleTrackObject.ratings;
-                  console.log(trackRatingArray);
-                  
-                   let singleTrackRating;
-                  if(!(trackRatingArray.length == 0)){
+                    let trackRatingArray = singleTrackObject.ratings;
+
+                    let singleTrackRating;
+                    if(!(trackRatingArray.length == 0)){
                         singleTrackRating = calculateAverageRating(trackRatingArray); 
                     }else{
                          singleTrackRating = ''; 
                     }
 
-                  
-                  
-                // Check if there's a tracktitle, only write out if there is one:            
-                if(!(singleTrackObject.type == 'error')){
-                let tracklist = `
-                    <div>
-                        <p><a target="_blank" href="${trackLink}">${trackTitle}</a></p>
-                        <span class="trackOptions">
-                            <button id="addTrackToPlaylist${trackId}" data-track="${trackId}" class="addTrackToPlaylist"><img src="images/plus.svg" alt="Add track to playlist" title="Add track to playlist" /></button>
-                            <select id="rateTrack${trackId}" data-track="${trackId}">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                            <img src="images/star.svg" alt="stars" /> ${singleTrackRating} 
-                            <button id="deleteTrack${trackId}" data-track="${trackId}" class="deleteTrack"><img src="images/delete.svg" alt="Delete track" title="Delete track" /></button>
-                        </span>
-                    </div>
-                `;
-                
-                //sedan ta typ this.data-id när man skapar eventlistener och skickar vidare som argument till add-funktion???
-                //activateAddFunction(trackId);
-                
-                cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
-                
-                cardWrapperElement.appendChild(cardAlbumImgElement);
-                cardWrapperElement.appendChild(cardArtistNameElement);
-                cardWrapperElement.appendChild(cardAlbumTitleElement);
-                cardWrapperElement.appendChild(cardAlbumGenresElement);
-                cardWrapperElement.appendChild(cardTrackListElement);
-                contentElement.appendChild(cardWrapperElement);
-                
+                    // Check if there's a tracktitle, only write out if there is one (/not error):            
+                    if(!(singleTrackObject.type == 'error')){
+                        let tracklist = `
+                            <div>
+                                <p><a target="_blank" href="${trackLink}">${trackTitle}</a></p>
+                                <span class="trackOptions">
+                                    <button id="addTrackToPlaylist${trackId}" data-track="${trackId}" class="addTrackToPlaylist"><img src="images/plus.svg" alt="Add track to playlist" title="Add track to playlist" /></button>
+                                    <select id="rateTrack${trackId}" data-track="${trackId}">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                    <img src="images/star.svg" alt="stars" /> ${singleTrackRating} 
+                                    <button id="deleteTrack${trackId}" data-track="${trackId}" class="deleteTrack"><img src="images/delete.svg" alt="Delete track" title="Delete track" /></button>
+                                </span>
+                            </div>
+                        `;
 
-    
-                /***** Buttons/dropdowns with events *****/
+                        cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
 
-                //Rate album
-                const rateAlbumDropdown = document.getElementById(`rateAlbum${albumId}`);
-                rateAlbumDropdown.addEventListener('change', function(event){
-                    event.preventDefault();
-                    //console.log(this);
-                    //console.log('id: ', this.dataset.track);
-                    let albumId = this.dataset.track;
-                    let albumRating = this[this.selectedIndex].value;
-                    
-                    //console.log('maybe the rating: ',  this[this.selectedIndex].value);
-                    rateAlbum(albumId, albumRating);
-                });
-                
-                // Add track to playlist
-                const addTrack = document.getElementById(`addTrackToPlaylist${trackId}`);
-                addTrack.addEventListener('click', function(event){
-                    event.preventDefault();
-                    //console.log(this);
-                    //console.log(this.dataset.track);
-                    let trackId = this.dataset.track;
-                    // addTrackToPlaylist-function is to be found in playlist.js:
-                    addTrackToPlaylist(trackId);
-                });
-                
-                // Delete track
-                const deleteTrackButton = document.getElementById(`deleteTrack${trackId}`);
-                deleteTrackButton.addEventListener('click', function(event){
-                    event.preventDefault();
-                    //console.log(this);
-                    //console.log(this.dataset.track);
-                    let trackId = this.dataset.track;
-                    // addTrackToPlaylist-function is to be found in playlist.js:
-                    deleteTrack(trackId);
-                });
-                
-                //Rate track
-                const rateTrackDropdown = document.getElementById(`rateTrack${trackId}`);
-                rateTrackDropdown.addEventListener('change', function(event){
-                    event.preventDefault();
-                    //console.log(this);
-                    //console.log('id: ', this.dataset.track);
-                    let trackId = this.dataset.track;
-                    let trackRating = this[this.selectedIndex].value;
-                    
-                    //console.log('maybe the rating: ',  this[this.selectedIndex].value);
-                    rateTrack(trackId, trackRating);
-                });
-} // end 
-                
-                });
-                
-            }
-    
+                        cardWrapperElement.appendChild(cardAlbumImgElement);
+                        cardWrapperElement.appendChild(cardArtistNameElement);
+                        cardWrapperElement.appendChild(cardAlbumTitleElement);
+                        cardWrapperElement.appendChild(cardAlbumGenresElement);
+                        cardWrapperElement.appendChild(cardTrackListElement);
+                        contentElement.appendChild(cardWrapperElement);
 
-    
 
-        }
-    }
-    
-     
-}
 
-function deleteTrack(trackId){
-    fetch(`https://folksa.ga/api/tracks/${trackId}?key=flat_eric`,{
-			method: 'DELETE'
-		  })
-		  .then((response) => response.json())
-		  .then((track) => {
-			console.log(track);
-			//displayAlbumForm(artist._id);
-		  })
-}
+                        /***** Buttons/dropdowns with events *****/
+
+                        //Rate album
+                        const rateAlbumDropdown = document.getElementById(`rateAlbum${albumId}`);
+                        rateAlbumDropdown.addEventListener('change', function(event){
+                            event.preventDefault();
+                            //console.log(this);
+                            //console.log('id: ', this.dataset.track);
+                            let albumId = this.dataset.track;
+                            let albumRating = this[this.selectedIndex].value;
+
+                            //console.log('maybe the rating: ',  this[this.selectedIndex].value);
+                            rateAlbum(albumId, albumRating);
+                        });
+
+                        // Add track to playlist
+                        const addTrack = document.getElementById(`addTrackToPlaylist${trackId}`);
+                        addTrack.addEventListener('click', function(event){
+                            event.preventDefault();
+                            //console.log(this);
+                            //console.log(this.dataset.track);
+                            let trackId = this.dataset.track;
+                            // addTrackToPlaylist-function is to be found in playlist.js:
+                            addTrackToPlaylist(trackId);
+                        });
+
+                        // Delete track
+                        const deleteTrackButton = document.getElementById(`deleteTrack${trackId}`);
+                        deleteTrackButton.addEventListener('click', function(event){
+                            event.preventDefault();
+                            //console.log(this);
+                            //console.log(this.dataset.track);
+                            let trackId = this.dataset.track;
+                            // addTrackToPlaylist-function is to be found in playlist.js:
+                            deleteTrack(trackId);
+                        });
+
+                        //Rate track
+                        const rateTrackDropdown = document.getElementById(`rateTrack${trackId}`);
+                        rateTrackDropdown.addEventListener('change', function(event){
+                            event.preventDefault();
+                            //console.log(this);
+                            //console.log('id: ', this.dataset.track);
+                            let trackId = this.dataset.track;
+                            let trackRating = this[this.selectedIndex].value;
+
+                            //console.log('maybe the rating: ',  this[this.selectedIndex].value);
+                            rateTrack(trackId, trackRating);
+                        });
+       
+                    } // end looping out tracklist-relatied                   
+                }); //end getting singleTrackObject .then()               
+            } //end looping out trackId from tracksArray
+        } //end if-statement that checks artistname starting letter
+    } //looping through all albums from to get album info  
+} //end displayCard
+
+//function deleteTrack(trackId){
+//    fetch(`https://folksa.ga/api/tracks/${trackId}?key=flat_eric`,{
+//			method: 'DELETE'
+//		  })
+//		  .then((response) => response.json())
+//		  .then((track) => {
+//			console.log(track);
+//			//displayAlbumForm(artist._id);
+//		  })
+//}
 
 
 
