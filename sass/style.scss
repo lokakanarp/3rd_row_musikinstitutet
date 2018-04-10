@@ -4,6 +4,7 @@
 
 body{
     margin: 0;
+    font-family: 'Raleway', sans-serif;
 }
 
 .header{
@@ -14,8 +15,16 @@ body{
     background: -webkit-linear-gradient(top, #4a6d89 0%,#000000 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom, #4a6d89 0%,#000000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    
+    h1{
+        color: white;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 300;
+        font-size: 2.5em;
+    }
 }
 
 .artistSearchField{
@@ -34,20 +43,26 @@ body{
 }
 
 .aphabeticalMenuWrapper{
-    margin: 0px auto;
-    width: 80%;
+    margin-bottom: 15px;
+    padding: 20px;
+    width: 100%;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;   
+    flex-wrap: wrap;  
+    background: black;
+    color: white;
 }
 
 .aphabeticalMenu{
     width: 3.44%;
     text-align: center;
-    background-color: lightgrey;
     font-size: 16px;
 }
 
+.aphabeticalMenu:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
 
 .content{
     margin: 0px auto;
@@ -58,15 +73,18 @@ body{
 }
 
 .cardWrapper{
-
     width: 32%;
     overflow: hidden;
     border: 1px solid #363636;
     border-radius: 5px;
-
     font-size: 16px;
-    font-family: 'Raleway', sans-serif;
     margin: 5px;
+    
+    .rateTrack{
+        background: white;
+        border: 1px solid #363636;
+        margin: 0 5px;
+    }
     
     .cardAlbumImg{
         max-height: 350px;
@@ -78,7 +96,8 @@ body{
     }
     
     .cardTrackList{
-        padding: 25px;
+        padding: 0 25px 40px 25px;
+        
         p{
             margin: 15px 0 3px 0;
             
@@ -110,6 +129,10 @@ body{
     padding: 0 25px;
 }
 
+.ratingStar{
+    width: 10px;
+}
+
 .trackOptions{
     display: block;
     font-size: 0.8em;
@@ -117,10 +140,6 @@ body{
     select{
         font-size: 0.8em;
         margin-right: 10px;
-    }
-    
-    img{
-        width: 10px;
     }
 }
 
@@ -158,14 +177,14 @@ body{
 .searchField{
     padding: 20px;
     border-radius: 10px;
-    border: 1px solid #ccc;
+    border: none;
     display: block;
     width: 100%;
     margin: 0 0 10px 0;
 }
 
 .selectSearch{
-    border: 1px solid #ccc;
+    border: none;
     background: white;
     width: 48%;
     height: 30px;

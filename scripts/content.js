@@ -87,7 +87,7 @@ function getTrackURL(trackId){
   .then((response) => response.json())
   .then((singleTrack) => {
         
-        
+
         if(singleTrack.spotifyURL != ""){
             return singleTrack.spotifyURL;
         }else if(singleTrack.youtubeURL != ""){
@@ -173,7 +173,7 @@ function displayCard(artistName, album){
     
         cardAlbumTitleElement.innerHTML = 
             `<a href="${albumURL}">${albumTitle}</a> (${albumYear}) 
-                    <select id="rateAlbum${albumId}" data-track="${albumId}">
+                    <select id="rateAlbum${albumId}" data-track="${albumId}" class="rateTrack">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -185,7 +185,7 @@ function displayCard(artistName, album){
                         <option value="9">9</option>
                         <option value="10">10</option>
                     </select>
-                ${albumRating};`
+                <img src="images/star.svg" alt="stars" class="ratingStar" /> ${albumRating}`
     
         cardAlbumGenresElement.innerHTML = genresArray[0];
 
@@ -210,11 +210,11 @@ function displayCard(artistName, album){
                 
                
                 let tracklist = `
-                    <div>
+                    <div id="${trackId}">
                         <p><a href="${trackLink}">${tracksArray[i].title}</a></p>
                         <span class="trackOptions">
                             <button id="addTrackToPlaylist${trackId}" data-track="${trackId}" class="addTrackToPlaylist"><img src="images/plus.svg" alt="Add track to playlist" title="Add track to playlist" /></button>
-                            <select id="rateTrack${trackId}" data-track="${trackId}">
+                            <select id="rateTrack${trackId}" data-track="${trackId}" class="rateTrack">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -226,7 +226,7 @@ function displayCard(artistName, album){
                                 <option value="9">9</option>
                                 <option value="10">10</option>
                             </select>
-                            <img src="images/star.svg" alt="stars" /> ${singleTrackRating}
+                            <img src="images/star.svg" alt="stars" class="ratingStar" /> ${singleTrackRating}
                             <button id="deleteTrack${trackId}" data-track="${trackId}" class="deleteTrack"><img src="images/delete.svg" alt="Delete track" title="Delete track" /></button>
                         </span>
                     </div>
@@ -310,16 +310,22 @@ function displayCard(artistName, album){
 }
 
 function deleteTrack(trackId){
-    fetch(`https://folksa.ga/api/tracks/${trackId}?key=flat_eric`,{
+    const deleteConfirm = confirm("Vill du verkligen ta bort låten?");
+    
+    if(deleteConfirm){
+        fetch(`https://folksa.ga/api/tracks/${trackId}?key=flat_eric`,{
 			method: 'DELETE'
 		  })
 		  .then((response) => response.json())
-		  .then((track) => {
-			console.log(track);
-			//displayAlbumForm(artist._id);
-		  })
+        
+        deleteTrackFromDOM(trackId);
+    }
 }
 
+function deleteTrackFromDOM(trackId){
+    const trackToDelete = document.getElementById(`${trackId}`);
+    trackToDelete.parentNode.removeChild(trackToDelete);
+}
 
 
     
