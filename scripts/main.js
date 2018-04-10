@@ -1,11 +1,10 @@
 const searchButton = document.getElementById('search');
 const options = document.getElementById('selectSearch').children;
 const searchField = document.getElementById('searchField');
-const searchResultOutput = document.getElementById('searchResult');
 
 searchButton.addEventListener('click', function(event){
     event.preventDefault();
-    searchResultOutput.innerHTML = '';
+    contentElement.innerHTML = '';
     getData();
 });
 
@@ -66,13 +65,75 @@ function getData(){
 function showSearchResult(data){
     for(let i = 0; i < data.length; i++){
         if(data[i].name){
-            const searchResult = data[i].name;
-            searchResultOutput.innerHTML += `<p>${searchResult}<p>`;
+            let artistCoverImage = data[i].coverImage;
+            let artistName = data[i].name;
+            let artistBorn = data[i].born;
+            let artistId = data[i]._id;
+            let genresArray = data[i].genres;
+
+            const cardWrapperElement = document.createElement('div');
+            cardWrapperElement.classList.add('cardWrapper');
+            cardWrapperElement.id = `${artistId}`;
+
+            const cardArtistImgElement = document.createElement('div');
+            cardArtistImgElement.innerHTML = `<img src="${artistCoverImage}" alt="${artistName}" />`;
+            cardArtistImgElement.classList.add('cardArtistImg');
+
+            const cardArtistNameElement = document.createElement('h2');
+            cardArtistNameElement.innerHTML = artistName;
+            cardArtistNameElement.classList.add('cardArtistName');
+            
+            cardArtistBornElement = document.createElement('div');
+            cardArtistBornElement.innerHTML = `Född: ${artistBorn}`;
+            cardArtistBornElement.classList.add('cardArtistBorn');
+
+            const cardGenresElement = document.createElement('div');
+            cardGenresElement.innerHTML = genresArray[0];
+            cardGenresElement.classList.add('cardArtistGenres');
+            
+            const deleteButtonElement = document.createElement('div');
+            deleteButtonElement.innerHTML = `
+                <button id="deleteArtist${artistId}" data-track="${artistId}" class="deleteButton"><img src="images/delete.svg" alt="Delete artist" title="Delete artist" /></button>
+            `;
+    
+            if(`${artistCoverImage}`){
+                cardWrapperElement.appendChild(cardArtistImgElement);
+            }
+            cardWrapperElement.appendChild(cardArtistNameElement);
+            cardWrapperElement.appendChild(cardArtistBornElement);
+            cardWrapperElement.appendChild(cardGenresElement);
+            cardWrapperElement.appendChild(deleteButtonElement);
+            contentElement.appendChild(cardWrapperElement);
+            
+            const deleteTrackButton = document.getElementById(`deleteArtist${artistId}`);
+                deleteTrackButton.addEventListener('click', function(event){
+                    event.preventDefault();
+                    let artistId = this.dataset.track;
+                    deleteArtist(artistId);
+                });
         }else{
             const searchResult = data[i].title;
            searchResultOutput.innerHTML += `<p>${searchResult}<p>`;
         }
     }
+}
+
+function deleteArtist(artistId){
+    const deleteConfirm = confirm("Vill du verkligen ta bort artisten?");
+    
+    if(deleteConfirm){
+        fetch(`https://folksa.ga/api/artists/${artistId}?key=flat_eric`,{
+			method: 'DELETE'
+		  })
+		  .then((response) => response.json())
+        
+        deleteArtistFromDOM(artistId);
+    }
+}
+
+function deleteArtistFromDOM(artistId){
+    const artistToDelete = document.getElementById(`${artistId}`);
+    artistToDelete.parentNode.removeChild(artistToDelete);
 }
 
 function showPlaylists(data) {
