@@ -11,7 +11,6 @@ searchButton.addEventListener('click', function(event){
 
 function getData(){
     let searchWord = searchField.value;
-    
     const artist = options[0];
     const track = options[1];
     const album = options[2];
@@ -54,7 +53,7 @@ function getData(){
         fetch(`https://folksa.ga/api/playlists?key=flat_eric&title=${searchWord}`)
         .then((response) => response.json())
         .then((data) => {
-            showSearchResult(data);
+            showPlaylists(data);
         })
         .catch((error) => {
             console.log(error)
@@ -69,12 +68,16 @@ function showSearchResult(data){
             const searchResult = data[i].name;
             searchResultOutput.innerHTML += `<p>${searchResult}<p>`;
         }else{
-			let playlist = data[i];
-			displayCardPlaylist(playlist);
-            //const searchResult = data[i].title;
-           // searchResultOutput.innerHTML += `<p>${searchResult}<p>`;
+            const searchResult = data[i].title;
+           searchResultOutput.innerHTML += `<p>${searchResult}<p>`;
         }
     }
+}
+
+function showPlaylists(data) {
+	for(let i = 0; i < data.length; i++){
+		displayCardPlaylist(data[i]);
+	}
 }
 
 function displayCardPlaylist(playlist){
@@ -96,7 +99,7 @@ function displayCardPlaylist(playlist){
 		const cardCommentElement = document.createElement('div');
 		cardCommentElement.classList.add('cardComment');
 		cardCommentElement.id = `cardComment${playlist._id}`;
-    	
+	    
         cardPlaylistTitleElement.innerHTML = playlist.title;
 		for (let genre of playlist.genres) {
 			cardPlaylistGenresElement.insertAdjacentHTML('beforeend', `${genre} `);
@@ -107,7 +110,6 @@ function displayCardPlaylist(playlist){
 		
 		let tracklist = "";
         for(let i = 0; i < playlist.tracks.length; i++){
-             //console.log(playlist.tracks[i].title); 
              tracklist += `${i+1}. ${playlist.tracks[i].title} by ${playlist.tracks[i].artists[0].name}<br>`;
 			}
          cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
@@ -172,7 +174,7 @@ function postComment(input, createdBy, id) {
 	
 }
 function getComments(id) {
-	fetch(`https://folksa.ga/api/playlists/${id}/comments?key=flat_eric`)
+	fetch(`https://folksa.ga/api/playlists/${id}/comments?key=flat_eric&limit=1000`)
     .then((response) => response.json())
     .then((comments) => {
         console.log(comments);
