@@ -172,7 +172,13 @@ function displayCardPlaylist(playlist){
 	cardWrapperElement.appendChild(cardCommentElement);
     contentElement.appendChild(cardWrapperElement);
 	
-	cardPlaylistTitleElement.innerHTML = playlist.title
+	//Det här kan vara i ratingfunktionen istället
+	let playlistRating = 0;
+	if (playlist.ratings.length > 0) {
+		playlistRating = calculateAverageRating(playlist.ratings);
+	}
+	
+	cardPlaylistTitleElement.innerHTML = playlist.title;
     cardMenuElement.innerHTML =	
          `<select id="ratePlaylist${playlist._id}" data-track="${playlist._id}" class="rateTrack">
          <option value="1">1</option>
@@ -186,9 +192,10 @@ function displayCardPlaylist(playlist){
          <option value="9">9</option>
          <option value="10">10</option>
          </select>
-         <img src="images/star.svg" alt="stars" class="ratingStar" /> 
-playlistRating
-<button id="deletePlaylist${playlist._id}" data-track="${playlist._id}" class="deleteButton"><img src="images/delete.svg" alt="Delete playlist" title="Delete playlist" /></button>`
+         <img src="images/star.svg" alt="stars" class="ratingStar"/> 
+		${playlistRating}
+		<button id="deletePlaylist${playlist._id}" data-track="${playlist._id}" class="deleteButton"><img src="images/delete.svg" alt="Delete playlist" 
+		title="Delete playlist"/></button>`
 	
 		//Delete playlist
         const deletePlaylistButton = document.getElementById(`deletePlaylist${playlist._id}`);
@@ -215,7 +222,7 @@ playlistRating
 		let tracklist = "";
         for(let i = 0; i < playlist.tracks.length; i++){
 			console.log(playlist);
-	 		tracklist = `${i+1}. ${playlist.tracks[i].title} by ${playlist.tracks[i].artists[0].name}<br>`;
+	 		tracklist = `${i+1}. ${playlist.tracks[i].title} – ${playlist.tracks[i].artists[0].name}<br>`;
 			
 			cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
 		}
@@ -230,16 +237,17 @@ playlistRating
 				class='addCommentButton' 
 				data-id='${playlist._id}'>Skicka</button>
 			</form>
-			<div id='viewCommentsLink${playlist._id}' data-id='${playlist._id}'>
-				<p><span class="font-weight">Se kommentarer</span><p>
+			<div id='viewCommentsLink${playlist._id}' data-id='${playlist._id}' class='viewCommentsLink'>
+				<h4>Se kommentarer</h4>
 			</div>`
       
-	
 		let playlistComment = document.getElementById(`playlistComment${playlist._id}`);
 		let commentCreatedBy = document.getElementById(`commentCreatedBy${playlist._id}`);
 		let addCommentButton = document.getElementById(`addCommentButton${playlist._id}`);
 		let viewCommentsLink = document.getElementById(`viewCommentsLink${playlist._id}`);
-		addCommentButton.addEventListener('click', function(){
+		addCommentButton.addEventListener('click', function(event){
+			event.preventDefault();
+			console.log("hallå");
 			postComment(playlistComment.value, commentCreatedBy.value, this.dataset.id);
 		});
 		viewCommentsLink.addEventListener('click', function(event){
@@ -279,14 +287,19 @@ function getComments(id) {
 }
 
 function displayComments(comments, id) {
-	let commentList = "";
-	for (let comment of comments){
-		commentList += 
-			`<div class='singleComment'><h4>${comment.username.toUpperCase()}:</h4>
-			 <p>${comment.body}</p></div>`
-	}
 	let cardCommentElement = document.getElementById(`cardComment${id}`);
-	cardCommentElement.innerHTML = commentList;
+	for (let comment of comments){
+		let singleComment = 
+			`<div class='singleComment' id='${comment._id}'><h4>${comment.username.toUpperCase()}:</h4>
+			 <p>${comment.body}<span><button id="deleteComment${comment._id}" data-comment="${comment._id}" class="deleteButton"><img src="images/delete.svg" alt="Delete playlist" 
+		title="Delete playlist"/></button></span></p></div>`;
+	cardCommentElement.insertAdjacentHTML('beforeend', singleComment);
+	const deleteCommentButton = document.getElementById(`deleteComment${comment._id}`);
+    deleteCommentButton.addEventListener('click', function(event){
+    	event.preventDefault();
+        deleteComment(this.dataset.comment);
+        });
+	}
 }
 
 function deletePlaylist(playlistId){
@@ -298,6 +311,23 @@ function deletePlaylist(playlistId){
 		  .then((response) => response.json())
         deletePlaylistFromDOM(playlistId);
     }
+}
+
+function deleteComment(commentId){
+    const deleteConfirm = confirm("Vill du verkligen ta bort kommentaren?");
+    if(deleteConfirm){
+        fetch(`https://folksa.ga/api/comments/${commentId}?key=flat_eric`,{
+			method: 'DELETE'
+		  })
+		  .then((response) => response.json())
+		//console.log("hejsan");
+        deleteCommentFromDOM(commentId);
+    }
+}
+
+function deleteCommentFromDOM(commentId){
+    const commentToDelete = document.getElementById(commentId);
+    commentToDelete.parentNode.removeChild(commentToDelete);
 }
 
 function deletePlaylistFromDOM(playlistId){

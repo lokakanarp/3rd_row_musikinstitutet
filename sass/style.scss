@@ -75,6 +75,48 @@ h2{
     flex-direction: row;
     flex-wrap: wrap;   
 }
+.artistFormElement{
+	margin: 0px auto;
+    width: 40%;
+	text-align: center;
+	line-height: 180%;
+} 
+.albumFormElement{
+	margin: 0px auto;
+    width: 40%;
+	text-align: center;
+	line-height: 180%;
+} 
+.tracksFormElement{
+	margin: 0px auto;
+    width: 40%;
+	text-align: center;
+	line-height: 180%;
+}
+.confirmationMessage{
+	width: 70%;
+	margin: 0px auto;
+	margin-bottom: 5%;
+	font-style: italic;
+	
+}
+
+.artistFormElement input{
+	width: 50%;
+	border-radius: 7px;
+	padding: 2%;
+	font-size: 1em;
+	box-shadow: none;
+	border: 1px solid gray;
+}
+.selectGender{
+    border: 1px solid gray;
+    background: white;
+    width: 25%;
+	font-size: 0.8em;
+	margin-bottom: 2%;
+}
+
 
 .cardWrapper{
     width: 32%;
@@ -226,15 +268,32 @@ h2{
     border: none;
     border-radius: 5px;
 }
+.formButton{
+    width: 35%;
+    background: #d1d1d1;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+	margin: 3% 0 10% 0;
+}
 .addCommentButton {
 	width: 48%;
     background: #d1d1d1;
     height: 30px;
     border: none;
     border-radius: 5px;
+	margin-top: 7px;
+}
+.addCommentButton:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+.viewCommentsLink:hover{
+    text-decoration: underline;
+    cursor: pointer;
 }
 .singleComment {
-	border-bottom: 1px solid grey;
+	border-top: 1px solid grey;
 }
 
 .font-weight {

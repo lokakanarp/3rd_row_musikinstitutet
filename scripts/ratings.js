@@ -32,7 +32,6 @@ function rateTrack(trackId, trackRating){
 }
 
 function ratePlaylist(playlistId, playlistRating){
-	console.log("hej");
    fetch(`https://folksa.ga/api/playlists/${playlistId}/vote?key=flat_eric`, {
             method: 'POST',
             headers: {
