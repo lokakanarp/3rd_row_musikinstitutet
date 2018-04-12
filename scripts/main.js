@@ -143,50 +143,50 @@ function showPlaylists(data) {
 }
 
 function displayCardPlaylist(playlist){
- 		console.log(playlist);
-        const cardWrapperElement = document.createElement('div');
-        cardWrapperElement.classList.add('cardWrapper');
-		cardWrapperElement.id = playlist._id;
-        const cardPlaylistTitleElement = document.createElement('div');
-        cardPlaylistTitleElement.classList.add('cardPlaylistTitle');
-        const cardPlaylistGenresElement = document.createElement('div');
-        cardPlaylistGenresElement.classList.add('cardPlaylistGenres');
-		const cardCreatedByElement = document.createElement('div');
-        cardCreatedByElement.classList.add('cardCreatedBy');
-		const cardMenuElement = document.createElement('div');
-		cardMenuElement.classList.add('cardMenuElement');
-        const cardTrackListElement = document.createElement('div');
-        cardTrackListElement.classList.add('cardTrackList');
-		const cardCommentInputElement = document.createElement('div');
-		cardCommentInputElement.classList.add('cardCommentInput');
-		const cardCommentElement = document.createElement('div');
-		cardCommentElement.classList.add('cardComment');
-		cardCommentElement.id = `cardComment${playlist._id}`;
+    const cardWrapperElement = document.createElement('div');
+    cardWrapperElement.classList.add('cardWrapper');
+	cardWrapperElement.classList.add('cardWrapperPlaylist');
+    cardWrapperElement.id = playlist._id;
+	const cardPlaylistTitleElement = document.createElement('div');
+	cardPlaylistTitleElement.classList.add('cardPlaylistName');
+	const cardMenuElement = document.createElement('div');
+	cardMenuElement.classList.add('cardMenuElement');
+	const cardPlaylistGenresElement = document.createElement('div');
+	cardPlaylistGenresElement.classList.add('cardPlaylistGenres');
+	const cardCreatedByElement = document.createElement('div');
+	cardCreatedByElement.classList.add('cardCreatedBy');
+	const cardTrackListElement = document.createElement('div');
+	cardTrackListElement.classList.add('cardTrackPlaylist');
+	const cardCommentInputElement = document.createElement('div');
+	cardCommentInputElement.classList.add('cardCommentInput');
+	const cardCommentElement = document.createElement('div');
+	cardCommentElement.classList.add('cardComment');
+	cardCommentElement.id = `cardComment${playlist._id}`;
 	
-		cardWrapperElement.appendChild(cardPlaylistTitleElement);
-        cardWrapperElement.appendChild(cardPlaylistGenresElement);
-        cardWrapperElement.appendChild(cardCreatedByElement);
-        cardWrapperElement.appendChild(cardMenuElement);
-        cardWrapperElement.appendChild(cardTrackListElement);
-		cardWrapperElement.appendChild(cardCommentInputElement);
-	    cardWrapperElement.appendChild(cardCommentElement);
-        contentElement.appendChild(cardWrapperElement);
+	cardWrapperElement.appendChild(cardPlaylistTitleElement);
+	cardWrapperElement.appendChild(cardMenuElement);
+    cardWrapperElement.appendChild(cardPlaylistGenresElement);
+    cardWrapperElement.appendChild(cardCreatedByElement);
+    cardWrapperElement.appendChild(cardTrackListElement);
+	cardWrapperElement.appendChild(cardCommentInputElement);
+	cardWrapperElement.appendChild(cardCommentElement);
+    contentElement.appendChild(cardWrapperElement);
 	
-	 	cardPlaylistTitleElement.innerHTML = 
-            `${playlist.title} 
-                <select id="ratePlaylist${playlist._id}" data-track="${playlist._id}" class="rateTrack">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                    </select>
-                <img src="images/star.svg" alt="stars" class="ratingStar" /> 
+	cardPlaylistTitleElement.innerHTML = playlist.title
+    cardMenuElement.innerHTML =	
+         `<select id="ratePlaylist${playlist._id}" data-track="${playlist._id}" class="rateTrack">
+         <option value="1">1</option>
+         <option value="2">2</option>
+         <option value="3">3</option>
+         <option value="4">4</option>
+         <option value="5">5</option>
+         <option value="6">6</option>
+         <option value="7">7</option>
+         <option value="8">8</option>
+         <option value="9">9</option>
+         <option value="10">10</option>
+         </select>
+         <img src="images/star.svg" alt="stars" class="ratingStar" /> 
 playlistRating
 <button id="deletePlaylist${playlist._id}" data-track="${playlist._id}" class="deleteButton"><img src="images/delete.svg" alt="Delete playlist" title="Delete playlist" /></button>`
 	
@@ -196,7 +196,6 @@ playlistRating
         	event.preventDefault();
             let playlistId = this.dataset.track;
             deletePlaylist(playlistId);
-			console.log(playlistId);
             });
 	
 		//Rate playlist
@@ -209,33 +208,31 @@ playlistRating
              });
 	
 		for (let genre of playlist.genres) {
-			cardPlaylistGenresElement.insertAdjacentHTML('beforeend', `${genre} `);
+			cardPlaylistGenresElement.insertAdjacentHTML('beforeend', genre.toUpperCase() + " ");
 		}
-		cardCreatedByElement.innerHTML = playlist.createdBy;
+		cardCreatedByElement.innerHTML = `<h3>${playlist.createdBy}</h3>`;
 		
 		let tracklist = "";
         for(let i = 0; i < playlist.tracks.length; i++){
 			console.log(playlist);
-          
-			//let playlistId = playlist._id
-			//let trackId = playlist.tracks[i]._id;
-	
 	 		tracklist = `${i+1}. ${playlist.tracks[i].title} by ${playlist.tracks[i].artists[0].name}<br>`;
 			
 			cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
-			
 		}
-		
 		 cardCommentInputElement.innerHTML = `
-					<p>Comment on playlist:</p>
-					<input type='text' name='playlistComment' 
-					id='playlistComment${playlist._id}'><br>
-					<p>Name:</p>
-					<input type='text'name='commentCreatedBy' id='commentCreatedBy${playlist._id}'><br>
-					<button id='addCommentButton${playlist._id}' 
-					class='addCommentButton' 
-					data-id='${playlist._id}'>add comment</button>
-					<div id='viewCommentsLink${playlist._id}' data-id='${playlist._id}'><p>View comments</p></div>`
+			<form>
+				Kommentera spellista:<b>
+				<input type='text' name='playlistComment' 
+				id='playlistComment${playlist._id}' class="playlistInput"><br>
+				Namn:<br>
+				<input type='text'name='commentCreatedBy' id='commentCreatedBy${playlist._id}' class="playlistInput"><br>
+				<button id='addCommentButton${playlist._id}' 
+				class='addCommentButton' 
+				data-id='${playlist._id}'>Skicka</button>
+			</form>
+			<div id='viewCommentsLink${playlist._id}' data-id='${playlist._id}'>
+				<p><span class="font-weight">Se kommentarer</span><p>
+			</div>`
       
 	
 		let playlistComment = document.getElementById(`playlistComment${playlist._id}`);
@@ -243,18 +240,12 @@ playlistRating
 		let addCommentButton = document.getElementById(`addCommentButton${playlist._id}`);
 		let viewCommentsLink = document.getElementById(`viewCommentsLink${playlist._id}`);
 		addCommentButton.addEventListener('click', function(){
-			//console.log("hej");
 			postComment(playlistComment.value, commentCreatedBy.value, this.dataset.id);
 		});
 		viewCommentsLink.addEventListener('click', function(event){
 			event.preventDefault();
 			getComments(this.dataset.id);
-		})
-	
-		 
-    //isThereContentAlready = true;
-	
-     
+		})  
 }
 
 function postComment(input, createdBy, id) {
@@ -291,8 +282,8 @@ function displayComments(comments, id) {
 	let commentList = "";
 	for (let comment of comments){
 		commentList += 
-			`<h3>${comment.username}</h3>
-			 <p>${comment.body}</p>`
+			`<div class='singleComment'><h4>${comment.username.toUpperCase()}:</h4>
+			 <p>${comment.body}</p></div>`
 	}
 	let cardCommentElement = document.getElementById(`cardComment${id}`);
 	cardCommentElement.innerHTML = commentList;

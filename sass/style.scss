@@ -113,11 +113,34 @@ h2{
         }
     }
 }
-
+.cardWrapper.cardWrapperPlaylist{
+    padding: 0 2%;
+}
+.cardTrackPlaylist {
+	line-height: 140%;
+}
+.playlistInput {
+	width: 100%;
+	margin: 5px 0 5px 0;
+	padding: 3px;
+	box-sizing: border-box;
+}
+.cardMenuElement {
+	margin: 15px 0 10px 0;
+}
 .cardArtistName{
     padding: 0 25px;
     font-size: 1.8em;
     margin-top: 15px;
+}
+.cardPlaylistName{
+    font-size: 1.8em;
+    margin-top: 15px;
+}
+.cardCommentInput {
+	margin-top: 10px;
+	padding-top: 10px;
+	border-top: 1px solid black;
 }
 
 .cardAlbumTitle{
@@ -202,4 +225,18 @@ h2{
     height: 30px;
     border: none;
     border-radius: 5px;
+}
+.addCommentButton {
+	width: 48%;
+    background: #d1d1d1;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+}
+.singleComment {
+	border-bottom: 1px solid grey;
+}
+
+.font-weight {
+	font-weight: bold;
 }
