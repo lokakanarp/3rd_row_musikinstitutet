@@ -66,24 +66,24 @@ function sortAlbums(albums, letter){
 
 
 
-function getTrackURL(trackId){
-    fetch(`https://folksa.ga/api/tracks/${trackId}?key=flat_eric`)
-  .then((response) => response.json())
-  .then((singleTrack) => {
-        
-        
-//        if(singleTrack.spotifyURL != ""){
-//            return singleTrack.spotifyURL;
-//        }else if(singleTrack.youtubeURL != ""){
-//            return singleTrack.youtubeURL;
-//        }else if(singleTrack.soundcloudURL != ""){
-//            return singleTrack.soundcloudURL;
-//        }
+//function getTrackURL(trackId){
+//    fetch(`https://folksa.ga/api/tracks/${trackId}?key=flat_eric`)
+//  .then((response) => response.json())
+//  .then((singleTrack) => {
 //        
-
-        console.log("hej");
-  });
-}
+//        
+////        if(singleTrack.spotifyURL != ""){
+////            return singleTrack.spotifyURL;
+////        }else if(singleTrack.youtubeURL != ""){
+////            return singleTrack.youtubeURL;
+////        }else if(singleTrack.soundcloudURL != ""){
+////            return singleTrack.soundcloudURL;
+////        }
+////        
+//
+//        console.log("hej");
+//  });
+//}
 
 
 function getTrackInfo(trackId){
@@ -224,10 +224,9 @@ function displayCard(albums,letter){
                         contentElement.appendChild(cardWrapperElement);
 
 
-
                         /***** Buttons/dropdowns with events *****/
-
-                        //Rate album
+                        
+                        //Rate album 
                         const rateAlbumDropdown = document.getElementById(`rateAlbum${albumId}`);
                         rateAlbumDropdown.addEventListener('change', function(event){
                             event.preventDefault();
