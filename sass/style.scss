@@ -97,8 +97,7 @@ h2{
 	width: 70%;
 	margin: 0px auto;
 	margin-bottom: 5%;
-	font-style: italic;
-	
+	font-style: italic;	
 }
 
 .artistFormElement input{
@@ -116,7 +115,6 @@ h2{
 	font-size: 0.8em;
 	margin-bottom: 2%;
 }
-
 
 .cardWrapper{
     width: 32%;
@@ -275,6 +273,10 @@ h2{
     border: none;
     border-radius: 5px;
 	margin: 3% 0 10% 0;
+}
+.formButton:hover{
+	text-decoration: underline;
+    cursor: pointer;
 }
 .addCommentButton {
 	width: 48%;

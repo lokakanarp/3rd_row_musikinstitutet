@@ -274,7 +274,10 @@ function postComment(input, createdBy, id) {
     .then((response) => response.json())
     .then((playlist) => {
     console.log(playlist);
-  });
+  })
+	.catch((error) => {
+            console.log(error)
+        });
 	
 }
 function getComments(id) {
@@ -283,7 +286,10 @@ function getComments(id) {
     .then((comments) => {
         console.log(comments);
 		displayComments(comments, id);
-    });
+    })
+	.catch((error) => {
+            console.log(error)
+        });
 }
 
 function displayComments(comments, id) {
@@ -320,7 +326,6 @@ function deleteComment(commentId){
 			method: 'DELETE'
 		  })
 		  .then((response) => response.json())
-		//console.log("hejsan");
         deleteCommentFromDOM(commentId);
     }
 }

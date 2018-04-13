@@ -89,8 +89,8 @@ function postArtist(artist){
 }
 function messageArtistForm(artist) {
 	let confirmationMessageArtist = document.getElementById("confirmationMessageArtist");
-	let message = `Du la till ${artist.name} till Musikinstitutet.<br> 
-		För att lägga till ett album av ${artist.name} använd formuläret nedan.`
+	let message = `Du la till ${artist.name.toUpperCase()} till Musikinstitutet.<br> 
+		För att lägga till ett album av ${artist.name.toUpperCase()} använd formuläret nedan.`
 		displayAlbumForm(artist._id);
 	confirmationMessageArtist.innerHTML = message;
 }
@@ -163,7 +163,7 @@ function postAlbum(album) {
 function messageAlbumForm(album) {
 	let confirmationMessageAlbum = document.getElementById("confirmationMessageAlbum");
 	let message = `Du la till ${album.title} till Musikinstitutet.<br> 
-		För att lägga till en låt till ${album.title} använd formuläret nedan.`
+		För att lägga till en låt till ${album.title.toUpperCase()} använd formuläret nedan.`
 	displayTracksForm(album._id, album.artists, album.coverImage);
 	confirmationMessageAlbum.innerHTML = message;
 }
@@ -244,7 +244,7 @@ function postTrack(track) {
 }
 function messageTrackForm(track) {
 	let confirmationMessageTracks = document.getElementById("confirmationMessageTracks");
-	let message = `Du la till ${track.title} till Musikinstitutet.<br> 
+	let message = `Du la till ${track.title.toUpperCase()} till Musikinstitutet.<br> 
 		För att lägga till ännu en låt till samma skiva, använd formuläret ovan igen.`
 	confirmationMessageTracks.innerHTML = message;
 }
