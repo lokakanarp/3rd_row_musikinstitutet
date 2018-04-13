@@ -330,6 +330,7 @@ function deleteTrack(trackId){
 
 function deleteTrackFromDOM(trackId){
     const trackToDelete = document.getElementById(`${trackId}`);
+    console.log(trackToDelete.parentNode);
     trackToDelete.parentNode.removeChild(trackToDelete);
 }
 
