@@ -29,6 +29,10 @@ h2{
         font-weight: 300;
         font-size: 2.5em;
     }
+	a{
+		color: white;
+		text-decoration: none;
+	}
 }
 
 .artistSearchField{
@@ -47,7 +51,7 @@ h2{
 }
 
 .aphabeticalMenuWrapper{
-    margin-bottom: 15px;
+    //margin-bottom: 15px;
     padding: 20px;
     width: 100%;
     display: flex;
@@ -67,7 +71,26 @@ h2{
     text-decoration: underline;
     cursor: pointer;
 }
-
+.navigation {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	background-color: lightgray;
+}
+.navItem {
+	flex: 0 1 auto;
+	text-align: center;
+	margin: 2% 0 2% 0;
+	color: darkblue;
+}
+.navItem a {
+	color: darkblue;
+	text-decoration: none;
+}
+.navItem:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
 .content{
     margin: 0px auto;
     width: 80%;
@@ -98,6 +121,8 @@ h2{
 	margin: 0px auto;
 	margin-bottom: 5%;
 	font-style: italic;	
+	text-align: center;
+	line-height: 180%;
 }
 
 .artistFormElement input{

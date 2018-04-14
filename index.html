@@ -9,7 +9,7 @@
 </head>
 <body>
     <header class="header">  
-        <h1>Musikinstitutet</h1>  
+		<h1><a href="javascript:window.location.reload()">Musikinstitutet</a></h1>  
         <form class="mainSearch">
             <input type="text" id="searchField" class="searchField" placeholder="Sök artist, track, ablum eller playlist här">
             <select name="selectSearch" id="selectSearch" class="selectSearch">
@@ -60,6 +60,12 @@
             <div class="aphabeticalMenu" id="Ä">Ä</div>
             <div class="aphabeticalMenu" id="Ö">Ö</div> 
         </div>
+        <div class="navigation">
+        	<div class="navItem"><a href="javascript:window.location.reload()">Start</a></div>
+			<div class="navItem">Lägg till artist</div>
+			<div class="navItem">Skapa playlist</div>
+			<div class="navItem">Topplistan</div>
+    	</div>
         
         <section>
             <div id="content" class="content"></div>
@@ -89,14 +95,14 @@
 
    <div id="forms">
    		<div id="artistFormElement" class="artistFormElement">
-   			<div id="confirmationMessageArtist" class="confirmationMessage"></div>
    		</div>
+   		<div id="confirmationMessageArtist" class="confirmationMessage"></div>
    		<div id="albumFormElement" class="artistFormElement">
-   			<div id="confirmationMessageAlbum" class="confirmationMessage"></div>
    		</div>
+   		<div id="confirmationMessageAlbum" class="confirmationMessage"></div>
    		<div id="tracksFormElement" class="artistFormElement">
-   			<div id="confirmationMessageTracks" class="confirmationMessage"></div>
    		</div>
+   		<div id="confirmationMessageTracks" class="confirmationMessage"></div>
    </div>
 
     
