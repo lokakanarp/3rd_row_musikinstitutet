@@ -31,8 +31,8 @@ function getAlbums(letter){
     });
 }
 
-
 //let sortedObjectArray = [];
+
 
 function sortAlbums(albums, letter){
     
@@ -66,34 +66,16 @@ function sortAlbums(albums, letter){
 
 
 
-//function getTrackURL(trackId){
-//    fetch(`https://folksa.ga/api/tracks/${trackId}?key=flat_eric`)
-//  .then((response) => response.json())
-//  .then((singleTrack) => {
-//        
-//        
-////        if(singleTrack.spotifyURL != ""){
-////            return singleTrack.spotifyURL;
-////        }else if(singleTrack.youtubeURL != ""){
-////            return singleTrack.youtubeURL;
-////        }else if(singleTrack.soundcloudURL != ""){
-////            return singleTrack.soundcloudURL;
-////        }
-////        
-//
-//        console.log("hej");
-//  });
-//}
-
-
 function getTrackInfo(trackId){
     return fetch(`https://folksa.ga/api/tracks/${trackId}?key=flat_eric`)
   .then((response) => response.json())
   .then((singleTrack) => {
         
+
         //console.log(singleTrack);
         
         return singleTrack;
+
   });
 }
 
@@ -106,6 +88,7 @@ function clearElement(element){
  
 function displayCard(albums,letter){
     
+
     for(let i = 0; i < albums.length; i++){
         
         if(albums[i].artists[0] && (albums[i].artists[0].name.substr(0,1) == letter)){
@@ -121,45 +104,77 @@ function displayCard(albums,letter){
         
             let averageAlbumRating = calculateAverageRating(albumRatingsArray);
 
+        const cardWrapperElement = document.createElement('div');
+        cardWrapperElement.classList.add('cardWrapper');
+        cardWrapperElement.id = `album${albumId}`;
 
-            const cardWrapperElement = document.createElement('div');
-            cardWrapperElement.classList.add('cardWrapper');
-
-            const cardAlbumImgElement = document.createElement('div');
-            cardAlbumImgElement.classList.add('cardAlbumImg');
-
-            const cardArtistNameElement = document.createElement('div');
-            cardArtistNameElement.classList.add('cardArtistName');
-
-            const cardAlbumTitleElement = document.createElement('div');
-            cardAlbumTitleElement.classList.add('cardAlbumTitle');
-
-            const cardAlbumGenresElement = document.createElement('div');
-            cardAlbumGenresElement.classList.add('cardAlbumGenres');
-
-            const cardTrackListElement = document.createElement('div');
-            cardTrackListElement.classList.add('cardTrackList');
+        const cardAlbumImgElement = document.createElement('div');
+        cardAlbumImgElement.classList.add('cardAlbumImg');
     
-            cardAlbumImgElement.innerHTML = `<img src="${albumCoverImage}">`;
-            cardArtistNameElement.innerHTML = artistName;
+        const cardArtistNameElement = document.createElement('h2');
+        cardArtistNameElement.classList.add('cardArtistName');
     
-            cardAlbumTitleElement.innerHTML = 
-                `<a href="${albumURL}">${albumTitle}</a> (${albumYear}) 
-                        <select id="rateAlbum${albumId}" data-track="${albumId}">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                        </select>
-                    ${averageAlbumRating};`
+        const cardAlbumTitleElement = document.createElement('div');
+        cardAlbumTitleElement.classList.add('cardAlbumTitle');
+    
+        const cardGenresElement = document.createElement('div');
+        cardGenresElement.classList.add('cardAlbumGenres');
+    
+        const cardTrackListElement = document.createElement('div');
+        cardTrackListElement.classList.add('cardTrackList');
+    
+        let albumRating = calculateAverageRating(albumRatingsArray);
+    
+        cardAlbumImgElement.innerHTML = `<img src="${albumCoverImage}">`;
+        cardArtistNameElement.innerHTML = artistName;
+    
+        
+        //cardAlbumTitleElement.innerHTML = albumTitle + ' (' + albumYear + ') ' + albumRating;
+    
+        cardAlbumTitleElement.innerHTML = 
+            `<a href="${albumURL}">${albumTitle}</a> (${albumYear}) 
+                    <select id="rateAlbum${albumId}" data-track="${albumId}" class="rateTrack">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                <img src="images/star.svg" alt="stars" class="ratingStar" /> ${albumRating} <button id="deleteAlbum${albumId}" data-track="${albumId}" class="deleteButton"><img src="images/delete.svg" alt="Delete album" title="Delete album" /></button>`
+    
+        cardGenresElement.innerHTML = genresArray[0];
 
-            cardAlbumGenresElement.innerHTML = genresArray[0];
+//            for(let i = 0; i < tracksArray.length; i++){
+//                
+//
+//                
+//                let tracklist = `
+//                    <div id="${trackId}">
+//                        <p><a href="${trackLink}">${tracksArray[i].title}</a></p>
+//                        <span class="trackOptions">
+//                            <button id="addTrackToPlaylist${trackId}" data-track="${trackId}" class="addTrackToPlaylist"><img src="images/plus.svg" alt="Add track to playlist" title="Add track to playlist" /></button>
+//                            <select id="rateTrack${trackId}" data-track="${trackId}" class="rateTrack">
+//                                <option value="1">1</option>
+//                                <option value="2">2</option>
+//                                <option value="3">3</option>
+//                                <option value="4">4</option>
+//                                <option value="5">5</option>
+//                                <option value="6">6</option>
+//                                <option value="7">7</option>
+//                                <option value="8">8</option>
+//                                <option value="9">9</option>
+//                                <option value="10">10</option>
+//                            </select>
+//                            <img src="images/star.svg" alt="stars" class="ratingStar" /> ${singleTrackRating}
+//                            <button id="deleteTrack${trackId}" data-track="${trackId}" class="deleteButton"><img src="images/delete.svg" alt="Delete track" title="Delete track" /></button>
+//                        </span>
+//                    </div>
+//                `;
 
 
             for(let i = 0; i < tracksArray.length; i++){
@@ -281,18 +296,43 @@ function displayCard(albums,letter){
     } //looping through all albums from to get album info  
 } //end displayCard
 
-//function deleteTrack(trackId){
-//    fetch(`https://folksa.ga/api/tracks/${trackId}?key=flat_eric`,{
-//			method: 'DELETE'
-//		  })
-//		  .then((response) => response.json())
-//		  .then((track) => {
-//			console.log(track);
-//			//displayAlbumForm(artist._id);
-//		  })
-//}
 
 
-
+function deleteTrack(trackId){
+    const deleteConfirm = confirm("Vill du verkligen ta bort låten?");
     
+    if(deleteConfirm){
+        fetch(`https://folksa.ga/api/tracks/${trackId}?key=flat_eric`,{
+			method: 'DELETE'
+		  })
+		  .then((response) => response.json())
+        
+        deleteTrackFromDOM(trackId);
+    }
+}
+
+
+function deleteTrackFromDOM(trackId){
+    const trackToDelete = document.getElementById(`${trackId}`);
+    console.log(trackToDelete.parentNode);
+    trackToDelete.parentNode.removeChild(trackToDelete);
+}
+
+function deleteAlbum(albumId){
+    const deleteConfirm = confirm("Vill du verkligen ta bort albumet? Albumets låtar kommer försvinna.");
+    
+    if(deleteConfirm){
+        fetch(`https://folksa.ga/api/albums/${albumId}?key=flat_eric`,{
+			method: 'DELETE'
+		  })
+		  .then((response) => response.json())
+        
+        deleteAlbumFromDOM(albumId);
+    }
+}
+
+function deleteAlbumFromDOM(albumId){
+    const albumToDelete = document.getElementById(`${albumId}`);
+    albumToDelete.parentNode.removeChild(albumToDelete);
+}
 

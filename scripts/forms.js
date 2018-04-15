@@ -10,32 +10,29 @@ button.addEventListener('click', function(event){
 
 function displayArtistForm() {
 	let artistForm = `<form>
-	  Name of artist:<br>
-	  <input type='text' name='nameOfArtist' id='nameOfArtist'>
+	  Artistens eller bandets namn:<br>
+	  <input type='text' name='nameOfArtist' id='nameOfArtist' required/>
 	  <br>
-	  Born:<br>
+	  Född:<br>
 	  <input type='text' name='born' id='bornDateArtist'>
 	  <br>
-	  Gender:<br>
-	  <select name='gender' id='genderOfArtist'>
-		  <option value='female'>Female</option>
-		  <option value='male'>Male</option>
-		  <option value='other'>Other</option>
-      </select>
-	  <br>
-	  Genres (separate by comma):<br>
+	  Genus:<br>
+	  <select name='gender' id='genderOfArtist' class='selectGender'>
+		  <option value='female'>Kvinna</option>
+		  <option value='male'>Man</option>
+		  <option value='other'>Annat</option>
+      </select><br>
+	  Genrer (separera med komma):<br>
 	  <input type='text' name='genres' id='genresOfArtist'>
 	  <br>
-	  Born Country:<br>
-	  <input type='text' name='countryBorn' id='countryBornArtist'>
-	  <br>
+	  Födelseland:<br>
+	  <input type='text' name='countryBorn' id='countryBornArtist'><br>
 	  Spotify URL:<br>
-	  <input type='text' name='spotifyURL' id='spotifyURLOfArtist'>
+	  <input type='text' name='spotifyURL' id='spotifyURLOfArtist'><br>
+	  Bildadress:<br>
+	  <input type='text' name='coverImage' id='coverImageOfArtist'><br>
+		<button id='artistFormButton' class='formButton'>Lägg till artist</button>
 	  <br>
-	  Cover image:<br>
-	  <input type='text' name='coverImage' id='coverImageOfArtist'>
-		<button id='artistFormButton'>Post Artist</button>
-	  <br><br>
 	</form>`;
 	const artistFormElement = document.getElementById('artistFormElement');
 	artistFormElement.insertAdjacentHTML('afterbegin', artistForm);
@@ -49,17 +46,21 @@ function getElementsfromArtistForm() {
 	let spotifyURLOfArtist = document.getElementById('spotifyURLOfArtist');
 	let coverImageOfArtist = document.getElementById('coverImageOfArtist');
 	let artistFormButton = document.getElementById('artistFormButton');
-	let elementsfromArtistForm = {
-		name: nameOfArtist.value,
-		born: bornDateArtist.value,
-		gender: genderOfArtist.value,
-		genres: genresOfArtist.value, 
-		countryBorn: countryBornArtist.value,
-		spotifyURL: spotifyURLOfArtist.value,
-		coverImage: coverImageOfArtist.value	
+	if(nameOfArtist.value === '' ){
+      alert('Var vänlig fyll i artistens namn.');
+    } else {
+		let elementsfromArtistForm = {
+			name: nameOfArtist.value,
+			born: bornDateArtist.value,
+			gender: genderOfArtist.value,
+			genres: genresOfArtist.value, 
+			countryBorn: countryBornArtist.value,
+			spotifyURL: spotifyURLOfArtist.value,
+			coverImage: coverImageOfArtist.value	
+		}
+		postArtist(elementsfromArtistForm);
+		emptyFields(elementsfromArtistForm);
 	}
-	postArtist(elementsfromArtistForm);
-	emptyFields(elementsfromArtistForm);
 }
 
 function emptyFields(elements) {
@@ -71,8 +72,7 @@ function emptyFields(elements) {
 	coverImageOfArtist.value = '';	
 }
 
-function postArtist(elements){
-		let artist = elements;
+function postArtist(artist){
 		fetch('https://folksa.ga/api/artists?key=flat_eric',{
 			method: 'POST',
 			headers: {
@@ -85,41 +85,35 @@ function postArtist(elements){
 		  .then((artist) => {
 			console.log(artist);
 			messageArtistForm(artist);
-			//displayAlbumForm(artist._id);
 		  })	
 }
 function messageArtistForm(artist) {
 	let confirmationMessageArtist = document.getElementById("confirmationMessageArtist");
-	let message = '';
-	if (artist.name == 'Tim Buckley') {
-		message = 'Something went wrong. Please try again';
-	} else {
-		message = `You added ${artist.name} to Musikinstitutet.<br> 
-		To add an album by ${artist.name} use the form below.`
+	let message = `Du la till ${artist.name.toUpperCase()} till Musikinstitutet.<br> 
+		För att lägga till ett album av ${artist.name.toUpperCase()} använd formuläret nedan.`
 		displayAlbumForm(artist._id);
-	}
 	confirmationMessageArtist.innerHTML = message;
 }
 
 function displayAlbumForm(artistId) {
 	let albumForm = `<form>
 		<input type='hidden' id= 'artistId' value=${artistId}>
-	  Title of album:<br>
+	  Albumtitel:<br>
 	  <input type='text' name='titleOfAlbum' id='titleOfAlbum'>
 	  <br>
-	  Release date:<br>
+	  Utgivningsdatum:<br>
 	  <input type='text' name='dateOfRelease' id='dateOfRelease'>
 	  <br>
-	  Genres (separate by comma):<br>
+	  Genrer (separera med komma):<br>
 	  <input type='text' name='genresOfAlbum' id='genresOfAlbum'>
 	  <br>
 	  Spotify URL:<br>
 	  <input type='text' name='spotifyURLOfAlbum' id='spotifyURLOfAlbum'>
 	  <br>
-	  Cover image:<br>
-	  <input type='text' name='coverImageOfAlbum' id='coverImageOfAlbum'>
-	  <br><br>
-		<button id='albumFormButton'>Post Album</button>
+	  Omslagsbild:<br>
+	  <input type='text' name='coverImageOfAlbum' id='coverImageOfAlbum'><br>
+	  <button id='albumFormButton' class='formButton'>Lägg till album</button>
+		<br>
 	</form>`;
 	const albumFormElement = document.getElementById('albumFormElement');
 	albumFormElement.insertAdjacentHTML('afterbegin', albumForm);
@@ -135,19 +129,22 @@ function getElementsFromAlbumForm() {
 	let spotifyURLOfAlbum = document.getElementById('spotifyURLOfAlbum');
 	let coverImageOfAlbum = document.getElementById('coverImageOfAlbum');
 	//let albumFormButton = document.getElementById('albumFormButton');
-	let elementsFromAlbumForm = {
-    title: titleOfAlbum.value,
-    artists: artistId.value, 
-    releaseDate: dateOfRelease.value,
-    genres: genresOfAlbum.value, 
-    spotifyURL: spotifyURLOfAlbum.value,
-    coverImage: coverImageOfAlbum.value
+	if(titleOfAlbum.value === '' ){
+      alert('Var vänlig fyll i albumtitel.');
+    } else {
+		let elementsFromAlbumForm = {
+		title: titleOfAlbum.value,
+		artists: artistId.value, 
+		releaseDate: dateOfRelease.value,
+		genres: genresOfAlbum.value, 
+		spotifyURL: spotifyURLOfAlbum.value,
+		coverImage: coverImageOfAlbum.value
+		}
+		postAlbum(elementsFromAlbumForm);
 	}
-	postAlbum(elementsFromAlbumForm);
 }
 
-function postAlbum(elements) {
-	let album = elements;
+function postAlbum(album) {
 	fetch('https://folksa.ga/api/albums?key=flat_eric',{
 		method: 'POST',
 		headers: {
@@ -160,35 +157,29 @@ function postAlbum(elements) {
 	  .then((album) => {
 		console.log(album);
 		messageAlbumForm(album);
-		//displayTracksForm(album._id, album.artists, album.coverImage);
 	  });	
 }
 
 function messageAlbumForm(album) {
 	let confirmationMessageAlbum = document.getElementById("confirmationMessageAlbum");
-	let message = '';
-	if (album.title == 'Goodbye and Hello') {
-		message = 'Something went wrong. Please try again';
-	} else {
-		message = `You added ${album.title} to Musikinstitutet.<br> 
-		To add a track to ${album.title} use the form below.`
-		displayTracksForm(album._id, album.artists, album.coverImage);
-	}
+	let message = `Du la till ${album.title} till Musikinstitutet.<br> 
+		För att lägga till en låt till ${album.title.toUpperCase()} använd formuläret nedan.`
+	displayTracksForm(album._id, album.artists, album.coverImage);
 	confirmationMessageAlbum.innerHTML = message;
 }
 
 function displayTracksForm(albumId, artistId, coverImage) {
 	let tracksForm = `<form>
-	  Title of track:<br>
+	  Låttitel:<br>
 	  <input type='text' name='titleOfTrack' id='titleOfTrack'>
 	  <br>
 	  <input type='hidden' id='artistId' value=${artistId}>
 	  <input type='hidden' id='albumId' value=${albumId}>
 	  <input type='hidden' id='coverImageOfAlbum' value=${coverImage}>
-	  Genres (separate by comma):<br>
+	  Genrer (separerade med komma):<br>
 	  <input type='text' name='genresOfTrack' id='genresOfTrack'>
 	  <br>
-	  Cover image color:<br>
+	  Omslagsfärg:<br>
 	  <input type='text' name='coverImageColorOfTrack' id='coverImageColorOfTrack'>
 	  <br>
 	  Spotify URL:<br>
@@ -198,9 +189,9 @@ function displayTracksForm(albumId, artistId, coverImage) {
 	  <input type='text' name='youtubeURLOfTrack' id='youtubeURLOfTrack'>
 	  <br>
 	  Soundcloud URL:<br>
-	  <input type='text' name='soundcloudURLOfTrack' id='soundcloudURLOfTrack'>
-	  <br><br>
-		<button id='tracksFormButton'>Post Track</button>
+	  <input type='text' name='soundcloudURLOfTrack' id='soundcloudURLOfTrack'><br>
+	  <button id='tracksFormButton' class='formButton'>Lägg till låt</button>
+	<br>
 	</form>`;
 	const tracksFormElement = document.getElementById('tracksFormElement');
 	tracksFormElement.insertAdjacentHTML('afterbegin', tracksForm);
@@ -218,24 +209,25 @@ function getElementsFromTracksForm() {
 	let spotifyURLOfTrack = document.getElementById('spotifyURLOfTrack');
 	let youtubeURLOfTrack = document.getElementById('youtubeURLOfTrack');
 	let soundcloudURLOfTrack = document.getElementById('soundcloudURLOfTrack');
-	//let tracksFormButton = document.getElementById('tracksFormButton');
-	
-	let elementsFromTracksForm = {
-    title: titleOfTrack.value,
-	artists: artistId.value,
-    album: albumId.value, 
-    genres: genresOfTrack.value,
-    coverImage: coverImageOfAlbum.value, 
-	coverImageColor: coverImageColor.value,
-    spotifyURL: spotifyURLOfTrack.value,
-    youtubeURL: youtubeURLOfTrack.value,
-	soundcloudURL: soundcloudURLOfTrack.value
+	if(titleOfTrack.value === '' ){
+      alert('Var vänlig fyll i låttitel.');
+    }else {
+		let elementsFromTracksForm = {
+		title: titleOfTrack.value,
+		artists: artistId.value,
+		album: albumId.value, 
+		genres: genresOfTrack.value,
+		coverImage: coverImageOfAlbum.value, 
+		coverImageColor: coverImageColor.value,
+		spotifyURL: spotifyURLOfTrack.value,
+		youtubeURL: youtubeURLOfTrack.value,
+		soundcloudURL: soundcloudURLOfTrack.value
+		}
+		postTrack(elementsFromTracksForm);
 	}
-	postTrack(elementsFromTracksForm);
 }
 
-function postTrack(elements) {
-	let track = elements;
+function postTrack(track) {
 	fetch('https://folksa.ga/api/tracks?key=flat_eric',{
 		method: 'POST',
 		headers: {
@@ -252,13 +244,8 @@ function postTrack(elements) {
 }
 function messageTrackForm(track) {
 	let confirmationMessageTracks = document.getElementById("confirmationMessageTracks");
-	let message = '';
-	if (track.title == 'No Man Can Find The War') {
-		message = 'Something went wrong. Please try again';
-	} else {
-		message = `You added ${track.title} to Musikinstitutet.<br> 
-		To add anoyher track to the same album use the same form again.`
-	}
+	let message = `Du la till ${track.title.toUpperCase()} till Musikinstitutet.<br> 
+		För att lägga till ännu en låt till samma skiva, använd formuläret ovan igen.`
 	confirmationMessageTracks.innerHTML = message;
 }
 

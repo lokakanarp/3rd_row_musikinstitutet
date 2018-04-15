@@ -4,6 +4,11 @@
 
 body{
     margin: 0;
+    font-family: 'Raleway', sans-serif;
+}
+
+h2{
+    font-weight: 200;
 }
 
 .header{
@@ -14,8 +19,16 @@ body{
     background: -webkit-linear-gradient(top, #4a6d89 0%,#000000 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom, #4a6d89 0%,#000000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    
+    h1{
+        color: white;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 300;
+        font-size: 2.5em;
+    }
 }
 
 .artistSearchField{
@@ -34,20 +47,26 @@ body{
 }
 
 .aphabeticalMenuWrapper{
-    margin: 0px auto;
-    width: 80%;
+    margin-bottom: 15px;
+    padding: 20px;
+    width: 100%;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;   
+    flex-wrap: wrap;  
+    background: black;
+    color: white;
 }
 
 .aphabeticalMenu{
     width: 3.44%;
     text-align: center;
-    background-color: lightgrey;
     font-size: 16px;
 }
 
+.aphabeticalMenu:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
 
 .content{
     margin: 0px auto;
@@ -56,19 +75,63 @@ body{
     flex-direction: row;
     flex-wrap: wrap;   
 }
+.artistFormElement{
+	margin: 0px auto;
+    width: 40%;
+	text-align: center;
+	line-height: 180%;
+} 
+.albumFormElement{
+	margin: 0px auto;
+    width: 40%;
+	text-align: center;
+	line-height: 180%;
+} 
+.tracksFormElement{
+	margin: 0px auto;
+    width: 40%;
+	text-align: center;
+	line-height: 180%;
+}
+.confirmationMessage{
+	width: 70%;
+	margin: 0px auto;
+	margin-bottom: 5%;
+	font-style: italic;	
+}
+
+.artistFormElement input{
+	width: 50%;
+	border-radius: 7px;
+	padding: 2%;
+	font-size: 1em;
+	box-shadow: none;
+	border: 1px solid gray;
+}
+.selectGender{
+    border: 1px solid gray;
+    background: white;
+    width: 25%;
+	font-size: 0.8em;
+	margin-bottom: 2%;
+}
 
 .cardWrapper{
-
     width: 32%;
     overflow: hidden;
     border: 1px solid #363636;
     border-radius: 5px;
-
     font-size: 16px;
-    font-family: 'Raleway', sans-serif;
     margin: 5px;
+    padding-bottom: 25px;
     
-    .cardAlbumImg{
+    .rateTrack{
+        background: white;
+        border: 1px solid #363636;
+        margin: 0 5px;
+    }
+    
+    .cardAlbumImg, .cardArtistImg{
         max-height: 350px;
         overflow: hidden;
         
@@ -78,7 +141,8 @@ body{
     }
     
     .cardTrackList{
-        padding: 25px;
+        padding: 0 25px;
+        
         p{
             margin: 15px 0 3px 0;
             
@@ -89,11 +153,34 @@ body{
         }
     }
 }
-
+.cardWrapper.cardWrapperPlaylist{
+    padding: 0 2%;
+}
+.cardTrackPlaylist {
+	line-height: 140%;
+}
+.playlistInput {
+	width: 100%;
+	margin: 5px 0 5px 0;
+	padding: 3px;
+	box-sizing: border-box;
+}
+.cardMenuElement {
+	margin: 15px 0 10px 0;
+}
 .cardArtistName{
     padding: 0 25px;
     font-size: 1.8em;
     margin-top: 15px;
+}
+.cardPlaylistName{
+    font-size: 1.8em;
+    margin-top: 15px;
+}
+.cardCommentInput {
+	margin-top: 10px;
+	padding-top: 10px;
+	border-top: 1px solid black;
 }
 
 .cardAlbumTitle{
@@ -106,8 +193,12 @@ body{
     }
 }
 
-.cardAlbumGenres{
+.cardArtistGenres, .cardAlbumGenres, .cardArtistBorn{
     padding: 0 25px;
+}
+
+.ratingStar{
+    width: 10px;
 }
 
 .trackOptions{
@@ -118,13 +209,9 @@ body{
         font-size: 0.8em;
         margin-right: 10px;
     }
-    
-    img{
-        width: 10px;
-    }
 }
 
-.addTrackToPlaylist, .deleteTrack{
+.addTrackToPlaylist, .deleteButton{
     border: none;
     padding: 0;
     background: transparent;
@@ -135,7 +222,7 @@ body{
     }
 }
 
-.deleteTrack{
+.deleteButton{
     margin-left: 10px;
 }
 
@@ -158,14 +245,14 @@ body{
 .searchField{
     padding: 20px;
     border-radius: 10px;
-    border: 1px solid #ccc;
+    border: none;
     display: block;
     width: 100%;
     margin: 0 0 10px 0;
 }
 
 .selectSearch{
-    border: 1px solid #ccc;
+    border: none;
     background: white;
     width: 48%;
     height: 30px;
@@ -178,4 +265,39 @@ body{
     height: 30px;
     border: none;
     border-radius: 5px;
+}
+.formButton{
+    width: 35%;
+    background: #d1d1d1;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+	margin: 3% 0 10% 0;
+}
+.formButton:hover{
+	text-decoration: underline;
+    cursor: pointer;
+}
+.addCommentButton {
+	width: 48%;
+    background: #d1d1d1;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+	margin-top: 7px;
+}
+.addCommentButton:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+.viewCommentsLink:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+.singleComment {
+	border-top: 1px solid grey;
+}
+
+.font-weight {
+	font-weight: bold;
 }
