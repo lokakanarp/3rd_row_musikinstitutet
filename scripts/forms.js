@@ -1,13 +1,3 @@
-const displayArtistFormLink = document.getElementById('displayArtistFormLink');
-displayArtistFormLink.addEventListener('click', function(event){
-	event.preventDefault();
-	console.log('hej');
-	displayArtistForm();
-})
-
-
-
-
 function addEventListenerToButton(button, callback) {
 button.addEventListener('click', function(event){
 	event.preventDefault();
@@ -15,10 +5,14 @@ button.addEventListener('click', function(event){
 	})
 }
 
+const displayArtistFormLink = document.getElementById('displayArtistFormLink');
+displayArtistFormLink.addEventListener('click', function(event){
+	event.preventDefault();
+	displayArtistForm();
+})
+
 function displayArtistForm() {
-	
-	
-	let artistForm = `<form>
+	const artistForm = `<form>
 	  Artistens eller bandets namn:<br>
 	  <input type='text' name='nameOfArtist' id='nameOfArtist' required/>
 	  <br>
@@ -41,31 +35,29 @@ function displayArtistForm() {
 		<button id='artistFormButton' class='formButton'>Lägg till artist</button><br>
 	</form>`;
 	const contentElement = document.getElementById('content');
-	const addArtistForms = document.createElement('div');  //Skapa div som alla form ska ligga i
+	const addArtistForms = document.createElement('div');  
     addArtistForms.classList.add('addArtistForms');
 	const artistFormElement = document.createElement('div');
 	artistFormElement.classList.add('artistFormElement');
 	artistFormElement.insertAdjacentHTML('afterbegin', artistForm);
 	addArtistForms.appendChild(artistFormElement);
-	contentElement.appendChild(addArtistForms);
-	//const artistFormElement = document.getElementById('artistFormElement');
-	
-	
+	contentElement.appendChild(addArtistForms);	
+	const artistFormButton = document.getElementById('artistFormButton');
+	addEventListenerToButton(artistFormButton, getElementsfromArtistForm);
 }
 function getElementsfromArtistForm() {
-	let nameOfArtist = document.getElementById('nameOfArtist');
-	let bornDateArtist = document.getElementById('bornDateArtist');
-	let genderOfArtist = document.getElementById('genderOfArtist');
-	let genresOfArtist = document.getElementById('genresOfArtist');
-	let countryBornArtist = document.getElementById('countryBornArtist');
-	let spotifyURLOfArtist = document.getElementById('spotifyURLOfArtist');
-	let coverImageOfArtist = document.getElementById('coverImageOfArtist');
-	let artistFormButton = document.getElementById('artistFormButton');
-	addEventListenerToButton(artistFormButton, getElementsfromArtistForm);
+	console.log('hej');
+	const nameOfArtist = document.getElementById('nameOfArtist');
+	const bornDateArtist = document.getElementById('bornDateArtist');
+	const genderOfArtist = document.getElementById('genderOfArtist');
+	const genresOfArtist = document.getElementById('genresOfArtist');
+	const countryBornArtist = document.getElementById('countryBornArtist');
+	const spotifyURLOfArtist = document.getElementById('spotifyURLOfArtist');
+	const coverImageOfArtist = document.getElementById('coverImageOfArtist');
 	if(nameOfArtist.value === ''){
       alert('Var vänlig fyll i artistens namn.');
     } else {
-		let elementsfromArtistForm = {
+		const elementsfromArtistForm = {
 			name: nameOfArtist.value,
 			born: bornDateArtist.value,
 			gender: genderOfArtist.value,
@@ -74,9 +66,11 @@ function getElementsfromArtistForm() {
 			spotifyURL: spotifyURLOfArtist.value,
 			coverImage: coverImageOfArtist.value	
 		}
-		artistFormElement.innerHTML = "";
 		postArtist(elementsfromArtistForm);
-		//emptyFields(elementsfromArtistForm);
+		//const artistFormElement = document.getElementById('artistFormElement');
+		
+		//artistFormElement.innerHTML = '';
+		
 	}
 }
 
@@ -96,15 +90,21 @@ function postArtist(artist){
 		  })	
 }
 function messageArtistForm(artist) {
-	let confirmationMessageArtist = document.getElementById("confirmationMessageArtist");
-	let message = `<p>Du la till ${artist.name.toUpperCase()} till Musikinstitutet.<br> 
+	const message = `<p>Du la till ${artist.name.toUpperCase()} till Musikinstitutet.<br> 
 		För att lägga till ett album av ${artist.name.toUpperCase()} använd formuläret nedan.</p>`
-		displayAlbumForm(artist._id);
-	confirmationMessageArtist.innerHTML = message;
+	const contentElement = document.getElementById('content');
+	const addArtistForms = document.createElement('div');  
+    addArtistForms.classList.add('addArtistForms');
+	const confirmationMessageArtist = document.createElement('div');
+	confirmationMessageArtist.classList.add('confirmationMessage');
+	confirmationMessageArtist.insertAdjacentHTML('afterbegin', message);
+	addArtistForms.appendChild(confirmationMessageArtist);
+	contentElement.appendChild(addArtistForms);
+	displayAlbumForm(artist._id);
 }
 
 function displayAlbumForm(artistId) {
-	let albumForm = `<form>
+	const albumForm = `<form>
 		<input type='hidden' id= 'artistId' value=${artistId}>
 	  Albumtitel:<br>
 	  <input type='text' name='titleOfAlbum' id='titleOfAlbum'><br>
@@ -119,8 +119,14 @@ function displayAlbumForm(artistId) {
 	  <button id='albumFormButton' class='formButton'>Lägg till album</button>
 		<br>
 	</form>`;
-	const albumFormElement = document.getElementById('albumFormElement');
+	const contentElement = document.getElementById('content');
+	const addArtistForms = document.createElement('div');  
+    addArtistForms.classList.add('addArtistForms');
+	const albumFormElement = document.createElement('div');
+	albumFormElement.classList.add('artistFormElement');
 	albumFormElement.insertAdjacentHTML('afterbegin', albumForm);
+	addArtistForms.appendChild(albumFormElement);
+	contentElement.appendChild(addArtistForms);
 	let albumFormButton = document.getElementById('albumFormButton');
 	addEventListenerToButton(albumFormButton, getElementsFromAlbumForm);
 }
@@ -143,8 +149,9 @@ function getElementsFromAlbumForm() {
 		spotifyURL: spotifyURLOfAlbum.value,
 		coverImage: coverImageOfAlbum.value
 		}
-		confirmationMessageArtist.innerHTML = '';
-		albumFormElement.innerHTML = '';
+		//confirmationMessageArtist.innerHTML = '';
+		
+		//albumFormElement.innerHTML = '';
 		postAlbum(elementsFromAlbumForm);
 	}
 }
@@ -166,10 +173,16 @@ function postAlbum(album) {
 }
 
 function messageAlbumForm(album) {
-	let confirmationMessageAlbum = document.getElementById('confirmationMessageAlbum');
-	let message = `<p>Du la till ${album.title} till Musikinstitutet.<br> 
-		För att lägga till en låt till ${album.title.toUpperCase()} använd formuläret nedan.</p>`
-	confirmationMessageAlbum.innerHTML = message;
+	const message = `<p>Du la till ${album.title} till Musikinstitutet.<br> 
+		För att lägga till en låt till ${album.title.toUpperCase()} använd formuläret nedan.</p>`;
+	const contentElement = document.getElementById('content');
+	const addArtistForms = document.createElement('div');  
+    addArtistForms.classList.add('addArtistForms');
+	const confirmationMessageAlbum = document.createElement('div');
+	confirmationMessageAlbum.classList.add('confirmationMessage');
+	confirmationMessageAlbum.insertAdjacentHTML('afterbegin', message);
+	addArtistForms.appendChild(confirmationMessageAlbum);
+	contentElement.appendChild(addArtistForms);
 	displayTracksForm(album._id, album.artists, album.coverImage);
 	
 }
@@ -199,26 +212,32 @@ function displayTracksForm(albumId, artistId, coverImage) {
 	  <button id='tracksFormButton' class='formButton'>Lägg till låt</button>
 	<br>
 	</form>`;
-	const tracksFormElement = document.getElementById('tracksFormElement');
+	const contentElement = document.getElementById('content');
+	const addArtistForms = document.createElement('div');  
+    addArtistForms.classList.add('addArtistForms');
+	const tracksFormElement = document.createElement('div');
+	tracksFormElement.classList.add('artistFormElement');
 	tracksFormElement.insertAdjacentHTML('afterbegin', tracksForm);
+	addArtistForms.appendChild(tracksFormElement);
+	contentElement.appendChild(addArtistForms);
 	let tracksFormButton = document.getElementById('tracksFormButton');
 	addEventListenerToButton(tracksFormButton, getElementsFromTracksForm);
 }
 
 function getElementsFromTracksForm() {
-	let titleOfTrack = document.getElementById('titleOfTrack');
-	let artistId = document.getElementById('artistId');
-	let albumId = document.getElementById('albumId');
-	let genresOfTrack = document.getElementById('genresOfTrack');
-	let coverImageOfAlbum = document.getElementById('coverImageOfAlbum')
-	let coverImageColor = document.getElementById('coverImageColorOfTrack');
-	let spotifyURLOfTrack = document.getElementById('spotifyURLOfTrack');
-	let youtubeURLOfTrack = document.getElementById('youtubeURLOfTrack');
-	let soundcloudURLOfTrack = document.getElementById('soundcloudURLOfTrack');
+	const titleOfTrack = document.getElementById('titleOfTrack');
+	const artistId = document.getElementById('artistId');
+	const albumId = document.getElementById('albumId');
+	const genresOfTrack = document.getElementById('genresOfTrack');
+	const coverImageOfAlbum = document.getElementById('coverImageOfAlbum')
+	const coverImageColor = document.getElementById('coverImageColorOfTrack');
+	const spotifyURLOfTrack = document.getElementById('spotifyURLOfTrack');
+	const youtubeURLOfTrack = document.getElementById('youtubeURLOfTrack');
+	const soundcloudURLOfTrack = document.getElementById('soundcloudURLOfTrack');
 	if(titleOfTrack.value === '' ){
       alert('Var vänlig fyll i låttitel.');
     }else {
-		let elementsFromTracksForm = {
+		const elementsFromTracksForm = {
 		title: titleOfTrack.value,
 		artists: artistId.value,
 		album: albumId.value, 
@@ -229,7 +248,7 @@ function getElementsFromTracksForm() {
 		youtubeURL: youtubeURLOfTrack.value,
 		soundcloudURL: soundcloudURLOfTrack.value
 		}
-		confirmationMessageAlbum.innerHTML = '';
+		//confirmationMessageAlbum.innerHTML = '';
 		postTrack(elementsFromTracksForm);
 	}
 }
@@ -250,17 +269,25 @@ function postTrack(track) {
 	  });	
 }
 function messageTrackForm(track) {
-	let confirmationMessageTracks = document.getElementById('confirmationMessageTracks');
-	let message = `<p>Du la till ${track.title.toUpperCase()} till Musikinstitutet.<br> 
+	const message = `<p>Du la till ${track.title.toUpperCase()} till Musikinstitutet.<br> 
 		För att lägga till ännu en låt till samma skiva, använd formuläret ovan igen.<br>
 		För att lägga till en ny artist klicka på knappen nedan.</p><br>
-		<button id='newArtistButton' class='formButton'>Lägg till en ny artist</button>`
-	confirmationMessageTracks.innerHTML = message;
-	let newArtistButton = document.getElementById('newArtistButton');
+		<button id='newArtistButton' class='formButton'>Lägg till en ny artist</button>`;
+	
+	const contentElement = document.getElementById('content');
+	const addArtistForms = document.createElement('div');  
+    addArtistForms.classList.add('addArtistForms');
+	const confirmationMessageTracks = document.createElement('div');
+	confirmationMessageTracks.classList.add('confirmationMessage');
+	confirmationMessageTracks.insertAdjacentHTML('afterbegin', message);
+	addArtistForms.appendChild(confirmationMessageTracks);
+	contentElement.appendChild(addArtistForms);
+	
+	const newArtistButton = document.getElementById('newArtistButton');
 	newArtistButton.addEventListener('click', function(event){
 		event.preventDefault();
-		tracksFormElement.innerHTML = '';
-		confirmationMessageTracks.innerHTML = '';
+		content.innerHTML = '';
+		//confirmationMessageTracks.innerHTML = '';
 		displayArtistForm();
 	});	
 }
