@@ -62,13 +62,14 @@
         </div>
         <div class="navigation">
         	<div class="navItem"><a href="javascript:window.location.reload()">Start</a></div>
-			<div class="navItem">Lägg till artist</div>
+			<div class="navItem" id="displayArtistFormLink">Lägg till artist</div>
 			<div class="navItem">Skapa playlist</div>
 			<div class="navItem">Topplistan</div>
     	</div>
         
         <section>
-            <div id="content" class="content"></div>
+            <div id="content" class="content">
+            </div>
         </section>
         
         <section id="playlist">
@@ -93,17 +94,9 @@
    
    
 
-   <div id="forms">
-   		<div id="artistFormElement" class="artistFormElement">
-   		</div>
-   		<div id="confirmationMessageArtist" class="confirmationMessage"></div>
-   		<div id="albumFormElement" class="artistFormElement">
-   		</div>
-   		<div id="confirmationMessageAlbum" class="confirmationMessage"></div>
-   		<div id="tracksFormElement" class="artistFormElement">
-   		</div>
-   		<div id="confirmationMessageTracks" class="confirmationMessage"></div>
-   </div>
+   
+
+  
 
     
     <script src="scripts/forms.js"></script>

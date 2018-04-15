@@ -423,6 +423,11 @@ function deletePlaylistFromDOM(playlistId){
     playlistToDelete.parentNode.removeChild(playlistToDelete);
 }
 
+///Navbar
+
+
+
+
 
 
  

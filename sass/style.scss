@@ -76,6 +76,7 @@ h2{
 	flex-wrap: wrap;
 	justify-content: space-around;
 	background-color: lightgray;
+	margin-bottom: 3%;
 }
 .navItem {
 	flex: 0 1 auto;
@@ -98,26 +99,17 @@ h2{
     flex-direction: row;
     flex-wrap: wrap;   
 }
+.addArtistForms {
+	width: 100%;
+}
 .artistFormElement{
 	margin: 0px auto;
-    width: 40%;
+    width: 55%;
 	text-align: center;
 	line-height: 180%;
 } 
-.albumFormElement{
-	margin: 0px auto;
-    width: 40%;
-	text-align: center;
-	line-height: 180%;
-} 
-.tracksFormElement{
-	margin: 0px auto;
-    width: 40%;
-	text-align: center;
-	line-height: 180%;
-}
 .confirmationMessage{
-	width: 70%;
+	width: 55%;
 	margin: 0px auto;
 	margin-bottom: 5%;
 	font-style: italic;	
