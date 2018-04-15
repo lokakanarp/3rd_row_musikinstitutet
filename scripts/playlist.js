@@ -33,12 +33,10 @@ function getElementsFromPlaylistForm() {
 	const createdByInput = document.getElementById('createdBy');
 	const newPlaylistGenres = document.getElementById('newPlaylistGenres');
 	const newPlaylistImage = document.getElementById('newPlaylistImage');
-	const choosePlaylistButton = document.getElementById('choosePlaylistButton');
-	const playlistSelection = document.getElementById('playlistSelection');
-	let title = newPlayListTitle.value;
-    let createdBy = createdByInput.value;
-	let coverImage = newPlaylistImage.value
-	let genres = newPlaylistGenres.value;
+	const title = newPlayListTitle.value;
+    const createdBy = createdByInput.value;
+	const coverImage = newPlaylistImage.value
+	const genres = newPlaylistGenres.value;
 	
     createPlaylist(title, createdBy, coverImage, genres);
 
