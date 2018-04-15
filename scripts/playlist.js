@@ -1,5 +1,5 @@
 
-
+//The link in navbar:
 const displayPlaylistFormLink = document.getElementById('displayPlaylistFormLink');
 displayPlaylistFormLink.addEventListener('click', function(event){
 	event.preventDefault();
@@ -43,8 +43,6 @@ function getElementsFromPlaylistForm() {
     createPlaylist(title, createdBy, coverImage, genres);
 
 }
-
-/*************************** Create playlist functions ***********************************/
 
 function createPlaylist(title, createdBy, coverImage, genres){
 
