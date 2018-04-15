@@ -119,10 +119,10 @@ function postToPlaylist(playlistId){
         /* and the playListTrack must only been cleard once the track has been 
         /* added to choosen list, when the user has clicked eventListener TWICE:
         */
-        if(playlist.type != "Error"){
+        //if(playlist.type != "Error"){
             // Clearing and preparing array for next input:
             playlistTrack = '';    
-        }
+        //}
       });
 
 }
@@ -172,6 +172,7 @@ const showToplistButton = document.getElementById('showToplistButton');
 
 showToplistButton.addEventListener('click', function(event){
     event.preventDefault();
+    contentElement.innerHTML = '';
     getTopPlaylists();
 });
     
