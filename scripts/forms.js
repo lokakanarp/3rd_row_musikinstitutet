@@ -1,3 +1,21 @@
+//Global variables
+
+
+const addArtistForms = document.createElement('div');  
+addArtistForms.classList.add('addArtistForms');
+contentElement.appendChild(addArtistForms);	
+const confirmationMessageArtist = document.createElement('div');
+confirmationMessageArtist.classList.add('confirmationMessage');
+addArtistForms.appendChild(confirmationMessageArtist);
+const artistFormElement = document.createElement('div');
+artistFormElement.classList.add('artistFormElement');
+addArtistForms.appendChild(artistFormElement);
+
+
+
+
+
+
 function addEventListenerToButton(button, callback) {
 button.addEventListener('click', function(event){
 	event.preventDefault();
@@ -34,14 +52,15 @@ function displayArtistForm() {
 	  <input type='text' name='coverImage' id='coverImageOfArtist'><br>
 		<button id='artistFormButton' class='formButton'>Lägg till artist</button><br>
 	</form>`;
-	const contentElement = document.getElementById('content');
-	const addArtistForms = document.createElement('div');  
-    addArtistForms.classList.add('addArtistForms');
-	const artistFormElement = document.createElement('div');
-	artistFormElement.classList.add('artistFormElement');
-	artistFormElement.insertAdjacentHTML('afterbegin', artistForm);
-	addArtistForms.appendChild(artistFormElement);
-	contentElement.appendChild(addArtistForms);	
+	//const contentElement = document.getElementById('content');
+	//const addArtistForms = document.createElement('div');  
+    //addArtistForms.classList.add('addArtistForms');
+	//const artistFormElement = document.createElement('div');
+	//artistFormElement.classList.add('artistFormElement');
+	//artistFormElement.insertAdjacentHTML('afterbegin', artistForm);
+	artistFormElement.innerHTML = artistForm;
+	//addArtistForms.appendChild(artistFormElement);
+	//contentElement.appendChild(addArtistForms);	
 	const artistFormButton = document.getElementById('artistFormButton');
 	addEventListenerToButton(artistFormButton, getElementsfromArtistForm);
 }
@@ -66,9 +85,7 @@ function getElementsfromArtistForm() {
 			coverImage: coverImageOfArtist.value	
 		}
 		postArtist(elementsfromArtistForm);
-		//const artistFormElement = document.getElementById('artistFormElement');
 		
-		//artistFormElement.innerHTML = '';
 		
 	}
 }
@@ -91,14 +108,14 @@ function postArtist(artist){
 function messageArtistForm(artist) {
 	const message = `<p>Du la till ${artist.name.toUpperCase()} till Musikinstitutet.<br> 
 		För att lägga till ett album av ${artist.name.toUpperCase()} använd formuläret nedan.</p>`
-	const contentElement = document.getElementById('content');
-	const addArtistForms = document.createElement('div');  
-    addArtistForms.classList.add('addArtistForms');
-	const confirmationMessageArtist = document.createElement('div');
-	confirmationMessageArtist.classList.add('confirmationMessage');
-	confirmationMessageArtist.insertAdjacentHTML('afterbegin', message);
-	addArtistForms.appendChild(confirmationMessageArtist);
-	contentElement.appendChild(addArtistForms);
+	//const contentElement = document.getElementById('content');
+	//const addArtistForms = document.createElement('div');  
+    //addArtistForms.classList.add('addArtistForms');
+	//const confirmationMessageArtist = document.createElement('div');
+	//confirmationMessageArtist.classList.add('confirmationMessage');
+	confirmationMessageArtist.innerHTML = message;
+	//addArtistForms.appendChild(confirmationMessageArtist);
+	//contentElement.appendChild(addArtistForms);
 	displayAlbumForm(artist._id);
 }
 
@@ -118,14 +135,15 @@ function displayAlbumForm(artistId) {
 	  <button id='albumFormButton' class='formButton'>Lägg till album</button>
 		<br>
 	</form>`;
-	const contentElement = document.getElementById('content');
-	const addArtistForms = document.createElement('div');  
-    addArtistForms.classList.add('addArtistForms');
-	const albumFormElement = document.createElement('div');
-	albumFormElement.classList.add('artistFormElement');
-	albumFormElement.insertAdjacentHTML('afterbegin', albumForm);
-	addArtistForms.appendChild(albumFormElement);
-	contentElement.appendChild(addArtistForms);
+	//const contentElement = document.getElementById('content');
+	//const addArtistForms = document.createElement('div');  
+   // addArtistForms.classList.add('addArtistForms');
+	//const albumFormElement = document.createElement('div');
+	//albumFormElement.classList.add('artistFormElement');
+	//albumFormElement.insertAdjacentHTML('afterbegin', albumForm);
+	//addArtistForms.appendChild(albumFormElement);
+	//contentElement.appendChild(addArtistForms);
+	artistFormElement.innerHTML = albumForm;
 	let albumFormButton = document.getElementById('albumFormButton');
 	addEventListenerToButton(albumFormButton, getElementsFromAlbumForm);
 }
@@ -174,14 +192,16 @@ function postAlbum(album) {
 function messageAlbumForm(album) {
 	const message = `<p>Du la till ${album.title} till Musikinstitutet.<br> 
 		För att lägga till en låt till ${album.title.toUpperCase()} använd formuläret nedan.</p>`;
-	const contentElement = document.getElementById('content');
-	const addArtistForms = document.createElement('div');  
-    addArtistForms.classList.add('addArtistForms');
-	const confirmationMessageAlbum = document.createElement('div');
-	confirmationMessageAlbum.classList.add('confirmationMessage');
-	confirmationMessageAlbum.insertAdjacentHTML('afterbegin', message);
-	addArtistForms.appendChild(confirmationMessageAlbum);
-	contentElement.appendChild(addArtistForms);
+	//const contentElement = document.getElementById('content');
+	//const addArtistForms = document.createElement('div');  
+    //addArtistForms.classList.add('addArtistForms');
+	//const confirmationMessageAlbum = document.createElement('div');
+	//confirmationMessageAlbum.classList.add('confirmationMessage');
+	//confirmationMessageAlbum.insertAdjacentHTML('afterbegin', message);
+	//addArtistForms.appendChild(confirmationMessageAlbum);
+	//contentElement.appendChild(addArtistForms);
+	
+	confirmationMessageArtist.innerHTML = message;
 	displayTracksForm(album._id, album.artists, album.coverImage);
 	
 }
@@ -211,14 +231,16 @@ function displayTracksForm(albumId, artistId, coverImage) {
 	  <button id='tracksFormButton' class='formButton'>Lägg till låt</button>
 	<br>
 	</form>`;
-	const contentElement = document.getElementById('content');
-	const addArtistForms = document.createElement('div');  
-    addArtistForms.classList.add('addArtistForms');
-	const tracksFormElement = document.createElement('div');
-	tracksFormElement.classList.add('artistFormElement');
-	tracksFormElement.insertAdjacentHTML('afterbegin', tracksForm);
-	addArtistForms.appendChild(tracksFormElement);
-	contentElement.appendChild(addArtistForms);
+	//const contentElement = document.getElementById('content');
+	//const addArtistForms = document.createElement('div');  
+    //addArtistForms.classList.add('addArtistForms');
+	//const tracksFormElement = document.createElement('div');
+	//tracksFormElement.classList.add('artistFormElement');
+	//tracksFormElement.insertAdjacentHTML('afterbegin', tracksForm);
+	//addArtistForms.appendChild(tracksFormElement);
+	//contentElement.appendChild(addArtistForms);
+	
+	artistFormElement.innerHTML = tracksForm;
 	let tracksFormButton = document.getElementById('tracksFormButton');
 	addEventListenerToButton(tracksFormButton, getElementsFromTracksForm);
 }
@@ -268,25 +290,26 @@ function postTrack(track) {
 	  });	
 }
 function messageTrackForm(track) {
+	//confirmationMessageTracks.innerHTML = '';
 	const message = `<p>Du la till ${track.title.toUpperCase()} till Musikinstitutet.<br> 
-		För att lägga till ännu en låt till samma skiva, använd formuläret ovan igen.<br>
+		För att lägga till ännu en låt till samma skiva, använd formuläret igen.<br>
 		För att lägga till en ny artist klicka på knappen nedan.</p><br>
 		<button id='newArtistButton' class='formButton'>Lägg till en ny artist</button>`;
+
+	//const confirmationMessageTracks = document.createElement('div');
+	//confirmationMessageTracks.classList.add('confirmationMessage');
+	//confirmationMessageTracks.id = 'confirmationMessageTracks';
+	//confirmationMessageTracks.innerHTML = message;
+	//addArtistForms.appendChild(confirmationMessageTracks);
+	//contentElement.appendChild(addArtistForms);
 	
-	const contentElement = document.getElementById('content');
-	const addArtistForms = document.createElement('div');  
-    addArtistForms.classList.add('addArtistForms');
-	const confirmationMessageTracks = document.createElement('div');
-	confirmationMessageTracks.classList.add('confirmationMessage');
-	confirmationMessageTracks.innerHTML = message;
-	addArtistForms.appendChild(confirmationMessageTracks);
-	contentElement.appendChild(addArtistForms);
+	confirmationMessageArtist.innerHTML = message;
 	
 	const newArtistButton = document.getElementById('newArtistButton');
 	newArtistButton.addEventListener('click', function(event){
 		event.preventDefault();
-		content.innerHTML = '';
-		//confirmationMessageTracks.innerHTML = '';
+		addArtistForms.innerHTML = '';
+		
 		displayArtistForm();
 	});	
 }

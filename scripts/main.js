@@ -255,11 +255,9 @@ function displayCardPlaylist(playlist){
 	cardWrapperElement.appendChild(cardCommentElement);
     contentElement.appendChild(cardWrapperElement);
 	
-	//Det här kan vara i ratingfunktionen istället
-	let playlistRating = 0;
-	if (playlist.ratings.length > 0) {
-		playlistRating = calculateAverageRating(playlist.ratings);
-	}
+
+	let playlistRating = calculateAverageRating(playlist.ratings);
+	
 	
 	cardPlaylistTitleElement.innerHTML = playlist.title;
     cardMenuElement.innerHTML =	
