@@ -46,7 +46,6 @@ function displayArtistForm() {
 	addEventListenerToButton(artistFormButton, getElementsfromArtistForm);
 }
 function getElementsfromArtistForm() {
-	console.log('hej');
 	const nameOfArtist = document.getElementById('nameOfArtist');
 	const bornDateArtist = document.getElementById('bornDateArtist');
 	const genderOfArtist = document.getElementById('genderOfArtist');
@@ -279,7 +278,7 @@ function messageTrackForm(track) {
     addArtistForms.classList.add('addArtistForms');
 	const confirmationMessageTracks = document.createElement('div');
 	confirmationMessageTracks.classList.add('confirmationMessage');
-	confirmationMessageTracks.insertAdjacentHTML('afterbegin', message);
+	confirmationMessageTracks.innerHTML = message;
 	addArtistForms.appendChild(confirmationMessageTracks);
 	contentElement.appendChild(addArtistForms);
 	
