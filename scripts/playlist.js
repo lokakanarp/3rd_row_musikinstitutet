@@ -1,20 +1,54 @@
 /*************************** DOM Elements ***********************************/
 
-const newPlayListTitle = document.getElementById('newPlayListTitle');
-const createdByInput = document.getElementById('createdBy');
-const newPlaylistButton = document.getElementById('newPlaylistButton');
-const choosePlaylistButton = document.getElementById('choosePlaylistButton');
-const playlistSelection = document.getElementById('playlistSelection');
 
+const playlistFormElement = document.createElement('div');
+playlistFormElement.classList.add('playlistForm');
+contentElement.appendChild(playlistFormElement);
+const headingFormsPlaylist = document.createElement('div');
+headingFormsPlaylist.classList.add('headingFormsPlaylist');
+playlistFormElement.appendChild(headingFormsPlaylist);
 
-newPlaylistButton.addEventListener('click', function(event){
-    event.preventDefault();
-    
-    let title = newPlayListTitle.value;
+/******/
+
+const displayPlaylistFormLink = document.getElementById('displayPlaylistFormLink');
+displayPlaylistFormLink.addEventListener('click', function(event){
+	event.preventDefault();
+	headingForms.innerHTML = `<h2>Skapa en ny spellista</h2>`;
+	displayPlaylistForm();
+})
+
+function displayPlaylistForm() {
+	const playlistForm = `
+		<form>
+			Spellistans namn:<br>
+			<input id="newPlayListTitle" required/><br>
+			Skapad av:<br>
+			<input id="createdBy" required/><br>
+			Genrer (separera med komma):<br>
+			<input id="newPlaylistGenres"><br>
+			Bildadress:<br>
+			<input id="newPlaylistImage"><br>
+			<button id="newPlaylistButton" type="submit" class='formButton'>Skapa spellista</button>
+		</form>`;
+	artistFormElement.innerHTML = playlistForm;	
+	const newPlaylistButton = document.getElementById('newPlaylistButton');
+	newPlaylistButton.addEventListener('click', function(event){
+    	event.preventDefault();
+		console.log('hej');
+		getElementsFromPlaylistForm();
+	})
+}
+
+function getElementsFromPlaylistForm() {
+	const newPlayListTitle = document.getElementById('newPlayListTitle');
+	const createdByInput = document.getElementById('createdBy');
+	const choosePlaylistButton = document.getElementById('choosePlaylistButton');
+	const playlistSelection = document.getElementById('playlistSelection');
+	let title = newPlayListTitle.value;
     let createdBy = createdByInput.value;
-    
     createPlaylist(title, createdBy);
-});
+
+}
 
 /*************************** Create playlist functions ***********************************/
 
