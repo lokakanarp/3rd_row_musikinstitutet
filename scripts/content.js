@@ -179,8 +179,14 @@ function displayCard(albums,letter){
 
             for(let i = 0; i < tracksArray.length; i++){
                 let trackId = tracksArray[i];
+                console.log(trackId);
                 
                 getTrackInfo(trackId).then((singleTrackObject) => {
+                    
+                    // Check if there's a tracktitle, only write out if there is one (/not error):            
+                    if(!(singleTrackObject.type == 'error')){
+                    
+                    console.log(singleTrackObject);
 
                     let trackTitle = singleTrackObject.title;
 
@@ -195,19 +201,23 @@ function displayCard(albums,letter){
                         trackLink = ''; // Just empty if no link??
                     }
                   
+                    
+                    /* Rating för enskilt spår, kommenterar ut sålänge:
+                    
                     let trackRatingArray = singleTrackObject.ratings;
                     
                     //console.log(trackRatingArray.length);
 
                     let singleTrackRating;
-                    if(trackRatingArray.length >= 1){
+                    if(!(trackRatingArray.length === 0)){
                         singleTrackRating = calculateAverageRating(trackRatingArray); 
                     }else{
                          singleTrackRating = ''; 
                     }
+                    */
+                    
 
-                    // Check if there's a tracktitle, only write out if there is one (/not error):            
-                    if(!(singleTrackObject.type == 'error')){
+
                         let tracklist = `
                             <div>
                                 <p><a target="_blank" href="${trackLink}">${trackTitle}</a></p>
@@ -225,7 +235,7 @@ function displayCard(albums,letter){
                                         <option value="9">9</option>
                                         <option value="10">10</option>
                                     </select>
-                                    <img src="images/star.svg" alt="stars" class="ratingStar" /> ${singleTrackRating} 
+                                    <img src="images/star.svg" alt="stars" class="ratingStar" /> singleTrackRatingVar
                                     <button id="deleteTrack${trackId}" data-track="${trackId}" class="deleteButton"><img src="images/delete.svg" alt="Delete track" title="Delete track" /></button>
                                 </span>
                             </div>
