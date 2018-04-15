@@ -150,15 +150,15 @@ function getTopPlaylists(){
     fetch('https://folksa.ga/api/playlists?key=flat_eric')
       .then((response) => response.json())
       .then((playlists) => {
-        sortTopTen(playlists); 
+        sortTopFive(playlists); 
       });
 }
 
 let toplistArray = [];
-function sortTopTen(playlists){
+function sortTopFive(playlists){
     
     for(i = 0; i < playlists.length; i++){
-        //console.log(playlists[i]);
+        console.log(playlists[i]);
         let playlistId = playlists[i]._id;
         let ratingsArray = playlists[i].ratings;
         let averageToplistRating = calculateAverageRating(ratingsArray);
@@ -166,10 +166,12 @@ function sortTopTen(playlists){
         toplistArray.push({ playlistId, averageToplistRating });
         
     }
-    console.log(toplistArray);
+    //console.log(toplistArray);
     
-    tryToSort(toplistArray);    
+    tryToSort(toplistArray); 
+    
 }
+
 
 function tryToSort(topListArray){
     
@@ -178,7 +180,33 @@ function tryToSort(topListArray){
         var nameB = b.averageToplistRating ?  b.averageToplistRating : '';
         return (nameA > nameB) ? -1 : (nameA < nameB) ? 1 : 0;
     })
+        
     
-    console.log(toplistArray)
+    console.log(toplistArray);
     
+    for(let i = 0; i < 5; i++){
+        console.log(toplistArray[i].averageToplistRating); //här loopas de ut i ordning
+        let playlistId = toplistArray[i].playlistId;
+        console.log(playlistId);
+        
+        getSpecificPlaylist(playlistId);
+        
+//        getSpecificPlaylist(playlistId).then((playlist) => {
+//            console.log(playlist);
+//             //displayCardPlaylist(playlist);
+//            });
+    }
+    
+}
+
+
+
+function getSpecificPlaylist(playlistId){
+    fetch(`https://folksa.ga/api/playlists/${playlistId}?key=flat_eric`)
+    .then((response) => response.json())
+    .then((playlist) => {
+        //console.log(playlist);
+        //return playlist;
+        displayCardPlaylist(playlist);
+    });
 }
