@@ -156,10 +156,13 @@ function createDropdown(playlists){
 
 playlistSelection.addEventListener('change', function (){
     event.preventDefault();
-
+    const choosePlaylistElement = document.getElementById('choosePlaylist');
+    choosePlaylistElement.style.display = "none";
+    
     let playlistId = this[this.selectedIndex].value;
     
     postToPlaylist(playlistId);
+
 })
 
 
