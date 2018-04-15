@@ -117,8 +117,8 @@ function displayCard(albums,letter){
         const cardAlbumTitleElement = document.createElement('div');
         cardAlbumTitleElement.classList.add('cardAlbumTitle');
     
-        const cardGenresElement = document.createElement('div');
-        cardGenresElement.classList.add('cardAlbumGenres');
+        const cardAlbumGenresElement = document.createElement('div');
+        cardAlbumGenresElement.classList.add('cardAlbumGenres');
     
         const cardTrackListElement = document.createElement('div');
         cardTrackListElement.classList.add('cardTrackList');
@@ -147,7 +147,7 @@ function displayCard(albums,letter){
                     </select>
                 <img src="images/star.svg" alt="stars" class="ratingStar" /> ${albumRating} <button id="deleteAlbum${albumId}" data-track="${albumId}" class="deleteButton"><img src="images/delete.svg" alt="Delete album" title="Delete album" /></button>`
     
-        cardGenresElement.innerHTML = genresArray[0];
+        cardAlbumGenresElement.innerHTML = genresArray[0];
 
 //            for(let i = 0; i < tracksArray.length; i++){
 //                
@@ -179,8 +179,14 @@ function displayCard(albums,letter){
 
             for(let i = 0; i < tracksArray.length; i++){
                 let trackId = tracksArray[i];
+                console.log(trackId);
                 
                 getTrackInfo(trackId).then((singleTrackObject) => {
+                    
+                    // Check if there's a tracktitle, only write out if there is one (/not error):            
+                    if(!(singleTrackObject.type == 'error')){
+                    
+                    console.log(singleTrackObject);
 
                     let trackTitle = singleTrackObject.title;
 
@@ -195,17 +201,23 @@ function displayCard(albums,letter){
                         trackLink = ''; // Just empty if no link??
                     }
                   
+                    
+                    /* Rating för enskilt spår, kommenterar ut sålänge:
+                    
                     let trackRatingArray = singleTrackObject.ratings;
+                    
+                    //console.log(trackRatingArray.length);
 
                     let singleTrackRating;
-                    if(!(trackRatingArray.length == 0)){
+                    if(!(trackRatingArray.length === 0)){
                         singleTrackRating = calculateAverageRating(trackRatingArray); 
                     }else{
                          singleTrackRating = ''; 
                     }
+                    */
+                    
 
-                    // Check if there's a tracktitle, only write out if there is one (/not error):            
-                    if(!(singleTrackObject.type == 'error')){
+
                         let tracklist = `
                             <div>
                                 <p><a target="_blank" href="${trackLink}">${trackTitle}</a></p>
@@ -223,8 +235,8 @@ function displayCard(albums,letter){
                                         <option value="9">9</option>
                                         <option value="10">10</option>
                                     </select>
-                                    <img src="images/star.svg" alt="stars" /> ${singleTrackRating} 
-                                    <button id="deleteTrack${trackId}" data-track="${trackId}" class="deleteTrack"><img src="images/delete.svg" alt="Delete track" title="Delete track" /></button>
+                                    <img src="images/star.svg" alt="stars" class="ratingStar" /> singleTrackRatingVar
+                                    <button id="deleteTrack${trackId}" data-track="${trackId}" class="deleteButton"><img src="images/delete.svg" alt="Delete track" title="Delete track" /></button>
                                 </span>
                             </div>
                         `;
