@@ -117,8 +117,8 @@ function displayCard(albums,letter){
         const cardAlbumTitleElement = document.createElement('div');
         cardAlbumTitleElement.classList.add('cardAlbumTitle');
     
-        const cardGenresElement = document.createElement('div');
-        cardGenresElement.classList.add('cardAlbumGenres');
+        const cardAlbumGenresElement = document.createElement('div');
+        cardAlbumGenresElement.classList.add('cardAlbumGenres');
     
         const cardTrackListElement = document.createElement('div');
         cardTrackListElement.classList.add('cardTrackList');
@@ -147,7 +147,7 @@ function displayCard(albums,letter){
                     </select>
                 <img src="images/star.svg" alt="stars" class="ratingStar" /> ${albumRating} <button id="deleteAlbum${albumId}" data-track="${albumId}" class="deleteButton"><img src="images/delete.svg" alt="Delete album" title="Delete album" /></button>`
     
-        cardGenresElement.innerHTML = genresArray[0];
+        cardAlbumGenresElement.innerHTML = genresArray[0];
 
 //            for(let i = 0; i < tracksArray.length; i++){
 //                
@@ -196,9 +196,11 @@ function displayCard(albums,letter){
                     }
                   
                     let trackRatingArray = singleTrackObject.ratings;
+                    
+                    //console.log(trackRatingArray.length);
 
                     let singleTrackRating;
-                    if(!(trackRatingArray.length == 0)){
+                    if(trackRatingArray.length >= 1){
                         singleTrackRating = calculateAverageRating(trackRatingArray); 
                     }else{
                          singleTrackRating = ''; 
@@ -223,8 +225,8 @@ function displayCard(albums,letter){
                                         <option value="9">9</option>
                                         <option value="10">10</option>
                                     </select>
-                                    <img src="images/star.svg" alt="stars" /> ${singleTrackRating} 
-                                    <button id="deleteTrack${trackId}" data-track="${trackId}" class="deleteTrack"><img src="images/delete.svg" alt="Delete track" title="Delete track" /></button>
+                                    <img src="images/star.svg" alt="stars" class="ratingStar" /> ${singleTrackRating} 
+                                    <button id="deleteTrack${trackId}" data-track="${trackId}" class="deleteButton"><img src="images/delete.svg" alt="Delete track" title="Delete track" /></button>
                                 </span>
                             </div>
                         `;
