@@ -104,6 +104,7 @@ h2{
 }
 .addArtistForms {
 	width: 100%;
+	margin-bottom: 10%;
 }
 .artistFormElement{
 	margin: 0px auto;
@@ -286,7 +287,7 @@ h2{
     border: none;
     border-radius: 5px;
 }
-.searchButton:hover{
+.formButton:hover{
 	text-decoration: underline;
     cursor: pointer;
 }

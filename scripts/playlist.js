@@ -1,14 +1,4 @@
-/*************************** DOM Elements ***********************************/
 
-
-const playlistFormElement = document.createElement('div');
-playlistFormElement.classList.add('playlistForm');
-contentElement.appendChild(playlistFormElement);
-const headingFormsPlaylist = document.createElement('div');
-headingFormsPlaylist.classList.add('headingFormsPlaylist');
-playlistFormElement.appendChild(headingFormsPlaylist);
-
-/******/
 
 const displayPlaylistFormLink = document.getElementById('displayPlaylistFormLink');
 displayPlaylistFormLink.addEventListener('click', function(event){
@@ -34,7 +24,6 @@ function displayPlaylistForm() {
 	const newPlaylistButton = document.getElementById('newPlaylistButton');
 	newPlaylistButton.addEventListener('click', function(event){
     	event.preventDefault();
-		console.log('hej');
 		getElementsFromPlaylistForm();
 	})
 }
@@ -42,25 +31,28 @@ function displayPlaylistForm() {
 function getElementsFromPlaylistForm() {
 	const newPlayListTitle = document.getElementById('newPlayListTitle');
 	const createdByInput = document.getElementById('createdBy');
+	const newPlaylistGenres = document.getElementById('newPlaylistGenres');
+	const newPlaylistImage = document.getElementById('newPlaylistImage');
 	const choosePlaylistButton = document.getElementById('choosePlaylistButton');
 	const playlistSelection = document.getElementById('playlistSelection');
 	let title = newPlayListTitle.value;
     let createdBy = createdByInput.value;
-    createPlaylist(title, createdBy);
+	let coverImage = newPlaylistImage.value
+	let genres = newPlaylistGenres.value;
+	
+    createPlaylist(title, createdBy, coverImage, genres);
 
 }
 
 /*************************** Create playlist functions ***********************************/
 
-function createPlaylist(title, createdBy){
+function createPlaylist(title, createdBy, coverImage, genres){
 
     let playlist = {
         title: title,
-    //    genres: "Folk, Folk Rock",
-        createdBy: createdBy
-    //    tracks: "5aae2d13b9791d0344d8f717,5aae2e6fb9791d0344d8f71c",
-    //    coverImage: "https://www.internetmuseum.se/wordpress/wp-content/uploads/compisknappar-504x329.jpg",
-    //    coverImageColor: "#000"
+    	genres: genres,
+        createdBy: createdBy,
+		coverImage: coverImage
     }
 
     fetch('https://folksa.ga/api/playlists?key=flat_eric',{
@@ -73,11 +65,18 @@ function createPlaylist(title, createdBy){
       })
       .then((response) => response.json())
       .then((playlist) => {
-        //console.log(playlist);
-        // Some output that the playlist has been succsessfully created here?
-        
+      console.log(playlist);
+	  messagPlaylistForm(playlist); 
       });
 }
+
+function messagPlaylistForm(playlist) {
+	const message = `<p>Du la till spellistan ${playlist.title.toUpperCase()} till Musikinstitutet.<br> 
+	För att lägga till låtar till din spellista leta upp önskad låt med hjälp av sökfunktionen eller A-Ö-menyn. Klicka på plustecknet 
+	bredvid låttitlarna och välj spellista ur menyn.</p>`
+	artistFormElement.innerHTML = message;
+}
+
 
 
 /*************************** Add track to playlist functions ***********************************/
