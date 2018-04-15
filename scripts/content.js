@@ -219,7 +219,7 @@ function displayCard(albums,letter){
 
 
                         let tracklist = `
-                            <div>
+                            <div id="${trackId}">
                                 <p><a target="_blank" href="${trackLink}">${trackTitle}</a></p>
                                 <span class="trackOptions">
                                     <button id="addTrackToPlaylist${trackId}" data-track="${trackId}" class="addTrackToPlaylist"><img src="images/plus.svg" alt="Add track to playlist" title="Add track to playlist" /></button>

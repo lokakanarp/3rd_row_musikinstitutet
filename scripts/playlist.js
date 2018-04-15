@@ -135,4 +135,50 @@ playlistSelection.addEventListener('change', function (){
 
 
 // min playlist-id: 5abfa9695e9531142f1da683
+
+
+/*************************** Top playlists ***********************************/
+
+const showToplistButton = document.getElementById('showToplistButton');
+
+showToplistButton.addEventListener('click', function(event){
+    event.preventDefault();
+    getTopPlaylists();
+});
     
+function getTopPlaylists(){
+    fetch('https://folksa.ga/api/playlists?key=flat_eric')
+      .then((response) => response.json())
+      .then((playlists) => {
+        sortTopTen(playlists); 
+      });
+}
+
+let toplistArray = [];
+function sortTopTen(playlists){
+    
+    for(i = 0; i < playlists.length; i++){
+        //console.log(playlists[i]);
+        let playlistId = playlists[i]._id;
+        let ratingsArray = playlists[i].ratings;
+        let averageToplistRating = calculateAverageRating(ratingsArray);
+        //console.log(calculateAverageRating(ratingsArray));
+        toplistArray.push({ playlistId, averageToplistRating });
+        
+    }
+    console.log(toplistArray);
+    
+    tryToSort(toplistArray);    
+}
+
+function tryToSort(topListArray){
+    
+    toplistArray.sort((a,b) => {
+        var nameA = a.averageToplistRating ?  a.averageToplistRating : '';
+        var nameB = b.averageToplistRating ?  b.averageToplistRating : '';
+        return (nameA > nameB) ? -1 : (nameA < nameB) ? 1 : 0;
+    })
+    
+    console.log(toplistArray)
+    
+}
