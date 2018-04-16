@@ -1,7 +1,7 @@
 const Model = (function() {
+	const options = document.getElementById('selectSearch').children;
 	
-	// Array that holds the track you're currently adding:
-	var playlistTrack = [];
+	
 	
 	return {
 		getDataFromSearch: function(){
@@ -144,17 +144,8 @@ const Model = (function() {
 			fetch('https://folksa.ga/api/albums?key=flat_eric&populateArtists=true&limit=200')
 			  .then((response) => response.json())
 			  .then((albums) => {
-				  Model.sortAlbums(albums,letter);
+				  Controller.sortAlbums(albums,letter);
 			});
-		},
-
-		sortAlbums: function(albums, letter){
-			albums.sort((a,b) => {
-				var nameA = a.artists[0] ?  a.artists[0].name : '';
-				var nameB = b.artists[0] ?  b.artists[0].name : '';
-				return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
-			})
-				View.displayCard(albums, letter);        
 		},
 
 		getTrackInfo: function(trackId){
@@ -334,15 +325,6 @@ const Model = (function() {
 			  })	
 		},
 
-
-		addTrackToPlaylist: function(trackId){
-			// Saving track id to array:
-			playlistTrack.push(trackId);
-			// Fetching existing playlist so that user can choose which playlist they want to add track to:
-			Model.getExistingPlaylists();
-		},
-
-
 		getExistingPlaylists: function(){
 			fetch('https://folksa.ga/api/playlists?limit=200&key=flat_eric')
 			  .then((response) => response.json())
@@ -382,40 +364,11 @@ const Model = (function() {
 			fetch('https://folksa.ga/api/playlists?key=flat_eric')
 			  .then((response) => response.json())
 			  .then((playlists) => {
-				Model.cloneAndCalculateAverage(playlists); 
+				Controller.cloneAndCalculateAverage(playlists); 
 			  })
 			  .catch(function () {
 				View.errorMessage('Något gick fel. Försök igen senare.');
 			  })	
-		},
-
-		cloneAndCalculateAverage: function(playlists){  
-			let playlistClone = [...playlists];
-
-			/* Instead of array of single votes, ratings property is replaced to average in array clone: */
-			for(i = 0; i < playlistClone.length; i++){
-				let ratingsArray = playlistClone[i].ratings;
-				console.log(ratingsArray);
-				let averageToplistRating = Model.calculateAverageRating(ratingsArray);
-				console.log(averageToplistRating);
-				playlistClone[i].ratings = [];
-				playlistClone[i].ratings = averageToplistRating;  
-			}
-
-			Model.sortTopFive(playlistClone); 
-		},
-
-		sortTopFive: function(playlistClone){
-			playlistClone.sort((a,b) => {
-				var nameA = a.ratings ?  a.ratings : '';
-				var nameB = b.ratings ?  b.ratings : '';
-				return (nameA > nameB) ? -1 : (nameA < nameB) ? 1 : 0;
-			})
-
-			for(let i = 0; i < 5; i++){
-				let playlist = playlistClone[i];
-				View.displayCardPlaylist(playlist);
-			}  
 		},
 
 		rateAlbum: function(albumId, albumRating){
@@ -461,24 +414,6 @@ const Model = (function() {
 				.then((playlist) => {
 					console.log(playlist);
 				});  
-		},
-
-		calculateAverageRating: function(incomingArrayOfRatings){
-			let denominator = 0;
-
-			for(let i = 0; i < incomingArrayOfRatings.length; i++){
-				denominator += incomingArrayOfRatings[i]; 
-			}
-
-			let numerator = incomingArrayOfRatings.length;
-			let result = denominator / numerator;
-			result = result.toFixed(1);
-
-			if(isNaN(result)){
-				return ''; // Returns blank if result is NaN (probably means no one has votes)
-			}else{
-				return result;
-			}   
 		},
 
 		deleteArtist: function(artistId, artistName){

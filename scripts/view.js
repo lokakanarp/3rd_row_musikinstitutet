@@ -2,7 +2,6 @@ const View = (function (){
 	
 	const contentElement = document.getElementById('content');
 	const searchButton = document.getElementById('search');
-	const options = document.getElementById('selectSearch').children;
 	const searchField = document.getElementById('searchField');	
 	const addArtistForms = document.createElement('div'); 
 	const headingForms = document.createElement('div');
@@ -43,7 +42,7 @@ const View = (function (){
 
 	displayArtistFormLink.addEventListener('click', function(event){
 		event.preventDefault();
-		clearElement(contentElement);
+		View.clearElement(contentElement);
 		View.displayArtistForm();
 	});
 	
@@ -98,7 +97,7 @@ const View = (function (){
 				let albumImg = getAlbumImg(albumId);
 				//console.log(albumImg);
 				let trackRatingArray = data[i].ratings;
-				let trackRating = calculateAverageRating(trackRatingArray);
+				let trackRating = Controller.calculateAverageRating(trackRatingArray);
 
 				const cardWrapperElement = document.createElement('div');
 				cardWrapperElement.classList.add('cardWrapper');
@@ -391,7 +390,6 @@ const View = (function (){
 			for(let i = 0; i < albums.length; i++){
 
 				if(albums[i].artists[0] && (albums[i].artists[0].name.substr(0,1) == letter || letter == 'noLetter')){
-					console.log(albums[i].artists[0].name.substr(0,1) == letter)
 					let artistName = albums[i].artists[0].name
 					let albumTitle = albums[i].title
 					let albumId = albums[i]._id;
@@ -402,7 +400,7 @@ const View = (function (){
 					let tracksArray = albums[i].tracks;
 					let albumURL = albums[i].spotifyURL;
 
-					let averageAlbumRating = Model.calculateAverageRating(albumRatingsArray);
+					let averageAlbumRating = Controller.calculateAverageRating(albumRatingsArray);
 
 				const cardWrapperElement = document.createElement('div');
 				cardWrapperElement.classList.add('cardWrapper');
@@ -423,7 +421,7 @@ const View = (function (){
 				const cardTrackListElement = document.createElement('div');
 				cardTrackListElement.classList.add('cardTrackList');
 
-				let albumRating = Model.calculateAverageRating(albumRatingsArray);
+				let albumRating = Controller.calculateAverageRating(albumRatingsArray);
 
 				cardAlbumImgElement.innerHTML = `<img src="${albumCoverImage}">`;
 				cardArtistNameElement.innerHTML = artistName;
@@ -474,7 +472,7 @@ const View = (function (){
 
 								let singleTrackRating;
 								if(!(trackRatingArray.length === 0)){
-									singleTrackRating = calculateAverageRating(trackRatingArray); 
+									singleTrackRating = Controller.calculateAverageRating(trackRatingArray); 
 								}else{
 									 singleTrackRating = ''; 
 								}
@@ -535,7 +533,7 @@ const View = (function (){
 									//console.log(this.dataset.track);
 									let trackId = this.dataset.track;
 									// addTrackToPlaylist-function is to be found in playlist.js:
-									Model.addTrackToPlaylist(trackId);
+									Controller.addTrackToPlaylist(trackId);
 								});
 
 								// Delete track
@@ -676,7 +674,7 @@ const View = (function (){
 			</form>`;
 			artistFormElement.innerHTML = artistForm;
 			const artistFormButton = document.getElementById('artistFormButton');
-			addEventListenerToButton(artistFormButton, getElementsfromArtistForm);
+			View.addEventListenerToButton(artistFormButton, Model.getElementsfromArtistForm);
 		},
 
 		messageArtistForm: function(artist) {
@@ -704,7 +702,7 @@ const View = (function (){
 			</form>`;
 			artistFormElement.innerHTML = albumForm;
 			let albumFormButton = document.getElementById('albumFormButton');
-			addEventListenerToButton(albumFormButton, getElementsFromAlbumForm);
+			View.addEventListenerToButton(albumFormButton, Model.getElementsFromAlbumForm);
 		},
 
 		messageAlbumForm: function(album) {
@@ -741,7 +739,7 @@ const View = (function (){
 			</form>`;
 			artistFormElement.innerHTML = tracksForm;
 			let tracksFormButton = document.getElementById('tracksFormButton');
-			addEventListenerToButton(tracksFormButton, getElementsFromTracksForm);
+			View.addEventListenerToButton(tracksFormButton, Model.getElementsFromTracksForm);
 		},
 
 		messageTrackForm: function(track) {
