@@ -77,7 +77,23 @@ const Controller = (function() {
 				return result;
 			}   
 		},
-		
+        
+        // Add 0 before month if month is before October
+        addZero: function(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        },
+        
+        getBirthday: function(date) {
+            let fullDateTime = new Date(date);
+            let year = fullDateTime.getFullYear();
+            let month = Controller.addZero((fullDateTime.getMonth()) + 1);
+            let day = Controller.addZero(fullDateTime.getDate());
+            return year + '-' + month + '-' + day;
+        }
+        
 	}
 	
 })();
