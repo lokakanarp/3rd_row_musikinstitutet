@@ -82,10 +82,15 @@ function clearElement(element){
  
 function displayCard(albums,letter){
     
-
+    const headline = document.createElement('h2');
+    headline.classList.add('sectionHeadline');
+    headline.innerHTML = 'Album';
+    contentElement.appendChild(headline);
+    
     for(let i = 0; i < albums.length; i++){
         
-        if(albums[i].artists[0] && (albums[i].artists[0].name.substr(0,1) == letter)){
+        if(albums[i].artists[0] && (albums[i].artists[0].name.substr(0,1) == letter || letter == 'noLetter')){
+            console.log(albums[i].artists[0].name.substr(0,1) == letter)
             let artistName = albums[i].artists[0].name
             let albumTitle = albums[i].title
             let albumId = albums[i]._id;
@@ -143,18 +148,13 @@ function displayCard(albums,letter){
     
         cardAlbumGenresElement.innerHTML = genresArray[0];
 
-
-
             for(let i = 0; i < tracksArray.length; i++){
                 let trackId = tracksArray[i];
-                console.log(trackId);
                 
                 getTrackInfo(trackId).then((singleTrackObject) => {
                     
                     // Check if there's a tracktitle, only write out if there is one (/not error):            
                     if(!(singleTrackObject.type == 'error')){
-                    
-                    console.log(singleTrackObject);
 
                     let trackTitle = singleTrackObject.title;
 

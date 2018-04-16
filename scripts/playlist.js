@@ -95,7 +95,7 @@ function addTrackToPlaylist(trackId){
 }
 
 function getExistingPlaylists(){
-    fetch('https://folksa.ga/api/playlists?key=flat_eric')
+    fetch('https://folksa.ga/api/playlists?limit=200&key=flat_eric')
       .then((response) => response.json())
       .then((playlists) => {
         // Pushing info about existing playlists forward to functions that displays them in a drop down-menu in DOM:
