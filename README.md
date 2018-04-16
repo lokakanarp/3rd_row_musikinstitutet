@@ -2,7 +2,7 @@
 ===========
 
 [GitHub repo](https://github.com/lokakanarp/3rd_row_musikinstitutet)
-[The webpage live](http://lokakoden.se/loka_kanarp_ajax/)
+[The webpage live](https://github.com/lokakanarp/gh-pages)
  
 Musikinstitutet
 -------------------------------- 
