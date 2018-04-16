@@ -76,7 +76,7 @@ const View = (function (){
 					let trackRating = this[this.selectedIndex].value;
 
 					//console.log('maybe the rating: ',  this[this.selectedIndex].value);
-					rateTrack(trackId, trackRating);
+					Model.rateTrack(trackId, trackRating);
 				});
 
 				// Delete track
@@ -84,7 +84,7 @@ const View = (function (){
 				deleteTrackButton.addEventListener('click', function(event){
 					event.preventDefault();
 					let trackId = this.dataset.track;
-					deleteTrack(trackId);
+					Model.deleteTrack(trackId);
 				});
 			}
 		},
@@ -145,7 +145,7 @@ const View = (function (){
 				deleteTrackButton.addEventListener('click', function(event){
 					event.preventDefault();
 					let artistId = this.dataset.track;
-					deleteArtist(artistId, artistName);
+					Model.deleteArtist(artistId, artistName);
 				});
 			}
 		},
@@ -162,7 +162,7 @@ const View = (function (){
 			contentElement.appendChild(headline);
 
 			for(let i = 0; i < data.length; i++){
-				displayCardPlaylist(data[i]);
+				View.displayCardPlaylist(data[i]);
 			}
 		},
 
@@ -221,7 +221,7 @@ const View = (function (){
 				deletePlaylistButton.addEventListener('click', function(event){
 					event.preventDefault();
 					let playlistId = this.dataset.track;
-					deletePlaylist(playlistId);
+					Model.deletePlaylist(playlistId);
 					});
 
 				//Rate playlist
@@ -230,7 +230,7 @@ const View = (function (){
 					 event.preventDefault();
 					 let playlistId = this.dataset.track;
 					 let playlistRating = this[this.selectedIndex].value;
-					 ratePlaylist(playlistId, playlistRating);
+					 Model.ratePlaylist(playlistId, playlistRating);
 					 });
 
 				for (let genre of playlist.genres) {
@@ -265,11 +265,11 @@ const View = (function (){
 				let viewCommentsLink = document.getElementById(`viewCommentsLink${playlist._id}`);
 				addCommentButton.addEventListener('click', function(event){
 					event.preventDefault();
-					postComment(playlistComment.value, commentCreatedBy.value, this.dataset.id);
+					Model.postComment(playlistComment.value, commentCreatedBy.value, this.dataset.id);
 				});
 				viewCommentsLink.addEventListener('click', function(event){
 					event.preventDefault();
-					getComments(this.dataset.id);
+					Model.getComments(this.dataset.id);
 				})  
 		},
 
@@ -284,7 +284,7 @@ const View = (function (){
 			const deleteCommentButton = document.getElementById(`deleteComment${comment._id}`);
 			deleteCommentButton.addEventListener('click', function(event){
 				event.preventDefault();
-				deleteComment(this.dataset.comment);
+				Model.deleteComment(this.dataset.comment);
 				});
 			}
 		},
@@ -340,7 +340,7 @@ const View = (function (){
 					let tracksArray = albums[i].tracks;
 					let albumURL = albums[i].spotifyURL;
 
-					let averageAlbumRating = calculateAverageRating(albumRatingsArray);
+					let averageAlbumRating = Model.calculateAverageRating(albumRatingsArray);
 
 				const cardWrapperElement = document.createElement('div');
 				cardWrapperElement.classList.add('cardWrapper');
@@ -361,7 +361,7 @@ const View = (function (){
 				const cardTrackListElement = document.createElement('div');
 				cardTrackListElement.classList.add('cardTrackList');
 
-				let albumRating = calculateAverageRating(albumRatingsArray);
+				let albumRating = Model.calculateAverageRating(albumRatingsArray);
 
 				cardAlbumImgElement.innerHTML = `<img src="${albumCoverImage}">`;
 				cardArtistNameElement.innerHTML = artistName;
@@ -387,7 +387,7 @@ const View = (function (){
 					for(let i = 0; i < tracksArray.length; i++){
 						let trackId = tracksArray[i];
 
-						getTrackInfo(trackId).then((singleTrackObject) => {
+						Model.getTrackInfo(trackId).then((singleTrackObject) => {
 
 							// Check if there's a tracktitle, only write out if there is one (/not error)  
 							if(!(singleTrackObject.type == 'error')){
@@ -462,7 +462,7 @@ const View = (function (){
 									let albumRating = this[this.selectedIndex].value;
 
 									//console.log('maybe the rating: ',  this[this.selectedIndex].value);
-									rateAlbum(albumId, albumRating);
+									Model.rateAlbum(albumId, albumRating);
 								});
 
 								// Add track to playlist
@@ -473,7 +473,7 @@ const View = (function (){
 									//console.log(this.dataset.track);
 									let trackId = this.dataset.track;
 									// addTrackToPlaylist-function is to be found in playlist.js:
-									addTrackToPlaylist(trackId);
+									Model.addTrackToPlaylist(trackId);
 								});
 
 								// Delete track
@@ -484,7 +484,7 @@ const View = (function (){
 									//console.log(this.dataset.track);
 									let trackId = this.dataset.track;
 									// addTrackToPlaylist-function is to be found in playlist.js:
-									deleteTrack(trackId);
+									Model.deleteTrack(trackId);
 								});
 
 								//Rate track
@@ -497,7 +497,7 @@ const View = (function (){
 									let trackRating = this[this.selectedIndex].value;
 
 									//console.log('maybe the rating: ',  this[this.selectedIndex].value);
-									rateTrack(trackId, trackRating);
+									Model.rateTrack(trackId, trackRating);
 								});
 
 							} // end looping out tracklist-relatied                   
@@ -509,7 +509,6 @@ const View = (function (){
 
 		deleteTrackFromDOM: function(trackId){
 			const trackToDelete = document.getElementById(`${trackId}`);
-			console.log(trackToDelete.parentNode);
 			trackToDelete.parentNode.removeChild(trackToDelete);
 		},
 
@@ -546,7 +545,7 @@ const View = (function (){
 			const newPlaylistButton = document.getElementById('newPlaylistButton');
 			newPlaylistButton.addEventListener('click', function(event){
 				event.preventDefault();
-				getElementsFromPlaylistForm();
+				Model.getElementsFromPlaylistForm();
 			})
 		},
 
@@ -622,7 +621,7 @@ const View = (function (){
 			const message = `<p>Du la till ${artist.name.toUpperCase()} till Musikinstitutet.<br> 
 				För att lägga till ett album av ${artist.name.toUpperCase()} använd formuläret nedan.</p>`
 			confirmationMessageArtist.innerHTML = message;
-			displayAlbumForm(artist._id);
+			View.displayAlbumForm(artist._id);
 		},
 
 		displayAlbumForm: function(artistId) {
@@ -650,7 +649,7 @@ const View = (function (){
 			const message = `<p>Du la till ${album.title.toUpperCase()} till Musikinstitutet.<br> 
 				För att lägga till en låt till ${album.title.toUpperCase()} använd formuläret nedan.</p>`;
 			confirmationMessageArtist.innerHTML = message;
-			displayTracksForm(album._id, album.artists, album.coverImage);
+			View.displayTracksForm(album._id, album.artists, album.coverImage);
 		},
 
 		displayTracksForm: function(albumId, artistId, coverImage) {
@@ -693,10 +692,11 @@ const View = (function (){
 			const newArtistButton = document.getElementById('newArtistButton');
 			newArtistButton.addEventListener('click', function(event){
 				event.preventDefault();
-				displayArtistForm();
+				View.displayArtistForm();
 			});	
 		}
 
+		
 		
 	}
 	
