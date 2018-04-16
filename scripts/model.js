@@ -311,11 +311,15 @@ const Model = (function() {
 			const createdByInput = document.getElementById('createdBy');
 			const newPlaylistGenres = document.getElementById('newPlaylistGenres');
 			const newPlaylistImage = document.getElementById('newPlaylistImage');
+			if(newPlayListTitle.value === '' || createdByInput.value === ''){
+			  alert('Var vänlig fyll i titel och namn.');
+			} else {
 			const title = newPlayListTitle.value;
 			const createdBy = createdByInput.value;
-			const coverImage = newPlaylistImage.value
+			const coverImage = newPlaylistImage.value;
 			const genres = newPlaylistGenres.value;
 			Model.createPlaylist(title, createdBy, coverImage, genres);
+			}
 		},
 
 		createPlaylist: function(title, createdBy, coverImage, genres){

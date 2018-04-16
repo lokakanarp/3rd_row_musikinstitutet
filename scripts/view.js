@@ -211,11 +211,6 @@ const View = (function (){
 			}
 		},
 
-		deleteArtistFromDOM: function(artistId){
-			const artistToDelete = document.getElementById(`${artistId}`);
-			artistToDelete.parentNode.removeChild(artistToDelete);
-		},
-
 		showPlaylists: function(data) {
 			const headline = document.createElement('h2');
 			headline.classList.add('sectionHeadline');
@@ -744,8 +739,12 @@ const View = (function (){
 				event.preventDefault();
 				View.displayArtistForm();
 			});	
+		},
+		
+		deleteArtistFromDOM: function(artistId){
+			const artistToDelete = document.getElementById(`${artistId}`);
+			artistToDelete.parentNode.removeChild(artistToDelete);
 		}
-
 		
 		
 	}
