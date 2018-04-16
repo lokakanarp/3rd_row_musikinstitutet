@@ -2,7 +2,6 @@
 
 const contentElement = document.getElementById('content');
 
-
 addEventlistenersToAlphabet();
 
 function addEventlistenersToAlphabet(){
@@ -36,7 +35,7 @@ function getAlbums(letter){
 
 function sortAlbums(albums, letter){
     
-    /*
+/*
     for(let i = 0; i < albums.length; i++){
         let oneAlbumObject = albums[i];
         sortedObjectArray.push(oneAlbumObject);
@@ -50,7 +49,7 @@ function sortAlbums(albums, letter){
     })
     
     displayCard(sortedObjectArray, letter); 
-    */
+*/
     
     
     albums.sort((a,b) => {
@@ -69,13 +68,8 @@ function sortAlbums(albums, letter){
 function getTrackInfo(trackId){
     return fetch(`https://folksa.ga/api/tracks/${trackId}?key=flat_eric`)
   .then((response) => response.json())
-  .then((singleTrack) => {
-        
-
-        //console.log(singleTrack);
-        
+  .then((singleTrack) => {    
         return singleTrack;
-
   });
 }
 
@@ -149,32 +143,6 @@ function displayCard(albums,letter){
     
         cardAlbumGenresElement.innerHTML = genresArray[0];
 
-//            for(let i = 0; i < tracksArray.length; i++){
-//                
-//
-//                
-//                let tracklist = `
-//                    <div id="${trackId}">
-//                        <p><a href="${trackLink}">${tracksArray[i].title}</a></p>
-//                        <span class="trackOptions">
-//                            <button id="addTrackToPlaylist${trackId}" data-track="${trackId}" class="addTrackToPlaylist"><img src="images/plus.svg" alt="Add track to playlist" title="Add track to playlist" /></button>
-//                            <select id="rateTrack${trackId}" data-track="${trackId}" class="rateTrack">
-//                                <option value="1">1</option>
-//                                <option value="2">2</option>
-//                                <option value="3">3</option>
-//                                <option value="4">4</option>
-//                                <option value="5">5</option>
-//                                <option value="6">6</option>
-//                                <option value="7">7</option>
-//                                <option value="8">8</option>
-//                                <option value="9">9</option>
-//                                <option value="10">10</option>
-//                            </select>
-//                            <img src="images/star.svg" alt="stars" class="ratingStar" /> ${singleTrackRating}
-//                            <button id="deleteTrack${trackId}" data-track="${trackId}" class="deleteButton"><img src="images/delete.svg" alt="Delete track" title="Delete track" /></button>
-//                        </span>
-//                    </div>
-//                `;
 
 
             for(let i = 0; i < tracksArray.length; i++){
@@ -219,7 +187,7 @@ function displayCard(albums,letter){
 
 
                         let tracklist = `
-                            <div>
+                            <div id="${trackId}">
                                 <p><a target="_blank" href="${trackLink}">${trackTitle}</a></p>
                                 <span class="trackOptions">
                                     <button id="addTrackToPlaylist${trackId}" data-track="${trackId}" class="addTrackToPlaylist"><img src="images/plus.svg" alt="Add track to playlist" title="Add track to playlist" /></button>

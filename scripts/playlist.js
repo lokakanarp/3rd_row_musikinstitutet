@@ -119,10 +119,11 @@ function postToPlaylist(playlistId){
         /* and the playListTrack must only been cleard once the track has been 
         /* added to choosen list, when the user has clicked eventListener TWICE:
         */
-        if(playlist.type != "Error"){
+        //if(playlist.type != "Error"){
             // Clearing and preparing array for next input:
-            playlistTrack = '';    
-        }
+            playlistTrack = ''; 
+            alert(`Great! The track was added to ${playlist.title}`);
+        //}
       });
 
 }
@@ -156,12 +157,79 @@ function createDropdown(playlists){
 
 playlistSelection.addEventListener('change', function (){
     event.preventDefault();
-
+    const choosePlaylistElement = document.getElementById('choosePlaylist');
+    choosePlaylistElement.style.display = "none";
+    
     let playlistId = this[this.selectedIndex].value;
     
     postToPlaylist(playlistId);
+
 })
 
 
 // min playlist-id: 5abfa9695e9531142f1da683
+
+
+/*************************** Top playlists ***********************************/
+
+const showToplistButton = document.getElementById('showToplistButton');
+
+showToplistButton.addEventListener('click', function(event){
+    event.preventDefault();
+    contentElement.innerHTML = '';
+    getTopPlaylists();
+});
     
+function getTopPlaylists(){
+    fetch('https://folksa.ga/api/playlists?key=flat_eric')
+      .then((response) => response.json())
+      .then((playlists) => {
+        cloneAndCalculateAverage(playlists); 
+      });
+}
+
+function cloneAndCalculateAverage(playlists){  
+    let playlistClone = [...playlists];
+
+    for(i = 0; i < playlistClone.length; i++){
+        let ratingsArray = playlistClone[i].ratings;
+        let averageToplistRating = calculateAverageRating(ratingsArray);
+        // Instead of array of single votes, ratings property is changed to average in array clone:
+        playlistClone[i].ratings = [];
+        playlistClone[i].ratings = averageToplistRating;  
+    }
+    
+    sortTopFive(playlistClone); 
+}
+
+
+function sortTopFive(playlistClone){
+    
+    playlistClone.sort((a,b) => {
+        var nameA = a.ratings ?  a.ratings : '';
+        var nameB = b.ratings ?  b.ratings : '';
+        return (nameA > nameB) ? -1 : (nameA < nameB) ? 1 : 0;
+    })
+    
+    console.log(playlistClone); //loops out in order here...
+
+    //... but not here :(
+    for(let i = 0; i < 5; i++){
+        let playlist = playlistClone[i];
+        console.log(playlist);
+        //displayCardPlaylist(playlist);
+    }  
+}
+
+
+/*
+function getSpecificPlaylist(playlistId){
+    fetch(`https://folksa.ga/api/playlists/${playlistId}?key=flat_eric`)
+    .then((response) => response.json())
+    .then((playlist) => {
+        //console.log(playlist);
+        //return playlist;
+        displayCardPlaylist(playlist);
+    });
+}
+*/
