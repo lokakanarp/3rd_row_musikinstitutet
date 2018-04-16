@@ -13,9 +13,11 @@ const Model = (function() {
 			const genre = options[4];
 
 			if(artist.selected == true){
+				View.showSpinner();
 				fetch(`https://folksa.ga/api/artists?key=flat_eric&name=${searchWord}&sort=desc&limit=12`)
 				.then((response) => response.json())
 				.then((data) => {
+					View.stopSpinner();
 					View.displayCardArtist(data);
 				})
 				.catch((error) => {
@@ -25,9 +27,11 @@ const Model = (function() {
 			}
 
 			if(track.selected == true){
+				View.showSpinner();
 				fetch(`https://folksa.ga/api/tracks?key=flat_eric&title=${searchWord}&sort=desc&limit=12`)
 				.then((response) => response.json())
 				.then((data) => {
+					View.stopSpinner();
 					View.displayCardTrack(data);
 				})
 				.catch((error) => {
@@ -37,9 +41,11 @@ const Model = (function() {
 			}
 
 			if(album.selected == true){
+				View.showSpinner();
 				fetch(`https://folksa.ga/api/albums?key=flat_eric&title=${searchWord}&populateArtists=true&sort=desc&limit=15`)
 				.then((response) => response.json())
 				.then((data) => {
+					View.stopSpinner();
 					View.displayCard(data, 'noLetter');
 				})
 				.catch((error) => {
@@ -49,9 +55,11 @@ const Model = (function() {
 			}
 
 			if(playlist.selected == true){
+				View.showSpinner();
 				fetch(`https://folksa.ga/api/playlists?key=flat_eric&title=${searchWord}&sort=desc&limit=12`)
 				.then((response) => response.json())
 				.then((data) => {
+					View.stopSpinner();
 					View.showPlaylists(data);
 				})
 				.catch((error) => {
@@ -61,39 +69,44 @@ const Model = (function() {
 			}
 
 			if(genre.selected == true){
+				View.showSpinner();
 				fetch(`https://folksa.ga/api/artists?key=flat_eric&genres=${searchWord}&sort=desc&limit=6`)
 				.then((response) => response.json())
 				.then((data) => {
+					View.stopSpinner();
 					View.displayCardArtist(data);
 				})
 				.catch((error) => {
 					View.errorMessage('Något gick fel. Försök igen senare.');
 					console.log(error)
 				});
-
+				View.showSpinner();
 				fetch(`https://folksa.ga/api/tracks?key=flat_eric&genres=${searchWord}&sort=desc&limit=6`)
 				.then((response) => response.json())
 				.then((data) => {
+					View.stopSpinner();
 					View.displayCardTrack(data);
 				})
 				.catch((error) => {
 					View.errorMessage('Något gick fel. Försök igen senare.');
 					console.log(error)
 				});
-
+				View.showSpinner();
 				fetch(`https://folksa.ga/api/albums?key=flat_eric&genres=${searchWord}&populateArtists=true&sort=desc&limit=6`)
 				.then((response) => response.json())
 				.then((data) => {
+					View.stopSpinner();
 					View.displayCard(data, 'noLetter');
 				})
 				.catch((error) => {
 					View.errorMessage('Något gick fel. Försök igen senare.');
 					console.log(error)
 				});
-
+				View.showSpinner();
 				fetch(`https://folksa.ga/api/playlists?key=flat_eric&genres=${searchWord}&sort=desc&limit=6`)
 				.then((response) => response.json())
 				.then((data) => {
+					View.stopSpinner();
 					View.showPlaylists(data);
 				})
 				.catch((error) => {
@@ -129,10 +142,11 @@ const Model = (function() {
 		},
 
 		getComments: function(id) {
+			View.showSpinner();
 			fetch(`https://folksa.ga/api/playlists/${id}/comments?key=flat_eric&limit=1000`)
 			.then((response) => response.json())
 			.then((comments) => {
-				console.log(comments);
+				View.stopSpinner();
 				View.displayComments(comments, id);
 			})
 			.catch((error) => {
@@ -141,10 +155,12 @@ const Model = (function() {
 			});
 		},
 
-		getAlbums: function(letter){  
+		getAlbums: function(letter){ 
+			View.showSpinner();
 			fetch('https://folksa.ga/api/albums?key=flat_eric&populateArtists=true&limit=200')
 			  .then((response) => response.json())
 			  .then((albums) => {
+				  View.stopSpinner();
 				  Controller.sortAlbums(albums,letter);
 			})
 			.catch((error) => {
@@ -374,9 +390,11 @@ const Model = (function() {
 		},
 
 		getTopPlaylists: function(){
+			View.showSpinner();
 			fetch('https://folksa.ga/api/playlists?key=flat_eric')
 			  .then((response) => response.json())
 			  .then((playlists) => {
+				View.stopSpinner();
 				Controller.cloneAndCalculateAverage(playlists); 
 			  })
 			  .catch(function () {
