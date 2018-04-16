@@ -45,7 +45,7 @@ const Controller = (function() {
 
 			for(let i = 0; i < 5; i++){
 				let playlist = playlistClone[i];
-				View.displayCardPlaylist(playlist);
+				View.displayCardPlaylist(playlist); 
 			}  
 		},
 		

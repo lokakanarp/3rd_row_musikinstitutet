@@ -19,6 +19,7 @@ const Model = (function() {
 					View.displayCardArtist(data);
 				})
 				.catch((error) => {
+					View.errorMessage('Något gick fel. Försök igen senare.');
 					console.log(error)
 				});
 			}
@@ -30,6 +31,7 @@ const Model = (function() {
 					View.displayCardTrack(data);
 				})
 				.catch((error) => {
+					View.errorMessage('Något gick fel. Försök igen senare.');
 					console.log(error)
 				});
 			}
@@ -41,6 +43,7 @@ const Model = (function() {
 					View.displayCard(data, 'noLetter');
 				})
 				.catch((error) => {
+					View.errorMessage('Något gick fel. Försök igen senare.');
 					console.log(error)
 				});
 			}
@@ -52,6 +55,7 @@ const Model = (function() {
 					View.showPlaylists(data);
 				})
 				.catch((error) => {
+					View.errorMessage('Något gick fel. Försök igen senare.');
 					console.log(error)
 				});
 			}
@@ -63,6 +67,7 @@ const Model = (function() {
 					View.displayCardArtist(data);
 				})
 				.catch((error) => {
+					View.errorMessage('Något gick fel. Försök igen senare.');
 					console.log(error)
 				});
 
@@ -72,6 +77,7 @@ const Model = (function() {
 					View.displayCardTrack(data);
 				})
 				.catch((error) => {
+					View.errorMessage('Något gick fel. Försök igen senare.');
 					console.log(error)
 				});
 
@@ -81,6 +87,7 @@ const Model = (function() {
 					View.displayCard(data, 'noLetter');
 				})
 				.catch((error) => {
+					View.errorMessage('Något gick fel. Försök igen senare.');
 					console.log(error)
 				});
 
@@ -90,6 +97,7 @@ const Model = (function() {
 					View.showPlaylists(data);
 				})
 				.catch((error) => {
+					View.errorMessage('Något gick fel. Försök igen senare.');
 					console.log(error)
 				});
 			}
@@ -124,8 +132,9 @@ const Model = (function() {
 			console.log(playlist);
 		  })
 			.catch((error) => {
-					console.log(error)
-				});	
+				View.errorMessage('Något gick fel. Försök igen senare.');
+				console.log(error)
+			});	
 		},
 
 		getComments: function(id) {
@@ -136,8 +145,9 @@ const Model = (function() {
 				View.displayComments(comments, id);
 			})
 			.catch((error) => {
-					console.log(error)
-				});
+				View.errorMessage('Något gick fel. Försök igen senare.');
+				console.log(error)
+			});
 		},
 
 		getAlbums: function(letter){  
@@ -145,6 +155,10 @@ const Model = (function() {
 			  .then((response) => response.json())
 			  .then((albums) => {
 				  Controller.sortAlbums(albums,letter);
+			})
+			.catch((error) => {
+				View.errorMessage('Något gick fel. Försök igen senare.');
+				console.log(error)
 			});
 		},
 
@@ -153,7 +167,11 @@ const Model = (function() {
 		  .then((response) => response.json())
 		  .then((singleTrack) => {    
 				return singleTrack;
-		  });
+		  })
+		  .catch((error) => {
+				View.errorMessage('Något gick fel. Försök igen senare.');
+				console.log(error)
+		  }); 
 		},
 
 		getElementsfromArtistForm: function() {
@@ -196,7 +214,7 @@ const Model = (function() {
 			  })
 				.catch(function () {
 				console.log('error')
-				errorMessage('Något gick fel. Försök igen senare.');
+				View.errorMessage('Något gick fel. Försök igen senare.');
 			})
 		},
 
@@ -237,7 +255,7 @@ const Model = (function() {
 				View.messageAlbumForm(album);
 			  })
 			  .catch(function () {
-				errorMessage('Något gick fel. Försök igen senare.');
+				View.errorMessage('Något gick fel. Försök igen senare.');
 			  })	
 		},
 
@@ -284,7 +302,7 @@ const Model = (function() {
 				View.messageTrackForm(track);
 			  })
 			  .catch(function () {
-				errorMessage('Något gick fel. Försök igen senare.');
+				View.errorMessage('Något gick fel. Försök igen senare.');
 			  })
 		},
 
@@ -317,11 +335,11 @@ const Model = (function() {
 			  })
 			  .then((response) => response.json())
 			  .then((playlist) => {
-			  console.log(playlist);
-			  View.messagPlaylistForm(playlist); 
+				  console.log(playlist);
+				  View.messagPlaylistForm(playlist); 
 			  })
 			  .catch(function () {
-				errorMessage('Något gick fel. Försök igen senare.');
+				  View.errorMessage('Något gick fel. Försök igen senare.');
 			  })	
 		},
 
@@ -383,6 +401,9 @@ const Model = (function() {
 				.then((response) => response.json())
 				.then((album) => {
 					console.log(album);
+				})
+				.catch(function () {
+					View.errorMessage('Något gick fel. Försök igen senare.');
 				});
 		},
 
@@ -397,7 +418,10 @@ const Model = (function() {
 				})
 				.then((response) => response.json())
 				.then((track) => {
-					//console.log(track);
+					
+				})
+				.catch(function () {
+					View.errorMessage('Något gick fel. Försök igen senare.');
 				});
 		},
 
@@ -413,6 +437,9 @@ const Model = (function() {
 				.then((response) => response.json())
 				.then((playlist) => {
 					console.log(playlist);
+				})
+				.catch(function () {
+					View.errorMessage('Något gick fel. Försök igen senare.');
 				});  
 		},
 
@@ -424,6 +451,9 @@ const Model = (function() {
 					method: 'DELETE'
 				  })
 				  .then((response) => response.json())
+				  .catch(function () {
+					View.errorMessage('Något gick fel. Försök igen senare.');
+				  });
 
 				View.deleteArtistFromDOM(artistId);
 			}
@@ -436,6 +466,10 @@ const Model = (function() {
 					method: 'DELETE'
 				  })
 				  .then((response) => response.json())
+				  .catch(function () {
+					View.errorMessage('Något gick fel. Försök igen senare.');
+				  });
+				
 				View.deletePlaylistFromDOM(playlistId);
 			}
 		},
@@ -447,6 +481,10 @@ const Model = (function() {
 					method: 'DELETE'
 				  })
 				  .then((response) => response.json())
+				  .catch(function () {
+					View.errorMessage('Något gick fel. Försök igen senare.');
+				  });
+				
 				View.deleteCommentFromDOM(commentId);
 			}
 		},
@@ -459,19 +497,25 @@ const Model = (function() {
 					method: 'DELETE'
 				  })
 				  .then((response) => response.json())
+				  .catch(function () {
+					View.errorMessage('Något gick fel. Försök igen senare.');
+				  });
 
 				  View.deleteTrackFromDOM(trackId);
 			}
 		},
 
 		deleteAlbum: function(albumId){
-			const deleteConfirm = confirm("Vill du verkligen ta bort albumet? Albumets låtar kommer försvinna.");
+			const deleteConfirm = confirm("Vill du verkligen ta bort albumet?");
 
 			if(deleteConfirm){
 				fetch(`https://folksa.ga/api/albums/${albumId}?key=flat_eric`,{
 					method: 'DELETE'
 				  })
 				  .then((response) => response.json())
+				  .catch(function () {
+					View.errorMessage('Något gick fel. Försök igen senare.');
+				  });
 
 				View.deleteAlbumFromDOM(albumId);
 			}

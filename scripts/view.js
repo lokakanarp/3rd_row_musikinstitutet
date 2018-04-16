@@ -256,8 +256,11 @@ const View = (function (){
 			cardWrapperElement.appendChild(cardCommentInputElement);
 			cardWrapperElement.appendChild(cardCommentElement);
 			contentElement.appendChild(cardWrapperElement);
-
+			
+			/* playlistRating should be different depending on whether you enter this
+			function from Toplist-button or search-field... */
 			let playlistRating = playlist.ratings;
+
 			cardPlaylistTitleElement.innerHTML = playlist.title;
 			cardMenuElement.innerHTML =	
 				 `<select id="ratePlaylist${playlist._id}" data-track="${playlist._id}" class="rateTrack">
@@ -403,7 +406,7 @@ const View = (function (){
 					
 					const cardWrapperElement = document.createElement('div');
 					cardWrapperElement.classList.add('cardWrapper');
-					cardWrapperElement.id = `album${albumId}`;
+					cardWrapperElement.id = `${albumId}`;
 
 					const cardAlbumImgElement = document.createElement('div');
 					cardAlbumImgElement.classList.add('cardAlbumImg');
@@ -516,10 +519,7 @@ const View = (function (){
 								const addTrack = document.getElementById(`addTrackToPlaylist${trackId}`);
 								addTrack.addEventListener('click', function(event){
 									event.preventDefault();
-									//console.log(this);
-									//console.log(this.dataset.track);
 									let trackId = this.dataset.track;
-									// addTrackToPlaylist-function is to be found in playlist.js:
 									Controller.addTrackToPlaylist(trackId);
 								});
 
@@ -527,19 +527,22 @@ const View = (function (){
 								const deleteTrackButton = document.getElementById(`deleteTrack${trackId}`);
 								deleteTrackButton.addEventListener('click', function(event){
 									event.preventDefault();
-									//console.log(this);
-									//console.log(this.dataset.track);
 									let trackId = this.dataset.track;
-									// addTrackToPlaylist-function is to be found in playlist.js:
 									Model.deleteTrack(trackId);
+								});
+								
+								// Delete album
+								const deleteAlbumButton = document.getElementById(`deleteAlbum${albumId}`);
+								deleteAlbumButton.addEventListener('click', function(event){
+									event.preventDefault();
+									let albumId = this.dataset.track;
+									Model.deleteAlbum(albumId);
 								});
 
 								//Rate track
 								const rateTrackDropdown = document.getElementById(`rateTrack${trackId}`);
 								rateTrackDropdown.addEventListener('change', function(event){
 									event.preventDefault();
-									//console.log(this);
-									//console.log('id: ', this.dataset.track);
 									let trackId = this.dataset.track;
 									let trackRating = this[this.selectedIndex].value;
 
