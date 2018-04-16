@@ -1,18 +1,15 @@
 //Global variables
-
-const addArtistForms = document.createElement('div');  
-addArtistForms.classList.add('addArtistForms');
-contentElement.appendChild(addArtistForms);	
+const addArtistForms = document.createElement('div'); 
 const headingForms = document.createElement('div');
-headingForms.classList.add('headingForms');
-addArtistForms.appendChild(headingForms);
 const confirmationMessageArtist = document.createElement('div');
-confirmationMessageArtist.classList.add('confirmationMessage');
-addArtistForms.appendChild(confirmationMessageArtist);
 const artistFormElement = document.createElement('div');
-artistFormElement.classList.add('artistFormElement');
-addArtistForms.appendChild(artistFormElement);
 
+const displayArtistFormLink = document.getElementById('displayArtistFormLink');
+displayArtistFormLink.addEventListener('click', function(event){
+	event.preventDefault();
+	clearElement(contentElement);
+	displayArtistForm();
+})
 
 function addEventListenerToButton(button, callback) {
 button.addEventListener('click', function(event){
@@ -21,15 +18,18 @@ button.addEventListener('click', function(event){
 	})
 }
 
-const displayArtistFormLink = document.getElementById('displayArtistFormLink');
-displayArtistFormLink.addEventListener('click', function(event){
-	event.preventDefault();
-	headingForms.innerHTML = `<h2>Lägg till en artist, ett album eller en låt.</h2>`;
-	displayArtistForm();
-})
-
 function displayArtistForm() {
+	contentElement.innerHTML = '';
+	addArtistForms.classList.add('addArtistForms');
+	contentElement.appendChild(addArtistForms);	
+	headingForms.classList.add('headingForms');
+	addArtistForms.appendChild(headingForms);
+	confirmationMessageArtist.classList.add('confirmationMessage');
+	addArtistForms.appendChild(confirmationMessageArtist);
+	artistFormElement.classList.add('artistFormElement');
+	addArtistForms.appendChild(artistFormElement);
 	confirmationMessageArtist.innerHTML = '';
+	headingForms.innerHTML = `<h2>Lägg till en artist, ett album eller en låt.</h2>`;
 	const artistForm = `<form>
 	  Artistens eller bandets namn:<br>
 	  <input type='text' name='nameOfArtist' id='nameOfArtist' required/>
@@ -95,6 +95,7 @@ function postArtist(artist){
 			messageArtistForm(artist);
 		  })
 			.catch(function () {
+			console.log('error')
 			errorMessage('Något gick fel. Försök igen senare.');
 		})
 }

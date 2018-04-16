@@ -1,13 +1,22 @@
-
 //The link in navbar:
 const displayPlaylistFormLink = document.getElementById('displayPlaylistFormLink');
 displayPlaylistFormLink.addEventListener('click', function(event){
 	event.preventDefault();
-	headingForms.innerHTML = `<h2>Skapa en ny spellista</h2>`;
 	displayPlaylistForm();
 })
 
 function displayPlaylistForm() {
+	contentElement.innerHTML = '';
+	addArtistForms.classList.add('addArtistForms');
+	contentElement.appendChild(addArtistForms);	
+	headingForms.classList.add('headingForms');
+	addArtistForms.appendChild(headingForms);
+	confirmationMessageArtist.classList.add('confirmationMessage');
+	addArtistForms.appendChild(confirmationMessageArtist);
+	artistFormElement.classList.add('artistFormElement');
+	addArtistForms.appendChild(artistFormElement);
+	confirmationMessageArtist.innerHTML = '';
+	headingForms.innerHTML = `<h2>Skapa en ny spellista</h2>`;
 	const playlistForm = `
 		<form>
 			Spellistans namn:<br>
@@ -71,8 +80,6 @@ function messagPlaylistForm(playlist) {
 	bredvid låttitlarna och välj spellista ur menyn.</p>`
 	artistFormElement.innerHTML = message;
 }
-
-
 
 /*************************** Add track to playlist functions ***********************************/
 
