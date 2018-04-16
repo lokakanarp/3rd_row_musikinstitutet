@@ -16,7 +16,7 @@ const Model = (function() {
 				fetch(`https://folksa.ga/api/artists?key=flat_eric&name=${searchWord}&sort=desc&limit=12`)
 				.then((response) => response.json())
 				.then((data) => {
-					displayCardArtist(data);
+					View.displayCardArtist(data);
 				})
 				.catch((error) => {
 					console.log(error)
@@ -27,7 +27,7 @@ const Model = (function() {
 				fetch(`https://folksa.ga/api/tracks?key=flat_eric&title=${searchWord}&sort=desc&limit=12`)
 				.then((response) => response.json())
 				.then((data) => {
-					displayCardTrack(data);
+					View.displayCardTrack(data);
 				})
 				.catch((error) => {
 					console.log(error)
@@ -38,7 +38,7 @@ const Model = (function() {
 				fetch(`https://folksa.ga/api/albums?key=flat_eric&title=${searchWord}&populateArtists=true&sort=desc&limit=15`)
 				.then((response) => response.json())
 				.then((data) => {
-					displayCard(data, 'noLetter');
+					View.displayCard(data, 'noLetter');
 				})
 				.catch((error) => {
 					console.log(error)
@@ -49,7 +49,7 @@ const Model = (function() {
 				fetch(`https://folksa.ga/api/playlists?key=flat_eric&title=${searchWord}&sort=desc&limit=12`)
 				.then((response) => response.json())
 				.then((data) => {
-					showPlaylists(data);
+					View.showPlaylists(data);
 				})
 				.catch((error) => {
 					console.log(error)
@@ -60,7 +60,7 @@ const Model = (function() {
 				fetch(`https://folksa.ga/api/artists?key=flat_eric&genres=${searchWord}&sort=desc&limit=6`)
 				.then((response) => response.json())
 				.then((data) => {
-					displayCardArtist(data);
+					View.displayCardArtist(data);
 				})
 				.catch((error) => {
 					console.log(error)
@@ -69,7 +69,7 @@ const Model = (function() {
 				fetch(`https://folksa.ga/api/tracks?key=flat_eric&genres=${searchWord}&sort=desc&limit=6`)
 				.then((response) => response.json())
 				.then((data) => {
-					displayCardTrack(data);
+					View.displayCardTrack(data);
 				})
 				.catch((error) => {
 					console.log(error)
@@ -78,7 +78,7 @@ const Model = (function() {
 				fetch(`https://folksa.ga/api/albums?key=flat_eric&genres=${searchWord}&populateArtists=true&sort=desc&limit=6`)
 				.then((response) => response.json())
 				.then((data) => {
-					displayCard(data, 'noLetter');
+					View.displayCard(data, 'noLetter');
 				})
 				.catch((error) => {
 					console.log(error)
@@ -87,7 +87,7 @@ const Model = (function() {
 				fetch(`https://folksa.ga/api/playlists?key=flat_eric&genres=${searchWord}&sort=desc&limit=6`)
 				.then((response) => response.json())
 				.then((data) => {
-					showPlaylists(data);
+					View.showPlaylists(data);
 				})
 				.catch((error) => {
 					console.log(error)
@@ -133,7 +133,7 @@ const Model = (function() {
 			.then((response) => response.json())
 			.then((comments) => {
 				console.log(comments);
-				displayComments(comments, id);
+				View.displayComments(comments, id);
 			})
 			.catch((error) => {
 					console.log(error)
@@ -144,7 +144,7 @@ const Model = (function() {
 			fetch('https://folksa.ga/api/albums?key=flat_eric&populateArtists=true&limit=200')
 			  .then((response) => response.json())
 			  .then((albums) => {
-				  sortAlbums(albums,letter);
+				  Model.sortAlbums(albums,letter);
 			});
 		},
 
@@ -154,7 +154,7 @@ const Model = (function() {
 				var nameB = b.artists[0] ?  b.artists[0].name : '';
 				return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
 			})
-				displayCard(albums, letter);        
+				View.displayCard(albums, letter);        
 		},
 
 		getTrackInfo: function(trackId){
@@ -185,7 +185,7 @@ const Model = (function() {
 					spotifyURL: spotifyURLOfArtist.value,
 					coverImage: coverImageOfArtist.value	
 				}
-				postArtist(elementsfromArtistForm);	
+				Model.postArtist(elementsfromArtistForm);	
 			}
 		},
 
@@ -201,7 +201,7 @@ const Model = (function() {
 			  .then((response) => response.json())
 			  .then((artist) => {
 				console.log(artist);
-				messageArtistForm(artist);
+				View.messageArtistForm(artist);
 			  })
 				.catch(function () {
 				console.log('error')
@@ -227,7 +227,7 @@ const Model = (function() {
 				spotifyURL: spotifyURLOfAlbum.value,
 				coverImage: coverImageOfAlbum.value
 				}
-				postAlbum(elementsFromAlbumForm);
+				Model.postAlbum(elementsFromAlbumForm);
 			}
 		},
 
@@ -243,7 +243,7 @@ const Model = (function() {
 			  .then((response) => response.json())
 			  .then((album) => {
 				console.log(album);
-				messageAlbumForm(album);
+				View.messageAlbumForm(album);
 			  })
 			  .catch(function () {
 				errorMessage('Något gick fel. Försök igen senare.');
@@ -274,7 +274,7 @@ const Model = (function() {
 				youtubeURL: youtubeURLOfTrack.value,
 				soundcloudURL: soundcloudURLOfTrack.value
 				}
-				postTrack(elementsFromTracksForm);
+				Model.postTrack(elementsFromTracksForm);
 			}
 		},
 
@@ -290,7 +290,7 @@ const Model = (function() {
 			  .then((response) => response.json())
 			  .then((track) => {
 				console.log(track);
-				messageTrackForm(track);
+				View.messageTrackForm(track);
 			  })
 			  .catch(function () {
 				errorMessage('Något gick fel. Försök igen senare.');
@@ -306,7 +306,7 @@ const Model = (function() {
 			const createdBy = createdByInput.value;
 			const coverImage = newPlaylistImage.value
 			const genres = newPlaylistGenres.value;
-			createPlaylist(title, createdBy, coverImage, genres);
+			Model.createPlaylist(title, createdBy, coverImage, genres);
 		},
 
 		createPlaylist: function(title, createdBy, coverImage, genres){
@@ -327,7 +327,7 @@ const Model = (function() {
 			  .then((response) => response.json())
 			  .then((playlist) => {
 			  console.log(playlist);
-			  messagPlaylistForm(playlist); 
+			  View.messagPlaylistForm(playlist); 
 			  })
 			  .catch(function () {
 				errorMessage('Något gick fel. Försök igen senare.');
@@ -339,7 +339,7 @@ const Model = (function() {
 			// Saving track id to array:
 			playlistTrack.push(trackId);
 			// Fetching existing playlist so that user can choose which playlist they want to add track to:
-			getExistingPlaylists();
+			Model.getExistingPlaylists();
 		},
 
 
@@ -348,10 +348,10 @@ const Model = (function() {
 			  .then((response) => response.json())
 			  .then((playlists) => {
 				// Pushing info about existing playlists forward to functions that displays them in a drop down-menu in DOM:
-				createDropdown(playlists); 
+				View.createDropdown(playlists); 
 			  })
 			   .catch(function () {
-				errorMessage('Något gick fel. Försök igen senare.');
+				View.errorMessage('Något gick fel. Försök igen senare.');
 			  })	
 		},
 
@@ -374,7 +374,7 @@ const Model = (function() {
 					alert(`Great! The track was added to ${playlist.title}`);
 			  })
 				.catch(function () {
-				errorMessage('Något gick fel. Försök igen senare.');
+				View.errorMessage('Något gick fel. Försök igen senare.');
 			  })	
 		},
 
@@ -382,10 +382,10 @@ const Model = (function() {
 			fetch('https://folksa.ga/api/playlists?key=flat_eric')
 			  .then((response) => response.json())
 			  .then((playlists) => {
-				cloneAndCalculateAverage(playlists); 
+				Model.cloneAndCalculateAverage(playlists); 
 			  })
 			  .catch(function () {
-				errorMessage('Något gick fel. Försök igen senare.');
+				View.errorMessage('Något gick fel. Försök igen senare.');
 			  })	
 		},
 
@@ -396,13 +396,13 @@ const Model = (function() {
 			for(i = 0; i < playlistClone.length; i++){
 				let ratingsArray = playlistClone[i].ratings;
 				console.log(ratingsArray);
-				let averageToplistRating = calculateAverageRating(ratingsArray);
+				let averageToplistRating = Model.calculateAverageRating(ratingsArray);
 				console.log(averageToplistRating);
 				playlistClone[i].ratings = [];
 				playlistClone[i].ratings = averageToplistRating;  
 			}
 
-			sortTopFive(playlistClone); 
+			Model.sortTopFive(playlistClone); 
 		},
 
 		sortTopFive: function(playlistClone){
@@ -414,7 +414,7 @@ const Model = (function() {
 
 			for(let i = 0; i < 5; i++){
 				let playlist = playlistClone[i];
-				displayCardPlaylist(playlist);
+				View.displayCardPlaylist(playlist);
 			}  
 		},
 
@@ -490,7 +490,7 @@ const Model = (function() {
 				  })
 				  .then((response) => response.json())
 
-				deleteArtistFromDOM(artistId);
+				View.deleteArtistFromDOM(artistId);
 			}
 		},
 
@@ -501,7 +501,7 @@ const Model = (function() {
 					method: 'DELETE'
 				  })
 				  .then((response) => response.json())
-				deletePlaylistFromDOM(playlistId);
+				View.deletePlaylistFromDOM(playlistId);
 			}
 		},
 
@@ -512,7 +512,7 @@ const Model = (function() {
 					method: 'DELETE'
 				  })
 				  .then((response) => response.json())
-				deleteCommentFromDOM(commentId);
+				View.deleteCommentFromDOM(commentId);
 			}
 		},
 
@@ -525,7 +525,7 @@ const Model = (function() {
 				  })
 				  .then((response) => response.json())
 
-				  deleteTrackFromDOM(trackId);
+				  View.deleteTrackFromDOM(trackId);
 			}
 		},
 
@@ -538,7 +538,7 @@ const Model = (function() {
 				  })
 				  .then((response) => response.json())
 
-				deleteAlbumFromDOM(albumId);
+				View.deleteAlbumFromDOM(albumId);
 			}
 		}
 	}

@@ -8,8 +8,70 @@ const View = (function (){
 	const headingForms = document.createElement('div');
 	const confirmationMessageArtist = document.createElement('div');
 	const artistFormElement = document.createElement('div');
+	const showToplistButton = document.getElementById('showToplistButton');
+	const displayPlaylistFormLink = document.getElementById('displayPlaylistFormLink');
+	const displayArtistFormLink = document.getElementById('displayArtistFormLink');
+	
+	searchButton.addEventListener('click', function(event){
+		event.preventDefault();
+		contentElement.innerHTML = '';
+		Model.getDataFromSearch();
+	});
+
+	showToplistButton.addEventListener('click', function(event){
+		event.preventDefault();
+		contentElement.innerHTML = '';
+		Model.getTopPlaylists();
+	});
+	
+	playlistSelection.addEventListener('change', function (){
+		event.preventDefault();
+		const choosePlaylistElement = document.getElementById('choosePlaylist');
+		choosePlaylistElement.style.display = "none";
+
+		let playlistId = this[this.selectedIndex].value;
+
+		Model.postToPlaylist(playlistId);
+
+	});
+	
+	displayPlaylistFormLink.addEventListener('click', function(event){
+		event.preventDefault();
+		View.displayPlaylistForm();
+	});
+	
+
+	displayArtistFormLink.addEventListener('click', function(event){
+		event.preventDefault();
+		clearElement(contentElement);
+		View.displayArtistForm();
+	});
+	
+	
 
 	return {
+		initialize: function(){
+			View.addEventlistenersToAlphabet();
+		},
+		addEventListenerToButton: function(button, callback) {
+			button.addEventListener('click', function(event){
+				event.preventDefault();
+				callback();
+			})
+		},
+		
+		addEventlistenersToAlphabet: function(){
+			let alphabetLetters = document.getElementsByClassName("aphabeticalMenu");
+			for(let letter of alphabetLetters) {
+				letter.addEventListener('click', function () {
+
+					const letter = this.id;
+					View.clearElement(contentElement);
+					Model.getAlbums(letter);
+				})
+			}
+		},
+			  
 		displayCardTrack: function(data){
 			const headline = document.createElement('h2');
 			headline.classList.add('sectionHeadline');
@@ -701,3 +763,5 @@ const View = (function (){
 	}
 	
 })();
+
+View.initialize();
