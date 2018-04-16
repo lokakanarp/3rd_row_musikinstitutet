@@ -229,11 +229,11 @@ const View = (function (){
 
 		showPlaylists: function(data) {
 			for(let i = 0; i < data.length; i++){
-				View.displayCardPlaylist(data[i]);
+				View.displayCardPlaylist(data[i], 'notSorted');
 			}
 		},
 
-		displayCardPlaylist: function(playlist){
+		displayCardPlaylist: function(playlist, sortedOrNot){
 			const cardWrapperElement = document.createElement('div');
 			cardWrapperElement.classList.add('cardWrapper');
 			cardWrapperElement.classList.add('cardWrapperPlaylist');
@@ -263,9 +263,22 @@ const View = (function (){
 			cardWrapperElement.appendChild(cardCommentElement);
 			contentElement.appendChild(cardWrapperElement);
 			
-			/* playlistRating should be different depending on whether you enter this
+			/* playlistRating is different depending on whether you enter this
 			function from Toplist-button or search-field... */
-			let playlistRating = playlist.ratings;
+            let playlistRating;
+            
+            if(sortedOrNot === 'allreadySorted'){
+                playlistRating = playlist.ratings;
+            }else if(sortedOrNot === 'notSorted'){
+                let albumRatingsArray = playlist.ratings;
+                
+                if(albumRatingsArray.length === 0){
+                    playlistRating = ' ';
+                }else if(albumRatingsArray.length >= 1){
+                    playlistRating = Controller.calculateAverageRating(albumRatingsArray);
+                }
+
+            }
 
 			cardPlaylistTitleElement.innerHTML = playlist.title;
 			cardMenuElement.innerHTML =	
@@ -316,10 +329,10 @@ const View = (function (){
 				}
 				 cardCommentInputElement.innerHTML = `
 					<form>
-						Kommentera spellista:<b>
+						<label for='playlistComment${playlist._id}'>Kommentera spellista:</label><b>
 						<input type='text' name='playlistComment' 
 						id='playlistComment${playlist._id}' class="playlistInput"><br>
-						Namn:<br>
+						<label for='commentCreatedBy${playlist._id}'>Namn:</label><br>
 						<input type='text'name='commentCreatedBy' id='commentCreatedBy${playlist._id}' class="playlistInput"><br>
 						<button id='addCommentButton${playlist._id}' 
 						class='addCommentButton' 
@@ -588,15 +601,15 @@ const View = (function (){
 			headingForms.innerHTML = `<h2>Skapa en ny spellista</h2>`;
 			const playlistForm = `
 				<form>
-					Spellistans namn:<br>
-					<input id="newPlayListTitle" required/><br>
-					Skapad av:<br>
-					<input id="createdBy" required/><br>
-					Genrer (separera med komma):<br>
-					<input id="newPlaylistGenres"><br>
-					Bildadress:<br>
-					<input id="newPlaylistImage"><br>
-					<button id="newPlaylistButton" type="submit" class='formButton'>Skapa spellista</button>
+					<label for='newPlayListTitle'>Spellistans namn:</label><br>
+					<input id='newPlayListTitle' required/><br>
+					<label for='createdBy'>Skapad av:</label><br>
+					<input id='createdBy' required/><br>
+					<label for='newPlaylistGenres'>Genrer (separera med komma):</label><br>
+					<input id='newPlaylistGenres'><br>
+					<label for='newPlaylistImage'>Bildadress:</label><br>
+					<input id='newPlaylistImage'><br>
+					<button id='newPlaylistButton' type='submit' class='formButton'>Skapa spellista</button>
 				</form>`;
 			artistFormElement.innerHTML = playlistForm;	
 			const newPlaylistButton = document.getElementById('newPlaylistButton');
@@ -618,18 +631,18 @@ const View = (function (){
 			choosePlaylistElement.classList.add('choosePlaylist');
 
 			const playlistSelectionElement = document.getElementById('playlistSelection');
-			choosePlaylistElement.style.display = "block";
+			choosePlaylistElement.style.display = 'block';
 
 			let optionRow;
 			optionRow =
-			`<option class="optionClass">Välj en spellista:</option>` 
+			`<option class='optionClass'>Välj en spellista:</option>` 
 
 			for(let i = 0; i < playlists.length; i++){
 				let playlistId = playlists[i]._id;
 				let playlistTitle = playlists[i].title;
 
 				optionRow +=
-				`<option value="${playlistId}" class="optionClass">${playlistTitle}</option>` 
+				`<option value='${playlistId}' class='optionClass'>${playlistTitle}</option>` 
 			}
 
 			playlistSelectionElement.insertAdjacentHTML('beforeend', optionRow);
@@ -648,24 +661,24 @@ const View = (function (){
 			confirmationMessageArtist.innerHTML = '';
 			headingForms.innerHTML = `<h2>Lägg till en artist, ett album eller en låt.</h2>`;
 			const artistForm = `<form>
-			  Artistens eller bandets namn:<br>
+			  <label for='nameOfArtist'>Artistens eller bandets namn:</label><br>
 			  <input type='text' name='nameOfArtist' id='nameOfArtist' required/>
 			  <br>
-			  Född:<br>
+			  <label for='bornDateArtist'>Född:</label><br>
 			  <input type='text' name='born' id='bornDateArtist'><br>
-			  Genus:<br>
+			  <label for='genderOfArtist'>Genus:</label><br>
 			  <select name='gender' id='genderOfArtist' class='selectGender'>
 				  <option value='female'>Kvinna</option>
 				  <option value='male'>Man</option>
 				  <option value='other'>Annat</option>
 			  </select><br>
-			  Genrer (separera med komma):<br>
+			  <label for='genresOfArtist'>Genrer (separera med komma):</label><br>
 			  <input type='text' name='genres' id='genresOfArtist'><br>
-			  Födelseland:<br>
+			  <label for='countryBornArtist'>Födelseland:</label><br>
 			  <input type='text' name='countryBorn' id='countryBornArtist'><br>
-			  Spotify URL:<br>
+			  <label for='spotifyURLOfArtist'>Spotify URL:</label><br>
 			  <input type='text' name='spotifyURL' id='spotifyURLOfArtist'><br>
-			  Bildadress:<br>
+			  <label for='coverImageOfArtist'>Bildadress:</label><br>
 			  <input type='text' name='coverImage' id='coverImageOfArtist'><br>
 				<button id='artistFormButton' class='formButton'>Lägg till artist</button><br>
 			</form>`;
@@ -684,15 +697,15 @@ const View = (function (){
 		displayAlbumForm: function(artistId) {
 			const albumForm = `<form>
 				<input type='hidden' id= 'artistId' value=${artistId}>
-			  Albumtitel:<br>
+			  <label for='titleOfAlbum'>Albumtitel:</label><br>
 			  <input type='text' name='titleOfAlbum' id='titleOfAlbum'><br>
-			  Utgivningsdatum:<br>
+			  <label for='dateOfRelease'>Utgivningsdatum:</label><br>
 			  <input type='text' name='dateOfRelease' id='dateOfRelease'><br>
-			  Genrer (separera med komma):<br>
+			  <label for='genresOfAlbum'>Genrer (separera med komma):</label><br>
 			  <input type='text' name='genresOfAlbum' id='genresOfAlbum'><br>
-			  Spotify URL:<br>
+			  <label for='spotifyURLOfAlbum'>Spotify URL:</label><br>
 			  <input type='text' name='spotifyURLOfAlbum' id='spotifyURLOfAlbum'><br>
-			  Omslagsbild:<br>
+			  <label for='coverImageOfAlbum'>Omslagsbild:</label><br>
 			  <input type='text' name='coverImageOfAlbum' id='coverImageOfAlbum'><br>
 			  <button id='albumFormButton' class='formButton'>Lägg till album</button>
 				<br>
@@ -711,25 +724,25 @@ const View = (function (){
 
 		displayTracksForm: function(albumId, artistId, coverImage) {
 			let tracksForm = `<form>
-			  Låttitel:<br>
+			   <label for='titleOfTrack'>Låttitel:</label><br>
 			  <input type='text' name='titleOfTrack' id='titleOfTrack'>
 			  <br>
 			  <input type='hidden' id='artistId' value=${artistId}>
 			  <input type='hidden' id='albumId' value=${albumId}>
 			  <input type='hidden' id='coverImageOfAlbum' value=${coverImage}>
-			  Genrer (separerade med komma):<br>
+			  <label for='genresOfTrack'>Genrer (separerade med komma):</label><br>
 			  <input type='text' name='genresOfTrack' id='genresOfTrack'>
 			  <br>
-			  Omslagsfärg:<br>
+			  <label for='coverImageColorOfTrack'>Omslagsfärg:</label><br>
 			  <input type='text' name='coverImageColorOfTrack' id='coverImageColorOfTrack'>
 			  <br>
-			  Spotify URL:<br>
+			  <label for='spotifyURLOfTrack'>Spotify URL:</label><br>
 			  <input type='text' name='spotifyURLOfTrack' id='spotifyURLOfTrack'> 
 			  <br>
-			  Youtube URL:<br>
+			  <label for='youtubeURLOfTrack'>Youtube URL:</label><br>
 			  <input type='text' name='youtubeURLOfTrack' id='youtubeURLOfTrack'>
 			  <br>
-			  Soundcloud URL:<br>
+			  <label for='soundcloudURLOfTrack'>Soundcloud URL:</label><br>
 			  <input type='text' name='soundcloudURLOfTrack' id='soundcloudURLOfTrack'><br>
 			  <button id='tracksFormButton' class='formButton'>Lägg till låt</button>
 			<br>
@@ -756,8 +769,30 @@ const View = (function (){
 		deleteArtistFromDOM: function(artistId){
 			const artistToDelete = document.getElementById(`${artistId}`);
 			artistToDelete.parentNode.removeChild(artistToDelete);
-		}
+		},
 		
+		showSpinner: function() {
+			contentElement.innerHTML = `
+			  <div class='sk-fading-circle'>
+			  <div class='sk-circle1 sk-circle'></div>
+			  <div class=sk-circle2 sk-circle'></div>
+			  <div class='sk-circle3 sk-circle'></div>
+			  <div class='sk-circle4 sk-circle'></div>
+			  <div class='sk-circle5 sk-circle'></div>
+			  <div class='sk-circle6 sk-circle'></div>
+			  <div class='sk-circle7 sk-circle'></div>
+			  <div class='sk-circle8 sk-circle'></div>
+			  <div class='sk-circle9 sk-circle'></div>
+			  <div class='sk-circle10 sk-circle'></div>
+			  <div class='sk-circle11 sk-circle'></div>
+			  <div class='sk-circle12 sk-circle'></div>
+			</div>`
+		},
+		
+		stopSpinner: function() {
+			contentElement.innerHTML = '';
+		}
+
 		
 	}
 	
