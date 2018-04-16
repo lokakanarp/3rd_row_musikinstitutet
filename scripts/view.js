@@ -217,11 +217,11 @@ const View = (function (){
 			contentElement.appendChild(headline);
 
 			for(let i = 0; i < data.length; i++){
-				View.displayCardPlaylist(data[i]);
+				View.displayCardPlaylist(data[i], 'notSorted');
 			}
 		},
 
-		displayCardPlaylist: function(playlist){
+		displayCardPlaylist: function(playlist, sortedOrNot){
 			const cardWrapperElement = document.createElement('div');
 			cardWrapperElement.classList.add('cardWrapper');
 			cardWrapperElement.classList.add('cardWrapperPlaylist');
@@ -251,9 +251,22 @@ const View = (function (){
 			cardWrapperElement.appendChild(cardCommentElement);
 			contentElement.appendChild(cardWrapperElement);
 			
-			/* playlistRating should be different depending on whether you enter this
+			/* playlistRating is different depending on whether you enter this
 			function from Toplist-button or search-field... */
-			let playlistRating = playlist.ratings;
+            let playlistRating;
+            
+            if(sortedOrNot === 'allreadySorted'){
+                playlistRating = playlist.ratings;
+            }else if(sortedOrNot === 'notSorted'){
+                let albumRatingsArray = playlist.ratings;
+                
+                if(albumRatingsArray.length === 0){
+                    playlistRating = ' ';
+                }else if(albumRatingsArray.length >= 1){
+                    playlistRating = Controller.calculateAverageRating(albumRatingsArray);
+                }
+
+            }
 
 			cardPlaylistTitleElement.innerHTML = playlist.title;
 			cardMenuElement.innerHTML =	
