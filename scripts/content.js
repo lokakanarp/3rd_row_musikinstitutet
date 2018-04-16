@@ -49,9 +49,9 @@ function sortAlbums(albums, letter){
     })
     
     displayCard(sortedObjectArray, letter); 
-*/
-    
-    
+
+*/    
+   
     albums.sort((a,b) => {
         var nameA = a.artists[0] ?  a.artists[0].name : '';
         var nameB = b.artists[0] ?  b.artists[0].name : '';
