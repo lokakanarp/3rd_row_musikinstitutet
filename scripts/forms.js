@@ -1,6 +1,5 @@
 //Global variables
 
-
 const addArtistForms = document.createElement('div');  
 addArtistForms.classList.add('addArtistForms');
 contentElement.appendChild(addArtistForms);	
@@ -94,7 +93,10 @@ function postArtist(artist){
 		  .then((artist) => {
 			console.log(artist);
 			messageArtistForm(artist);
-		  })	
+		  })
+			.catch(function () {
+			errorMessage('Något gick fel. Försök igen senare.');
+		})
 }
 function messageArtistForm(artist) {
 	const message = `<p>Du la till ${artist.name.toUpperCase()} till Musikinstitutet.<br> 
@@ -159,15 +161,17 @@ function postAlbum(album) {
 	  .then((album) => {
 		console.log(album);
 		messageAlbumForm(album);
-	  });	
+	  })
+	  .catch(function () {
+		errorMessage('Något gick fel. Försök igen senare.');
+	  })	
 }
 
 function messageAlbumForm(album) {
-	const message = `<p>Du la till ${album.title} till Musikinstitutet.<br> 
+	const message = `<p>Du la till ${album.title.toUpperCase()} till Musikinstitutet.<br> 
 		För att lägga till en låt till ${album.title.toUpperCase()} använd formuläret nedan.</p>`;
 	confirmationMessageArtist.innerHTML = message;
 	displayTracksForm(album._id, album.artists, album.coverImage);
-	
 }
 
 function displayTracksForm(albumId, artistId, coverImage) {
@@ -241,7 +245,10 @@ function postTrack(track) {
 	  .then((track) => {
 		console.log(track);
 		messageTrackForm(track);
-	  });	
+	  })
+	  .catch(function () {
+		errorMessage('Något gick fel. Försök igen senare.');
+	  })
 }
 function messageTrackForm(track) {
 	const message = `<p>Du la till ${track.title.toUpperCase()} till Musikinstitutet.<br> 

@@ -37,20 +37,16 @@ function getElementsFromPlaylistForm() {
     const createdBy = createdByInput.value;
 	const coverImage = newPlaylistImage.value
 	const genres = newPlaylistGenres.value;
-	
     createPlaylist(title, createdBy, coverImage, genres);
-
 }
 
 function createPlaylist(title, createdBy, coverImage, genres){
-
     let playlist = {
         title: title,
     	genres: genres,
         createdBy: createdBy,
 		coverImage: coverImage
     }
-
     fetch('https://folksa.ga/api/playlists?key=flat_eric',{
         method: 'POST',
         headers: {
@@ -63,7 +59,10 @@ function createPlaylist(title, createdBy, coverImage, genres){
       .then((playlist) => {
       console.log(playlist);
 	  messagPlaylistForm(playlist); 
-      });
+      })
+	  .catch(function () {
+		errorMessage('Något gick fel. Försök igen senare.');
+	  })	
 }
 
 function messagPlaylistForm(playlist) {
@@ -94,7 +93,10 @@ function getExistingPlaylists(){
       .then((playlists) => {
         // Pushing info about existing playlists forward to functions that displays them in a drop down-menu in DOM:
         createDropdown(playlists); 
-      });
+      })
+	   .catch(function () {
+		errorMessage('Något gick fel. Försök igen senare.');
+	  })	
 }
 
 function postToPlaylist(playlistId){
@@ -112,19 +114,13 @@ function postToPlaylist(playlistId){
       .then((response) => response.json())
       .then((playlist) => {
         console.log('this is the playlist: ', playlist);
-        
-        // THIS SHOULD NOT BE NECESSARY ANYMORE since solved in a much better way. Just keep "playlistTrack = '';"?
-        /* Weird bugsolving regarding double clicks in option-eventlisterners,
-        /* If this returns Error, means that user have just clicked "Choose one",
-        /* and the playListTrack must only been cleard once the track has been 
-        /* added to choosen list, when the user has clicked eventListener TWICE:
-        */
-        //if(playlist.type != "Error"){
-            // Clearing and preparing array for next input:
             playlistTrack = ''; 
             alert(`Great! The track was added to ${playlist.title}`);
         //}
-      });
+      })
+		.catch(function () {
+		errorMessage('Något gick fel. Försök igen senare.');
+	  })	
 
 }
 
@@ -137,7 +133,6 @@ function createDropdown(playlists){
     choosePlaylistElement.style.display = "block";
     
     let optionRow;
-    
     optionRow =
     `<option class="optionClass">Välj en spellista:</option>` 
     
@@ -185,7 +180,10 @@ function getTopPlaylists(){
       .then((response) => response.json())
       .then((playlists) => {
         cloneAndCalculateAverage(playlists); 
-      });
+      })
+	  .catch(function () {
+		errorMessage('Något gick fel. Försök igen senare.');
+	  })	
 }
 
 function cloneAndCalculateAverage(playlists){  
