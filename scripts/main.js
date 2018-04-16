@@ -561,7 +561,6 @@ function displayCardPlaylist(playlist){
 		let viewCommentsLink = document.getElementById(`viewCommentsLink${playlist._id}`);
 		addCommentButton.addEventListener('click', function(event){
 			event.preventDefault();
-			console.log("hallå");
 			postComment(playlistComment.value, commentCreatedBy.value, this.dataset.id);
 		});
 		viewCommentsLink.addEventListener('click', function(event){
