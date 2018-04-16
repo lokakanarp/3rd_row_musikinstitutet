@@ -116,7 +116,6 @@ function postToPlaylist(playlistId){
         console.log('this is the playlist: ', playlist);
             playlistTrack = ''; 
             alert(`Great! The track was added to ${playlist.title}`);
-        //}
       })
 		.catch(function () {
 		errorMessage('Något gick fel. Försök igen senare.');
@@ -192,7 +191,9 @@ function cloneAndCalculateAverage(playlists){
     /* Instead of array of single votes, ratings property is replaced to average in array clone: */
     for(i = 0; i < playlistClone.length; i++){
         let ratingsArray = playlistClone[i].ratings;
+        console.log(ratingsArray);
         let averageToplistRating = calculateAverageRating(ratingsArray);
+        console.log(averageToplistRating);
         playlistClone[i].ratings = [];
         playlistClone[i].ratings = averageToplistRating;  
     }
@@ -210,10 +211,11 @@ function sortTopFive(playlistClone){
     
     console.log(playlistClone); //loops out in order here...
 
-    //... but not here :(
     for(let i = 0; i < 5; i++){
         let playlist = playlistClone[i];
+        //...and here...
         console.log(playlist);
+        //...but not here :(
         displayCardPlaylist(playlist);
     }  
 }

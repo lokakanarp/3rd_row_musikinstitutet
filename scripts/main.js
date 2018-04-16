@@ -511,7 +511,7 @@ function displayCardPlaylist(playlist){
     contentElement.appendChild(cardWrapperElement);
 	
 
-	let playlistRating = calculateAverageRating(playlist.ratings);
+	let playlistRating = playlist.ratings;
 	
 	
 	cardPlaylistTitleElement.innerHTML = playlist.title;
