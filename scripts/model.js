@@ -20,7 +20,6 @@ const Model = (function() {
 				})
 				.catch((error) => {
 					View.errorMessage('Något gick fel. Försök igen senare.');
-					console.log(error)
 				});
 			}
 
@@ -32,19 +31,17 @@ const Model = (function() {
 				})
 				.catch((error) => {
 					View.errorMessage('Något gick fel. Försök igen senare.');
-					console.log(error)
 				});
 			}
 
 			if(album.selected == true){
-				fetch(`https://folksa.ga/api/albums?key=flat_eric&title=${searchWord}&populateArtists=true&sort=desc&limit=15`)
+				fetch(`https://folksa.ga/api/albums?key=flat_eric&title=${searchWord}&populateArtists=true&sort=desc&limit=12`)
 				.then((response) => response.json())
 				.then((data) => {
 					View.displayCard(data, 'noLetter');
 				})
 				.catch((error) => {
 					View.errorMessage('Något gick fel. Försök igen senare.');
-					console.log(error)
 				});
 			}
 
@@ -56,7 +53,6 @@ const Model = (function() {
 				})
 				.catch((error) => {
 					View.errorMessage('Något gick fel. Försök igen senare.');
-					console.log(error)
 				});
 			}
 
@@ -68,7 +64,6 @@ const Model = (function() {
 				})
 				.catch((error) => {
 					View.errorMessage('Något gick fel. Försök igen senare.');
-					console.log(error)
 				});
 
 				fetch(`https://folksa.ga/api/tracks?key=flat_eric&genres=${searchWord}&sort=desc&limit=6`)
@@ -78,7 +73,6 @@ const Model = (function() {
 				})
 				.catch((error) => {
 					View.errorMessage('Något gick fel. Försök igen senare.');
-					console.log(error)
 				});
 
 				fetch(`https://folksa.ga/api/albums?key=flat_eric&genres=${searchWord}&populateArtists=true&sort=desc&limit=6`)
@@ -88,7 +82,6 @@ const Model = (function() {
 				})
 				.catch((error) => {
 					View.errorMessage('Något gick fel. Försök igen senare.');
-					console.log(error)
 				});
 
 				fetch(`https://folksa.ga/api/playlists?key=flat_eric&genres=${searchWord}&sort=desc&limit=6`)
@@ -98,13 +91,11 @@ const Model = (function() {
 				})
 				.catch((error) => {
 					View.errorMessage('Något gick fel. Försök igen senare.');
-					console.log(error)
 				});
 			}
 		},
 
 		postComment: function(input, createdBy, id) {
-			console.log(input, createdBy, id);
 			let comment = {
 			playlist: id,
 			body: input,
@@ -120,11 +111,9 @@ const Model = (function() {
 			})
 			.then((response) => response.json())
 			.then((playlist) => {
-			console.log(playlist);
 		  })
 			.catch((error) => {
 				View.errorMessage('Något gick fel. Försök igen senare.');
-				console.log(error)
 			});	
 		},
 
@@ -132,12 +121,10 @@ const Model = (function() {
 			fetch(`https://folksa.ga/api/playlists/${id}/comments?key=flat_eric&limit=1000`)
 			.then((response) => response.json())
 			.then((comments) => {
-				console.log(comments);
 				View.displayComments(comments, id);
 			})
 			.catch((error) => {
 				View.errorMessage('Något gick fel. Försök igen senare.');
-				console.log(error)
 			});
 		},
 
@@ -149,7 +136,6 @@ const Model = (function() {
 			})
 			.catch((error) => {
 				View.errorMessage('Något gick fel. Försök igen senare.');
-				console.log(error)
 			});
 		},
 
@@ -161,7 +147,6 @@ const Model = (function() {
 		  })
 		  .catch((error) => {
 				View.errorMessage('Något gick fel. Försök igen senare.');
-				console.log(error)
 		  }); 
 		},
 
@@ -200,11 +185,9 @@ const Model = (function() {
 			  })
 			  .then((response) => response.json())
 			  .then((artist) => {
-				console.log(artist);
 				View.messageArtistForm(artist);
 			  })
 				.catch(function () {
-				console.log('error')
 				View.errorMessage('Något gick fel. Försök igen senare.');
 			})
 		},
@@ -242,7 +225,6 @@ const Model = (function() {
 			  })
 			  .then((response) => response.json())
 			  .then((album) => {
-				console.log(album);
 				View.messageAlbumForm(album);
 			  })
 			  .catch(function () {
@@ -289,7 +271,6 @@ const Model = (function() {
 			  })
 			  .then((response) => response.json())
 			  .then((track) => {
-				console.log(track);
 				View.messageTrackForm(track);
 			  })
 			  .catch(function () {
@@ -330,7 +311,6 @@ const Model = (function() {
 			  })
 			  .then((response) => response.json())
 			  .then((playlist) => {
-				  console.log(playlist);
 				  View.messagPlaylistForm(playlist); 
 			  })
 			  .catch(function () {
@@ -364,7 +344,6 @@ const Model = (function() {
 			  })
 			  .then((response) => response.json())
 			  .then((playlist) => {
-				console.log('this is the playlist: ', playlist);
 					playlistTrack = ''; 
 					alert(`Great! The track was added to ${playlist.title}`);
 			  })
@@ -395,7 +374,7 @@ const Model = (function() {
 				})
 				.then((response) => response.json())
 				.then((album) => {
-					console.log(album);
+					
 				})
 				.catch(function () {
 					View.errorMessage('Något gick fel. Försök igen senare.');
@@ -431,7 +410,7 @@ const Model = (function() {
 				})
 				.then((response) => response.json())
 				.then((playlist) => {
-					console.log(playlist);
+					
 				})
 				.catch(function () {
 					View.errorMessage('Något gick fel. Försök igen senare.');
