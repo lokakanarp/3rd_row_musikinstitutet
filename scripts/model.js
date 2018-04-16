@@ -73,6 +73,7 @@ const Model = (function() {
 				.catch((error) => {
 					View.errorMessage('Något gick fel. Försök igen senare.');
 				});
+                
 				View.showSpinner();
 				fetch(`https://folksa.ga/api/tracks?key=flat_eric&genres=${searchWord}&sort=desc&limit=6`)
 				.then((response) => response.json())
@@ -83,6 +84,7 @@ const Model = (function() {
 				.catch((error) => {
 					View.errorMessage('Något gick fel. Försök igen senare.');
 				});
+                
 				View.showSpinner();
 				fetch(`https://folksa.ga/api/albums?key=flat_eric&genres=${searchWord}&populateArtists=true&sort=desc&limit=6`)
 				.then((response) => response.json())
@@ -93,6 +95,7 @@ const Model = (function() {
 				.catch((error) => {
 					View.errorMessage('Något gick fel. Försök igen senare.');
 				});
+                
 				View.showSpinner();
 				fetch(`https://folksa.ga/api/playlists?key=flat_eric&genres=${searchWord}&sort=desc&limit=6`)
 				.then((response) => response.json())
