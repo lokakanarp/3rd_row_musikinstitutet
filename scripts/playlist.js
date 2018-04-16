@@ -139,7 +139,7 @@ function createDropdown(playlists){
     let optionRow;
     
     optionRow =
-    `<option class="optionClass">Choose one</option>` 
+    `<option class="optionClass">Välj en spellista:</option>` 
     
     for(let i = 0; i < playlists.length; i++){
 //        console.log('id i loop: ', playlists[i]._id);
@@ -190,18 +190,17 @@ function getTopPlaylists(){
 
 function cloneAndCalculateAverage(playlists){  
     let playlistClone = [...playlists];
-
+    
+    /* Instead of array of single votes, ratings property is replaced to average in array clone: */
     for(i = 0; i < playlistClone.length; i++){
         let ratingsArray = playlistClone[i].ratings;
         let averageToplistRating = calculateAverageRating(ratingsArray);
-        // Instead of array of single votes, ratings property is changed to average in array clone:
         playlistClone[i].ratings = [];
         playlistClone[i].ratings = averageToplistRating;  
     }
     
     sortTopFive(playlistClone); 
 }
-
 
 function sortTopFive(playlistClone){
     
@@ -217,7 +216,7 @@ function sortTopFive(playlistClone){
     for(let i = 0; i < 5; i++){
         let playlist = playlistClone[i];
         console.log(playlist);
-        //displayCardPlaylist(playlist);
+        displayCardPlaylist(playlist);
     }  
 }
 

@@ -302,7 +302,7 @@ function displayCardPlaylist(playlist){
 		
 		let tracklist = "";
         for(let i = 0; i < playlist.tracks.length; i++){
-			console.log(playlist);
+			//console.log(playlist);
 	 		tracklist = `${i+1}. ${playlist.tracks[i].title} – ${playlist.tracks[i].artists[0].name}<br>`;
 			
 			cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
@@ -425,8 +425,23 @@ function deletePlaylistFromDOM(playlistId){
 
 
 
+function errorMessage(text){
+    const errorDivElement = document.getElementById('errorDiv');
+    errorDivElement.style.display = "block";
+    errorDivElement.innerHTML = `
+        <div class="closePopupDiv">
+            <button id="closePopup" class="deleteButton"><img src="images/delete.svg" alt="Close popup" /></button>
+        </div>
+        ${text}
+        `;
+    
+    const closePopupButton = document.getElementById('closePopup');
+    closePopupButton.addEventListener('click', function(event){
+    	event.preventDefault();
+        errorDivElement.style.display = "none";
+    });
 
-
+}
 
  
   
