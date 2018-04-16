@@ -56,49 +56,7 @@ function displayArtistForm() {
 	const artistFormButton = document.getElementById('artistFormButton');
 	addEventListenerToButton(artistFormButton, getElementsfromArtistForm);
 }
-function getElementsfromArtistForm() {
-	const nameOfArtist = document.getElementById('nameOfArtist');
-	const bornDateArtist = document.getElementById('bornDateArtist');
-	const genderOfArtist = document.getElementById('genderOfArtist');
-	const genresOfArtist = document.getElementById('genresOfArtist');
-	const countryBornArtist = document.getElementById('countryBornArtist');
-	const spotifyURLOfArtist = document.getElementById('spotifyURLOfArtist');
-	const coverImageOfArtist = document.getElementById('coverImageOfArtist');
-	if(nameOfArtist.value === ''){
-      alert('Var vänlig fyll i artistens namn.');
-    } else {
-		const elementsfromArtistForm = {
-			name: nameOfArtist.value,
-			born: bornDateArtist.value,
-			gender: genderOfArtist.value,
-			genres: genresOfArtist.value, 
-			countryBorn: countryBornArtist.value,
-			spotifyURL: spotifyURLOfArtist.value,
-			coverImage: coverImageOfArtist.value	
-		}
-		postArtist(elementsfromArtistForm);	
-	}
-}
 
-function postArtist(artist){
-		fetch('https://folksa.ga/api/artists?key=flat_eric',{
-			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(artist)
-		  })
-		  .then((response) => response.json())
-		  .then((artist) => {
-			console.log(artist);
-			messageArtistForm(artist);
-		  })
-			.catch(function () {
-			console.log('error')
-			errorMessage('Något gick fel. Försök igen senare.');
-		})
-}
 function messageArtistForm(artist) {
 	const message = `<p>Du la till ${artist.name.toUpperCase()} till Musikinstitutet.<br> 
 		För att lägga till ett album av ${artist.name.toUpperCase()} använd formuläret nedan.</p>`
@@ -125,47 +83,6 @@ function displayAlbumForm(artistId) {
 	artistFormElement.innerHTML = albumForm;
 	let albumFormButton = document.getElementById('albumFormButton');
 	addEventListenerToButton(albumFormButton, getElementsFromAlbumForm);
-}
-
-function getElementsFromAlbumForm() {
-	let artistId = document.getElementById('artistId');
-	let titleOfAlbum = document.getElementById('titleOfAlbum');
-	let dateOfRelease = document.getElementById('dateOfRelease');
-	let genresOfAlbum = document.getElementById('genresOfAlbum');
-	let spotifyURLOfAlbum = document.getElementById('spotifyURLOfAlbum');
-	let coverImageOfAlbum = document.getElementById('coverImageOfAlbum');
-	if(titleOfAlbum.value === '' ){
-      alert('Var vänlig fyll i albumtitel.');
-    } else {
-		let elementsFromAlbumForm = {
-		title: titleOfAlbum.value,
-		artists: artistId.value, 
-		releaseDate: dateOfRelease.value,
-		genres: genresOfAlbum.value, 
-		spotifyURL: spotifyURLOfAlbum.value,
-		coverImage: coverImageOfAlbum.value
-		}
-		postAlbum(elementsFromAlbumForm);
-	}
-}
-
-function postAlbum(album) {
-	fetch('https://folksa.ga/api/albums?key=flat_eric',{
-		method: 'POST',
-		headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(album)
-	  })
-	  .then((response) => response.json())
-	  .then((album) => {
-		console.log(album);
-		messageAlbumForm(album);
-	  })
-	  .catch(function () {
-		errorMessage('Något gick fel. Försök igen senare.');
-	  })	
 }
 
 function messageAlbumForm(album) {
@@ -205,52 +122,6 @@ function displayTracksForm(albumId, artistId, coverImage) {
 	addEventListenerToButton(tracksFormButton, getElementsFromTracksForm);
 }
 
-function getElementsFromTracksForm() {
-	const titleOfTrack = document.getElementById('titleOfTrack');
-	const artistId = document.getElementById('artistId');
-	const albumId = document.getElementById('albumId');
-	const genresOfTrack = document.getElementById('genresOfTrack');
-	const coverImageOfAlbum = document.getElementById('coverImageOfAlbum')
-	const coverImageColor = document.getElementById('coverImageColorOfTrack');
-	const spotifyURLOfTrack = document.getElementById('spotifyURLOfTrack');
-	const youtubeURLOfTrack = document.getElementById('youtubeURLOfTrack');
-	const soundcloudURLOfTrack = document.getElementById('soundcloudURLOfTrack');
-	if(titleOfTrack.value === '' ){
-      alert('Var vänlig fyll i låttitel.');
-    }else {
-		const elementsFromTracksForm = {
-		title: titleOfTrack.value,
-		artists: artistId.value,
-		album: albumId.value, 
-		genres: genresOfTrack.value,
-		coverImage: coverImageOfAlbum.value, 
-		coverImageColor: coverImageColor.value,
-		spotifyURL: spotifyURLOfTrack.value,
-		youtubeURL: youtubeURLOfTrack.value,
-		soundcloudURL: soundcloudURLOfTrack.value
-		}
-		postTrack(elementsFromTracksForm);
-	}
-}
-
-function postTrack(track) {
-	fetch('https://folksa.ga/api/tracks?key=flat_eric',{
-		method: 'POST',
-		headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(track)
-	  })
-	  .then((response) => response.json())
-	  .then((track) => {
-		console.log(track);
-		messageTrackForm(track);
-	  })
-	  .catch(function () {
-		errorMessage('Något gick fel. Försök igen senare.');
-	  })
-}
 function messageTrackForm(track) {
 	const message = `<p>Du la till ${track.title.toUpperCase()} till Musikinstitutet.<br> 
 		För att lägga till ännu en låt till samma skiva, använd formuläret igen.<br>

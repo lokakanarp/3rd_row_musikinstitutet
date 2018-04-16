@@ -16,62 +16,16 @@ let alphabetLetters = document.getElementsByClassName("aphabeticalMenu");
 		}
 }
 
-function getAlbums(letter){  
-    fetch('https://folksa.ga/api/albums?key=flat_eric&populateArtists=true&limit=200')
-      .then((response) => response.json())
-      .then((albums) => {
-      //console.log(albums);
-        
-            sortAlbums(albums,letter);
-        
-        /* viktiga att denna kalla på displayCard när jag har all info istället för när jag ahr en viss typ av info, 
-        vill kalla på denna när jag redan har alla artister hämtade!!! */
-        //displayCard(albums);     
-    });
-}
-
-//let sortedObjectArray = [];
-
-
-function sortAlbums(albums, letter){
-    
-/*
-    for(let i = 0; i < albums.length; i++){
-        let oneAlbumObject = albums[i];
-        sortedObjectArray.push(oneAlbumObject);
-    }
-
-    
-    sortedObjectArray.sort((a,b) => {
-        var nameA = a.artists[0] ?  a.artists[0].name : '';
-        var nameB = b.artists[0] ?  b.artists[0].name : '';
-        return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
-    })
-    
-    displayCard(sortedObjectArray, letter); 
-
-*/    
-   
-    albums.sort((a,b) => {
-        var nameA = a.artists[0] ?  a.artists[0].name : '';
-        var nameB = b.artists[0] ?  b.artists[0].name : '';
-        return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
-    })
-
-    
-        displayCard(albums, letter); 
-           
-}
 
 
 
-function getTrackInfo(trackId){
-    return fetch(`https://folksa.ga/api/tracks/${trackId}?key=flat_eric`)
-  .then((response) => response.json())
-  .then((singleTrack) => {    
-        return singleTrack;
-  });
-}
+
+
+
+
+
+
+
 
 
 
@@ -81,7 +35,6 @@ function clearElement(element){
 
  
 function displayCard(albums,letter){
-    
     const headline = document.createElement('h2');
     headline.classList.add('sectionHeadline');
     headline.innerHTML = 'Album';
@@ -127,9 +80,6 @@ function displayCard(albums,letter){
         cardAlbumImgElement.innerHTML = `<img src="${albumCoverImage}">`;
         cardArtistNameElement.innerHTML = artistName;
     
-        
-        //cardAlbumTitleElement.innerHTML = albumTitle + ' (' + albumYear + ') ' + albumRating;
-    
         cardAlbumTitleElement.innerHTML = 
             `<a href="${albumURL}">${albumTitle}</a> (${albumYear}) 
                     <select id="rateAlbum${albumId}" data-track="${albumId}" class="rateTrack">
@@ -153,38 +103,34 @@ function displayCard(albums,letter){
                 
                 getTrackInfo(trackId).then((singleTrackObject) => {
                     
-                    // Check if there's a tracktitle, only write out if there is one (/not error):            
+                    // Check if there's a tracktitle, only write out if there is one (/not error)  
                     if(!(singleTrackObject.type == 'error')){
+						let trackTitle = singleTrackObject.title;
+						let trackLink;
+						if(!(singleTrackObject.spotifyURL == '')){
+							trackLink = singleTrackObject.spotifyURL;
+						}else if(!(singleTrackObject.youtubeURL == '')){
+							trackLink = singleTrackObject.youtubeURL; 
+						}else if(!(singleTrackObject.souncloudURL == '')){
+							trackLink = singleTrackObject.soundcloudURL;    
+						}else{
+							trackLink = ''; // Just empty if no link??
+						}
 
-                    let trackTitle = singleTrackObject.title;
 
-                    let trackLink;
-                    if(!(singleTrackObject.spotifyURL == '')){
-                        trackLink = singleTrackObject.spotifyURL;
-                    }else if(!(singleTrackObject.youtubeURL == '')){
-                        trackLink = singleTrackObject.youtubeURL; 
-                    }else if(!(singleTrackObject.souncloudURL == '')){
-                        trackLink = singleTrackObject.soundcloudURL;    
-                    }else{
-                        trackLink = ''; // Just empty if no link??
-                    }
-                  
-                    
-                    /* Rating för enskilt spår, kommenterar ut sålänge:
-                    
-                    let trackRatingArray = singleTrackObject.ratings;
-                    
-                    //console.log(trackRatingArray.length);
+						/* Rating för enskilt spår, kommenterar ut sålänge:
 
-                    let singleTrackRating;
-                    if(!(trackRatingArray.length === 0)){
-                        singleTrackRating = calculateAverageRating(trackRatingArray); 
-                    }else{
-                         singleTrackRating = ''; 
-                    }
-                    */
-                    
+						let trackRatingArray = singleTrackObject.ratings;
 
+						//console.log(trackRatingArray.length);
+
+						let singleTrackRating;
+						if(!(trackRatingArray.length === 0)){
+							singleTrackRating = calculateAverageRating(trackRatingArray); 
+						}else{
+							 singleTrackRating = ''; 
+						}
+						*/
 
                         let tracklist = `
                             <div id="${trackId}">
@@ -217,7 +163,6 @@ function displayCard(albums,letter){
                         cardWrapperElement.appendChild(cardAlbumGenresElement);
                         cardWrapperElement.appendChild(cardTrackListElement);
                         contentElement.appendChild(cardWrapperElement);
-
 
                         /***** Buttons/dropdowns with events *****/
                         
@@ -276,39 +221,10 @@ function displayCard(albums,letter){
     } //looping through all albums from to get album info  
 } //end displayCard
 
-
-
-function deleteTrack(trackId){
-    const deleteConfirm = confirm("Vill du verkligen ta bort låten?");
-    
-    if(deleteConfirm){
-        fetch(`https://folksa.ga/api/tracks/${trackId}?key=flat_eric`,{
-			method: 'DELETE'
-		  })
-		  .then((response) => response.json())
-        
-        deleteTrackFromDOM(trackId);
-    }
-}
-
-
 function deleteTrackFromDOM(trackId){
     const trackToDelete = document.getElementById(`${trackId}`);
     console.log(trackToDelete.parentNode);
     trackToDelete.parentNode.removeChild(trackToDelete);
-}
-
-function deleteAlbum(albumId){
-    const deleteConfirm = confirm("Vill du verkligen ta bort albumet? Albumets låtar kommer försvinna.");
-    
-    if(deleteConfirm){
-        fetch(`https://folksa.ga/api/albums/${albumId}?key=flat_eric`,{
-			method: 'DELETE'
-		  })
-		  .then((response) => response.json())
-        
-        deleteAlbumFromDOM(albumId);
-    }
 }
 
 function deleteAlbumFromDOM(albumId){

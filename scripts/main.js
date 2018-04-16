@@ -1,3 +1,5 @@
+//global variables
+
 const searchButton = document.getElementById('search');
 const options = document.getElementById('selectSearch').children;
 const searchField = document.getElementById('searchField');
@@ -8,97 +10,7 @@ searchButton.addEventListener('click', function(event){
     getDataFromSearch();
 });
 
-function getDataFromSearch(){
-    let searchWord = searchField.value;
-    const artist = options[0];
-    const track = options[1];
-    const album = options[2];
-    const playlist = options[3];
-    const genre = options[4];
-    
-    
-    if(artist.selected == true){
-        fetch(`https://folksa.ga/api/artists?key=flat_eric&name=${searchWord}&sort=desc&limit=12`)
-        .then((response) => response.json())
-        .then((data) => {
-            displayCardArtist(data);
-        })
-        .catch((error) => {
-            console.log(error)
-        });
-    }
-    
-    if(track.selected == true){
-        fetch(`https://folksa.ga/api/tracks?key=flat_eric&title=${searchWord}&sort=desc&limit=12`)
-        .then((response) => response.json())
-        .then((data) => {
-            displayCardTrack(data);
-        })
-        .catch((error) => {
-            console.log(error)
-        });
-    }
-    
-    if(album.selected == true){
-        fetch(`https://folksa.ga/api/albums?key=flat_eric&title=${searchWord}&populateArtists=true&sort=desc&limit=15`)
-        .then((response) => response.json())
-        .then((data) => {
-            displayCard(data, 'noLetter');
-        })
-        .catch((error) => {
-            console.log(error)
-        });
-    }
-    
-    if(playlist.selected == true){
-        fetch(`https://folksa.ga/api/playlists?key=flat_eric&title=${searchWord}&sort=desc&limit=12`)
-        .then((response) => response.json())
-        .then((data) => {
-            showPlaylists(data);
-        })
-        .catch((error) => {
-            console.log(error)
-        });
-    }
-    
-    if(genre.selected == true){
-        fetch(`https://folksa.ga/api/artists?key=flat_eric&genres=${searchWord}&sort=desc&limit=6`)
-        .then((response) => response.json())
-        .then((data) => {
-            displayCardArtist(data);
-        })
-        .catch((error) => {
-            console.log(error)
-        });
-        
-        fetch(`https://folksa.ga/api/tracks?key=flat_eric&genres=${searchWord}&sort=desc&limit=6`)
-        .then((response) => response.json())
-        .then((data) => {
-            displayCardTrack(data);
-        })
-        .catch((error) => {
-            console.log(error)
-        });
-        
-        fetch(`https://folksa.ga/api/albums?key=flat_eric&genres=${searchWord}&populateArtists=true&sort=desc&limit=6`)
-        .then((response) => response.json())
-        .then((data) => {
-            displayCard(data, 'noLetter');
-        })
-        .catch((error) => {
-            console.log(error)
-        });
-        
-        fetch(`https://folksa.ga/api/playlists?key=flat_eric&genres=${searchWord}&sort=desc&limit=6`)
-        .then((response) => response.json())
-        .then((data) => {
-            showPlaylists(data);
-        })
-        .catch((error) => {
-            console.log(error)
-        });
-    }
-}
+
 
 function displayCardTrack(data){
     const headline = document.createElement('h2');
@@ -179,14 +91,7 @@ function displayCardTrack(data){
     }
 }
 
-function getAlbumImg(albumId){
-    fetch(`https://folksa.ga/api/albums/${albumId}?key=flat_eric`)
-    .then((response) => response.json())
-    .then((album) => {
-//        console.log(album)
-//        console.log(album.coverImage);
-    });
-}
+
 
 function displayCardArtist(data){
     const headline = document.createElement('h2');
@@ -249,18 +154,7 @@ function displayCardArtist(data){
     }
 }
 
-function deleteArtist(artistId, artistName){
-    const deleteConfirm = confirm(`Vill du verkligen ta bort ${artistName}?`);
-    
-    if(deleteConfirm){
-        fetch(`https://folksa.ga/api/artists/${artistId}?key=flat_eric`,{
-			method: 'DELETE'
-		  })
-		  .then((response) => response.json())
-        
-        deleteArtistFromDOM(artistId);
-    }
-}
+
 
 function deleteArtistFromDOM(artistId){
     const artistToDelete = document.getElementById(`${artistId}`);
@@ -308,10 +202,7 @@ function displayCardPlaylist(playlist){
 	cardWrapperElement.appendChild(cardCommentElement);
     contentElement.appendChild(cardWrapperElement);
 	
-
 	let playlistRating = playlist.ratings;
-	
-	
 	cardPlaylistTitleElement.innerHTML = playlist.title;
     cardMenuElement.innerHTML =	
          `<select id="ratePlaylist${playlist._id}" data-track="${playlist._id}" class="rateTrack">
@@ -388,41 +279,7 @@ function displayCardPlaylist(playlist){
 		})  
 }
 
-function postComment(input, createdBy, id) {
-	console.log(input, createdBy, id);
-	let comment = {
-    playlist: id,
-    body: input,
-    username: createdBy
-	}
-	fetch(`https://folksa.ga/api/playlists/${id}/comments?key=flat_eric`,{
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(comment)
-    })
-    .then((response) => response.json())
-    .then((playlist) => {
-    console.log(playlist);
-  })
-	.catch((error) => {
-            console.log(error)
-        });
-	
-}
-function getComments(id) {
-	fetch(`https://folksa.ga/api/playlists/${id}/comments?key=flat_eric&limit=1000`)
-    .then((response) => response.json())
-    .then((comments) => {
-        console.log(comments);
-		displayComments(comments, id);
-    })
-	.catch((error) => {
-            console.log(error)
-        });
-}
+
 
 function displayComments(comments, id) {
 	let cardCommentElement = document.getElementById(`cardComment${id}`);
@@ -440,27 +297,9 @@ function displayComments(comments, id) {
 	}
 }
 
-function deletePlaylist(playlistId){
-    const deleteConfirm = confirm("Vill du verkligen ta bort spellistan?");
-    if(deleteConfirm){
-        fetch(`https://folksa.ga/api/playlists/${playlistId}?key=flat_eric`,{
-			method: 'DELETE'
-		  })
-		  .then((response) => response.json())
-        deletePlaylistFromDOM(playlistId);
-    }
-}
 
-function deleteComment(commentId){
-    const deleteConfirm = confirm("Vill du verkligen ta bort kommentaren?");
-    if(deleteConfirm){
-        fetch(`https://folksa.ga/api/comments/${commentId}?key=flat_eric`,{
-			method: 'DELETE'
-		  })
-		  .then((response) => response.json())
-        deleteCommentFromDOM(commentId);
-    }
-}
+
+
 
 function deleteCommentFromDOM(commentId){
     const commentToDelete = document.getElementById(commentId);
@@ -473,8 +312,6 @@ function deletePlaylistFromDOM(playlistId){
 }
 
 ///Navbar
-
-
 
 function errorMessage(text){
     const errorDivElement = document.getElementById('errorDiv');
