@@ -35,6 +35,25 @@ h2{
 	}
 }
 
+.errorDiv{
+    background-color: #ffffff;
+    border: 1px solid black;
+    border-radius: 10px;
+    text-align: center;
+    padding: 20px;
+    height: 200px;    
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+}
+
+.closePopupDiv{
+    width: 100%;
+    text-align: right;
+}
+
 .artistSearchField{
     width: 300px;
     font-size: 20px;
@@ -253,14 +272,21 @@ h2{
 }
 
 .choosePlaylist{
-    width: 200px;
-    height: 200px;
-    margin: 0px auto;
-    index: 99;
-    position: absolute;
-    top: 10;
-    left: 10;
-    background-color: hotpink;
+    background-color: #ffffff;
+    border: 1px solid black;
+    border-radius: 10px;
+    text-align: center;
+    padding: 30px;
+    height: 200px;    
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+}
+
+.playlistSelection{
+    padding: 20px;
 }
 
 .mainSearch{
