@@ -196,6 +196,7 @@ const View = (function (){
 				cardGenresElement.classList.add('cardPlaylistGenres');
 
 				const deleteButtonElement = document.createElement('div');
+                deleteButtonElement.classList.add('deleteArtist');
 				deleteButtonElement.innerHTML = `
 					<button id="deleteArtist${artistId}" data-track="${artistId}" class="deleteButton"><img src="images/delete.svg" alt="Ta bort artist" title="Ta bort artist" /></button>
 				`;
