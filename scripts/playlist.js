@@ -121,7 +121,8 @@ function postToPlaylist(playlistId){
         */
         //if(playlist.type != "Error"){
             // Clearing and preparing array for next input:
-            playlistTrack = '';    
+            playlistTrack = ''; 
+            alert(`Great! The track was added to ${playlist.title}`);
         //}
       });
 

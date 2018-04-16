@@ -248,18 +248,17 @@ h2{
 }
 
 .choosePlaylist{
-    width: 40%;
-    height: 300px;
-    margin: 0px auto;
-    index: 99;
-    position: absolute;
-    top: 30vh;
-    left: 30%;
     background-color: #ffffff;
     border: 1px solid black;
     border-radius: 10px;
     text-align: center;
-    padding-top: 40px;
+    padding: 30px;
+    height: 200px;    
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
 }
 
 .mainSearch{
