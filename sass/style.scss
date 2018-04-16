@@ -116,7 +116,12 @@ h2{
     width: 80%;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;   
+    flex-wrap: wrap; 
+    
+    .sectionHeadline{
+        width: 100%;
+        margin: 20px 0 10px 5px;
+    }
 }
 .headingForms {
 	text-align: center;
@@ -352,4 +357,8 @@ h2{
 
 .font-weight {
 	font-weight: bold;
+}
+
+.cardPlaylistGenres{
+    text-transform: uppercase;
 }
