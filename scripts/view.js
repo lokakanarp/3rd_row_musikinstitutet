@@ -399,50 +399,47 @@ const View = (function (){
 					let albumRatingsArray = albums[i].ratings;
 					let tracksArray = albums[i].tracks;
 					let albumURL = albums[i].spotifyURL;
+					let albumRating = Controller.calculateAverageRating(albumRatingsArray);
+					
+					const cardWrapperElement = document.createElement('div');
+					cardWrapperElement.classList.add('cardWrapper');
+					cardWrapperElement.id = `album${albumId}`;
 
-					let averageAlbumRating = Controller.calculateAverageRating(albumRatingsArray);
+					const cardAlbumImgElement = document.createElement('div');
+					cardAlbumImgElement.classList.add('cardAlbumImg');
 
-				const cardWrapperElement = document.createElement('div');
-				cardWrapperElement.classList.add('cardWrapper');
-				cardWrapperElement.id = `album${albumId}`;
+					const cardArtistNameElement = document.createElement('h2');
+					cardArtistNameElement.classList.add('cardArtistName');
 
-				const cardAlbumImgElement = document.createElement('div');
-				cardAlbumImgElement.classList.add('cardAlbumImg');
+					const cardAlbumTitleElement = document.createElement('div');
+					cardAlbumTitleElement.classList.add('cardAlbumTitle');
 
-				const cardArtistNameElement = document.createElement('h2');
-				cardArtistNameElement.classList.add('cardArtistName');
+					const cardAlbumGenresElement = document.createElement('div');
+					cardAlbumGenresElement.classList.add('cardAlbumGenres');
 
-				const cardAlbumTitleElement = document.createElement('div');
-				cardAlbumTitleElement.classList.add('cardAlbumTitle');
+					const cardTrackListElement = document.createElement('div');
+					cardTrackListElement.classList.add('cardTrackList');
 
-				const cardAlbumGenresElement = document.createElement('div');
-				cardAlbumGenresElement.classList.add('cardAlbumGenres');
+					cardAlbumImgElement.innerHTML = `<img src="${albumCoverImage}">`;
+					cardArtistNameElement.innerHTML = artistName;
 
-				const cardTrackListElement = document.createElement('div');
-				cardTrackListElement.classList.add('cardTrackList');
+					cardAlbumTitleElement.innerHTML = 
+						`<a href="${albumURL}">${albumTitle}</a> (${albumYear}) 
+								<select id="rateAlbum${albumId}" data-track="${albumId}" class="rateTrack">
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+								</select>
+							<img src="images/star.svg" alt="stars" class="ratingStar" /> ${albumRating} <button id="deleteAlbum${albumId}" data-track="${albumId}" class="deleteButton"><img src="images/delete.svg" alt="Delete album" title="Delete album" /></button>`
 
-				let albumRating = Controller.calculateAverageRating(albumRatingsArray);
-
-				cardAlbumImgElement.innerHTML = `<img src="${albumCoverImage}">`;
-				cardArtistNameElement.innerHTML = artistName;
-
-				cardAlbumTitleElement.innerHTML = 
-					`<a href="${albumURL}">${albumTitle}</a> (${albumYear}) 
-							<select id="rateAlbum${albumId}" data-track="${albumId}" class="rateTrack">
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-								<option value="6">6</option>
-								<option value="7">7</option>
-								<option value="8">8</option>
-								<option value="9">9</option>
-								<option value="10">10</option>
-							</select>
-						<img src="images/star.svg" alt="stars" class="ratingStar" /> ${albumRating} <button id="deleteAlbum${albumId}" data-track="${albumId}" class="deleteButton"><img src="images/delete.svg" alt="Delete album" title="Delete album" /></button>`
-
-				cardAlbumGenresElement.innerHTML = genresArray[0];
+					cardAlbumGenresElement.innerHTML = genresArray[0];
 
 					for(let i = 0; i < tracksArray.length; i++){
 						let trackId = tracksArray[i];
@@ -463,21 +460,11 @@ const View = (function (){
 									trackLink = ''; // Just empty if no link??
 								}
 
-
-								/* Rating för enskilt spår, kommenterar ut sålänge:
-
 								let trackRatingArray = singleTrackObject.ratings;
 
-								//console.log(trackRatingArray.length);
-
 								let singleTrackRating;
-								if(!(trackRatingArray.length === 0)){
-									singleTrackRating = Controller.calculateAverageRating(trackRatingArray); 
-								}else{
-									 singleTrackRating = ''; 
-								}
-								*/
-
+								singleTrackRating = Controller.calculateAverageRating(trackRatingArray); 
+							
 								let tracklist = `
 									<div id="${trackId}">
 										<p><a target="_blank" href="${trackLink}">${trackTitle}</a></p>
@@ -495,7 +482,7 @@ const View = (function (){
 												<option value="9">9</option>
 												<option value="10">10</option>
 											</select>
-											<img src="images/star.svg" alt="stars" class="ratingStar" /> singleTrackRatingVar
+											<img src="images/star.svg" alt="stars" class="ratingStar" /> ${singleTrackRating}
 											<button id="deleteTrack${trackId}" data-track="${trackId}" class="deleteButton"><img src="images/delete.svg" alt="Delete track" title="Delete track" /></button>
 										</span>
 									</div>
