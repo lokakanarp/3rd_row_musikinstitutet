@@ -72,6 +72,7 @@ const View = (function (){
 		},
 			  
 		displayCardTrack: function(data){
+			console.log(data)
 			const headline = document.createElement('h2');
 			headline.classList.add('sectionHeadline');
 			headline.innerHTML = 'Låtar';
@@ -93,9 +94,7 @@ const View = (function (){
 				for(let i = 0; i < genresArray.length; i++){
 					genre += genresArray[i] + ' ';
 				}
-				let albumId = data[i].album._id;
-				let albumImg = getAlbumImg(albumId);
-				//console.log(albumImg);
+				let albumImg = data[i].coverImage;
 				let trackRatingArray = data[i].ratings;
 				let trackRating = Controller.calculateAverageRating(trackRatingArray);
 

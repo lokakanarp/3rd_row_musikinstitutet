@@ -103,15 +103,6 @@ const Model = (function() {
 			}
 		},
 
-		getAlbumImg: function(albumId){
-			fetch(`https://folksa.ga/api/albums/${albumId}?key=flat_eric`)
-			.then((response) => response.json())
-			.then((album) => {
-		//        console.log(album)
-		//        console.log(album.coverImage);
-			});
-		},
-
 		postComment: function(input, createdBy, id) {
 			console.log(input, createdBy, id);
 			let comment = {
