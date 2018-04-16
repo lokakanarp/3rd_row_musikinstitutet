@@ -1,3 +1,4 @@
+/*
 function displayCardPlaylist(playlist){
  
         const cardWrapperElement = document.createElement('div');
@@ -41,4 +42,5 @@ function displayCardPlaylist(playlist){
     isThereContentAlready = true;
      
 }
+*/
 

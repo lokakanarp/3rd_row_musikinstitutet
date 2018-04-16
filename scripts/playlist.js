@@ -113,17 +113,8 @@ function postToPlaylist(playlistId){
       .then((playlist) => {
         console.log('this is the playlist: ', playlist);
         
-        // THIS SHOULD NOT BE NECESSARY ANYMORE since solved in a much better way. Just keep "playlistTrack = '';"?
-        /* Weird bugsolving regarding double clicks in option-eventlisterners,
-        /* If this returns Error, means that user have just clicked "Choose one",
-        /* and the playListTrack must only been cleard once the track has been 
-        /* added to choosen list, when the user has clicked eventListener TWICE:
-        */
-        //if(playlist.type != "Error"){
-            // Clearing and preparing array for next input:
             playlistTrack = ''; 
             alert(`Great! The track was added to ${playlist.title}`);
-        //}
       });
 
 }
@@ -194,7 +185,9 @@ function cloneAndCalculateAverage(playlists){
     /* Instead of array of single votes, ratings property is replaced to average in array clone: */
     for(i = 0; i < playlistClone.length; i++){
         let ratingsArray = playlistClone[i].ratings;
+        console.log(ratingsArray);
         let averageToplistRating = calculateAverageRating(ratingsArray);
+        console.log(averageToplistRating);
         playlistClone[i].ratings = [];
         playlistClone[i].ratings = averageToplistRating;  
     }
@@ -212,10 +205,11 @@ function sortTopFive(playlistClone){
     
     console.log(playlistClone); //loops out in order here...
 
-    //... but not here :(
     for(let i = 0; i < 5; i++){
         let playlist = playlistClone[i];
+        //...and here...
         console.log(playlist);
+        //...but not here :(
         displayCardPlaylist(playlist);
     }  
 }
