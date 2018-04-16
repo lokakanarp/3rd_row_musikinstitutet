@@ -184,57 +184,45 @@ function getTopPlaylists(){
     fetch('https://folksa.ga/api/playlists?key=flat_eric')
       .then((response) => response.json())
       .then((playlists) => {
-        sortTopFive(playlists); 
+        cloneAndCalculateAverage(playlists); 
       });
 }
 
-let toplistArray = [];
-function sortTopFive(playlists){
-    
-    for(i = 0; i < playlists.length; i++){
-        console.log(playlists[i]);
-        let playlistId = playlists[i]._id;
-        let ratingsArray = playlists[i].ratings;
+function cloneAndCalculateAverage(playlists){  
+    let playlistClone = [...playlists];
+
+    for(i = 0; i < playlistClone.length; i++){
+        let ratingsArray = playlistClone[i].ratings;
         let averageToplistRating = calculateAverageRating(ratingsArray);
-        //console.log(calculateAverageRating(ratingsArray));
-        toplistArray.push({ playlistId, averageToplistRating });
-        
+        // Instead of array of single votes, ratings property is changed to average in array clone:
+        playlistClone[i].ratings = [];
+        playlistClone[i].ratings = averageToplistRating;  
     }
-    //console.log(toplistArray);
     
-    tryToSort(toplistArray); 
-    
+    sortTopFive(playlistClone); 
 }
 
 
-function tryToSort(topListArray){
+function sortTopFive(playlistClone){
     
-    toplistArray.sort((a,b) => {
-        var nameA = a.averageToplistRating ?  a.averageToplistRating : '';
-        var nameB = b.averageToplistRating ?  b.averageToplistRating : '';
+    playlistClone.sort((a,b) => {
+        var nameA = a.ratings ?  a.ratings : '';
+        var nameB = b.ratings ?  b.ratings : '';
         return (nameA > nameB) ? -1 : (nameA < nameB) ? 1 : 0;
     })
-        
     
-    console.log(toplistArray);
-    
+    console.log(playlistClone); //loops out in order here...
+
+    //... but not here :(
     for(let i = 0; i < 5; i++){
-        console.log(toplistArray[i].averageToplistRating); //här loopas de ut i ordning
-        let playlistId = toplistArray[i].playlistId;
-        console.log(playlistId);
-        
-        getSpecificPlaylist(playlistId);
-        
-//        getSpecificPlaylist(playlistId).then((playlist) => {
-//            console.log(playlist);
-//             //displayCardPlaylist(playlist);
-//            });
-    }
-    
+        let playlist = playlistClone[i];
+        console.log(playlist);
+        //displayCardPlaylist(playlist);
+    }  
 }
 
 
-
+/*
 function getSpecificPlaylist(playlistId){
     fetch(`https://folksa.ga/api/playlists/${playlistId}?key=flat_eric`)
     .then((response) => response.json())
@@ -244,3 +232,4 @@ function getSpecificPlaylist(playlistId){
         displayCardPlaylist(playlist);
     });
 }
+*/
