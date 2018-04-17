@@ -325,11 +325,15 @@ const View = (function (){
 				cardCreatedByElement.innerHTML = `<h3>${playlist.createdBy}</h3>`;
 
 				let tracklist = "";
-				for(let i = 0; i < playlist.tracks.length; i++){
-					tracklist = `${i+1}. ${playlist.tracks[i].title} – ${playlist.tracks[i].artists[0].name}<br>`;
+                
+                for(let i = 0; i < playlist.tracks.length; i++){
+                    if(playlist.tracks[i].artists.length !== 0 && playlist.tracks[i].artists[0].name){
+                        tracklist = `${i+1}. ${playlist.tracks[i].title} – ${playlist.tracks[i].artists[0].name}<br>`;
 
-					cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
-				}
+                        cardTrackListElement.insertAdjacentHTML('beforeend', tracklist);
+                    }
+                }
+				
 				 cardCommentInputElement.innerHTML = `
 					<form>
 						<label for='playlistComment${playlist._id}'>Kommentera spellista:</label><b>
