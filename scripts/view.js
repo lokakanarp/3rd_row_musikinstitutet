@@ -1,6 +1,7 @@
 const View = (function (){
 	
 	const contentElement = document.getElementById('content');
+    const spinner = document.getElementById('spinner');
 	const searchButton = document.getElementById('search');
 	const searchField = document.getElementById('searchField');	
 	const addArtistForms = document.createElement('div'); 
@@ -76,7 +77,7 @@ const View = (function (){
 			for(let i = 0; i < data.length; i++){
 				let trackId = data[i]._id;
 				let artistName = '';
-				if(data[i].artists[0].name){
+				if(data[i].artists.length !== 0 && data[i].artists[0].name){
 					artistName = data[i].artists[0].name;
 				}else{
 					artistName = 'unknown artist';
@@ -128,27 +129,28 @@ const View = (function (){
                         </select>
                         <img src="images/star.svg" alt="stars" class="ratingStar" /> ${trackRating} <button id="deleteTrack${trackId}" data-track="${trackId}" class="deleteButton"><img src="images/delete.svg" alt="Ta bort låt" title="Ta bort låt" /></button>
                     </div>
-				`;
-				}
+				    `;
+				
 
-				contentElement.appendChild(cardWrapperElement);
+                    contentElement.appendChild(cardWrapperElement);
 
-				//Rate track
-				const rateTrackDropdown = document.getElementById(`rateTrack${trackId}`);
-				rateTrackDropdown.addEventListener('change', function(event){
-					event.preventDefault();
-					let trackId = this.dataset.track;
-					let trackRating = this[this.selectedIndex].value;
-					Model.rateTrack(trackId, trackRating);
-				});
+                    //Rate track
+                    const rateTrackDropdown = document.getElementById(`rateTrack${trackId}`);
+                    rateTrackDropdown.addEventListener('change', function(event){
+                        event.preventDefault();
+                        let trackId = this.dataset.track;
+                        let trackRating = this[this.selectedIndex].value;
+                        Model.rateTrack(trackId, trackRating);
+                    });
 
-				// Delete track
-				const deleteTrackButton = document.getElementById(`deleteTrack${trackId}`);
-				deleteTrackButton.addEventListener('click', function(event){
-					event.preventDefault();
-					let trackId = this.dataset.track;
-					Model.deleteTrack(trackId);
-				});
+                    // Delete track
+                    const deleteTrackButton = document.getElementById(`deleteTrack${trackId}`);
+                    deleteTrackButton.addEventListener('click', function(event){
+                        event.preventDefault();
+                        let trackId = this.dataset.track;
+                        Model.deleteTrack(trackId);
+                    });
+                }
 			}
 		},
 		
@@ -773,7 +775,7 @@ const View = (function (){
 		},
 		
 		showSpinner: function() {
-			contentElement.innerHTML = `
+			spinner.innerHTML = `
 			  <div class='sk-fading-circle'>
 			  <div class='sk-circle1 sk-circle'></div>
 			  <div class=sk-circle2 sk-circle'></div>
@@ -791,7 +793,7 @@ const View = (function (){
 		},
 		
 		stopSpinner: function() {
-			contentElement.innerHTML = '';
+			spinner.innerHTML = '';
 		}
 
 		
