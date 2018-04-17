@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="icon" href="images/favicon.png" sizes="16x16" type="image/png">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400|Raleway" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300|Raleway" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <title>Musikinstitutet</title>
 </head>
@@ -62,39 +62,25 @@
             <div class="aphabeticalMenu" id="Ä">Ä</div>
             <div class="aphabeticalMenu" id="Ö">Ö</div> 
         </div>
+        
         <div class="navigation">
         	<div class="navItem"><a href="javascript:window.location.reload()">Start</a></div>
 			<div class="navItem" id="displayArtistFormLink">Lägg till artist</div>
-
-
 			<div class="navItem" id="displayPlaylistFormLink">Skapa spellista</div>
 			<div class="navItem" id="showToplistButton">Topplistan</div>
-
     	</div>
         
-        <section>
-            <div id="content" class="content">
-            
+        <div id="content" class="content"></div>
+        
+        <div id="choosePlaylist" class="choosePlaylist" style="display:none">
+           Välj en spellista att lägga till låten i:
+            <form>
+            <select id="playlistSelection" class="playlistSelection">
+            </select>
+            </form>
+        </div>
 
-            
-            
-            </div>
-        </section>
-        
-                <div id="choosePlaylist" class="choosePlaylist" style="display:none">
-                   Välj en spellista att lägga till låten i:
-                    <form>
-                    <select id="playlistSelection" class="playlistSelection">
-                    </select>
-                    </form>
-                </div>
-                
-                <div id="errorDiv" class="errorDiv" style="display:none">
-                </div>
-        
-       
-
-        
+        <div id="errorDiv" class="errorDiv" style="display:none"></div>
     </main>
     
 
