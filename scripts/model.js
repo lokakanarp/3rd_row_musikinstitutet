@@ -350,7 +350,7 @@ const Model = (function() {
 
 		postToPlaylist: function(playlistId){
 			// Make a string out of the track-array:
-			let tracks = playlistTrack.toString();
+			let tracks = Controller.playlistTrack.toString();
 
 			fetch(`https://folksa.ga/api/playlists/${playlistId}/tracks?key=flat_eric`,{
 				method: 'POST',
@@ -362,7 +362,7 @@ const Model = (function() {
 			  })
 			  .then((response) => response.json())
 			  .then((playlist) => {
-					playlistTrack = ''; 
+					Controller.playlistTrack = ''; 
 					alert(`Great! The track was added to ${playlist.title}`);
 			  })
 				.catch(function () {

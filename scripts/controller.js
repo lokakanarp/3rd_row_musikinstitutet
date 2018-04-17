@@ -4,6 +4,8 @@ const Controller = (function() {
 	var playlistTrack = [];
 	
 	return {
+        playlistTrack: playlistTrack,
+        
 		sortAlbums: function(albums, letter){
 			albums.sort((a,b) => {
 				var nameA = a.artists[0] ?  a.artists[0].name : '';
@@ -26,22 +28,10 @@ const Controller = (function() {
 			/* Instead of array of single votes, ratings property is replaced to average in array clone: */
 			for(i = 0; i < playlistClone.length; i++){
 				let ratingsArray = playlistClone[i].ratings;
-				console.log(ratingsArray);
 				let averageToplistRating = Controller.calculateAverageRating(ratingsArray);
-				console.log(averageToplistRating);
 				playlistClone[i].ratings = [];
 				playlistClone[i].ratings = averageToplistRating;  
 			}
-            
-//			for(i = 0; i < playlistClone.length; i++){
-//				let ratingsArray = playlistClone[i].ratings;
-//				//console.log(ratingsArray);
-//				let averageToplistRating = Controller.calculateAverageRating(ratingsArray);
-//				//console.log(averageToplistRating);
-//				playlistClone[i].ratingsDone = [];
-//				playlistClone[i].ratingsDone = averageToplistRating;  
-//               // console.log(playlistClone[i].ratingsDone);
-//			}
 
 			Controller.sortTopFive(playlistClone); 
 		},
@@ -69,7 +59,6 @@ const Controller = (function() {
 			let numerator = incomingArrayOfRatings.length;
 			let result = denominator / numerator;
 			result = result.toFixed(1);
-			//console.log(result);
 
 			if(isNaN(result)){
 				return ''; // Returns blank if result is NaN (probably means no one has votes)
