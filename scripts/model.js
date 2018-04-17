@@ -54,10 +54,12 @@ const Model = (function() {
 				fetch(`https://folksa.ga/api/playlists?key=flat_eric&title=${searchWord}&sort=desc&limit=12`)
 				.then((response) => response.json())
 				.then((data) => {
+                    console.log(data)
 					View.stopSpinner();
 					View.showPlaylists(data);
 				})
 				.catch((error) => {
+                    console.log(error)
 					View.errorMessage('Något gick fel. Försök igen senare.');
 				});
 			}
