@@ -11,8 +11,14 @@ const View = (function (){
 	const showToplistButton = document.getElementById('showToplistButton');
 	const displayPlaylistFormLink = document.getElementById('displayPlaylistFormLink');
 	const displayArtistFormLink = document.getElementById('displayArtistFormLink');
+    const hamburgerMenu = document.getElementById('hamburger');
     const url = new URL(window.location.href);
 	
+    hamburgerMenu.addEventListener('click', function(){
+        const menu = document.getElementById('menu');
+        menu.classList.toggle('hidden');
+    });
+    
 	searchButton.addEventListener('click', function(event){
 		event.preventDefault();
 		contentElement.innerHTML = '';
@@ -49,7 +55,6 @@ const View = (function (){
 	});
 	
 	
-
 	return {
 		initialize: function(){
 			View.addEventlistenersToAlphabet();
@@ -80,7 +85,7 @@ const View = (function (){
 				if(data[i].artists.length !== 0 && data[i].artists[0].name){
 					artistName = data[i].artists[0].name;
 				}else{
-					artistName = 'unknown artist';
+					artistName = ' ';
 				}
 
 				let trackTitle = data[i].title;
@@ -91,7 +96,7 @@ const View = (function (){
 				let genresArray = data[i].genres;
 				let genre = '';
 				for(let i = 0; i < genresArray.length; i++){
-					genre += genresArray[i] + ' ';
+					genre += '<span class="genre">' + genresArray[i] + '</span>';
 				}
                 let albumImg = '';
                 if(data[i].coverImage && data[i].coverImage != ""){
@@ -106,51 +111,57 @@ const View = (function (){
 				const cardWrapperElement = document.createElement('div');
 				cardWrapperElement.classList.add('cardWrapper');
                 cardWrapperElement.id = `${trackId}`;
+                
+               cardWrapperElement.innerHTML = `
+                <div class="cardArtistImg"><a href="${trackLink}"><img src="${albumImg}" alt="${artistName}" class="cardArtistImg" /></a></div>
+                <div class="cardContent">
+                    <a href="${trackLink}"><h2>${trackTitle}</h2></a>
+                    <p class="cardAlbumTitle">${albumTitle}</p>
+                    <p>${artistName}</p>
+                    <p class="cardPlaylistGenres">${genre}</p>
+                    <button id="addTrackToPlaylist${trackId}" data-track="${trackId}" class="addTrackToPlaylist"><img src="images/plus.svg" alt="Add track to playlist" title="Add track to playlist" /></button>
+                    <select id="rateTrack${trackId}" data-track="${trackId}" class="rateTrack">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                    <img src="images/star.svg" alt="stars" class="ratingStar" /> ${trackRating} <button id="deleteTrack${trackId}" data-track="${trackId}" class="deleteButton"><img src="images/delete.svg" alt="Ta bort låt" title="Ta bort låt" /></button>
+                </div>
+                `;
 
-				if(!(artistName === 'unknown artist')){
-				   cardWrapperElement.innerHTML = `
-					<div class="cardArtistImg"><a href="${trackLink}"><img src="${albumImg}" alt="${artistName}" class="cardArtistImg" /></a></div>
-                    <div class="cardContent">
-                        <a href="${trackLink}"><h2>${trackTitle}</h2></a>
-                        <p class="cardAlbumTitle">${albumTitle}</p>
-                        <p>${artistName}</p>
-                        <p class="cardPlaylistGenres">${genre}</p>
-                        <select id="rateTrack${trackId}" data-track="${trackId}" class="rateTrack">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                        </select>
-                        <img src="images/star.svg" alt="stars" class="ratingStar" /> ${trackRating} <button id="deleteTrack${trackId}" data-track="${trackId}" class="deleteButton"><img src="images/delete.svg" alt="Ta bort låt" title="Ta bort låt" /></button>
-                    </div>
-				    `;
-				
+                contentElement.appendChild(cardWrapperElement);
 
-                    contentElement.appendChild(cardWrapperElement);
+                //Rate track
+                const rateTrackDropdown = document.getElementById(`rateTrack${trackId}`);
+                rateTrackDropdown.addEventListener('change', function(event){
+                    event.preventDefault();
+                    let trackId = this.dataset.track;
+                    let trackRating = this[this.selectedIndex].value;
+                    Model.rateTrack(trackId, trackRating);
+                });
 
-                    //Rate track
-                    const rateTrackDropdown = document.getElementById(`rateTrack${trackId}`);
-                    rateTrackDropdown.addEventListener('change', function(event){
-                        event.preventDefault();
-                        let trackId = this.dataset.track;
-                        let trackRating = this[this.selectedIndex].value;
-                        Model.rateTrack(trackId, trackRating);
-                    });
-
-                    // Delete track
-                    const deleteTrackButton = document.getElementById(`deleteTrack${trackId}`);
-                    deleteTrackButton.addEventListener('click', function(event){
-                        event.preventDefault();
-                        let trackId = this.dataset.track;
-                        Model.deleteTrack(trackId);
-                    });
-                }
+                // Delete track
+                const deleteTrackButton = document.getElementById(`deleteTrack${trackId}`);
+                deleteTrackButton.addEventListener('click', function(event){
+                    event.preventDefault();
+                    let trackId = this.dataset.track;
+                    Model.deleteTrack(trackId);
+                });
+                
+                // Add track to playlist
+                const addTrack = document.getElementById(`addTrackToPlaylist${trackId}`);
+                addTrack.addEventListener('click', function(event){
+                    event.preventDefault();
+                    let trackId = this.dataset.track;
+                    Controller.addTrackToPlaylist(trackId);
+                });
 			}
 		},
 		
@@ -163,13 +174,12 @@ const View = (function (){
 				let genresArray = data[i].genres;
 				let genre = '';
 				for(let i = 0; i < genresArray.length; i++){
-					genre += genresArray[i] + ' ';
+					genre += '<span class="genre">' + genresArray[i] + '</span>';
 				}
                 let spotifyLink = '';
                 if(data[i].spotifyURL & data[i].spotifyURL != ''){
                     spotifyLink = data[i].spotifyURL;
                 }
-                
                 
                 // Create elements and give them classes and content
 				const cardWrapperElement = document.createElement('div');
@@ -297,7 +307,7 @@ const View = (function (){
 				 <option value="9">9</option>
 				 <option value="10">10</option>
 				 </select>
-				 <img src="images/star.svg" alt="stars" class="ratingStar"/> 
+				 <img src="images/star.svg" alt="stars" class="ratingStar" /> 
 				${playlistRating}
 				<button id="deletePlaylist${playlist._id}" data-track="${playlist._id}" class="deleteButton"><img src="images/delete.svg" alt="Ta bort spellista" 
 				title="Ta bort spellista"/></button>`
@@ -320,7 +330,7 @@ const View = (function (){
 					 });
 
 				for (let genre of playlist.genres) {
-					cardPlaylistGenresElement.insertAdjacentHTML('beforeend', genre.toUpperCase() + " ");
+					cardPlaylistGenresElement.insertAdjacentHTML('beforeend', '<span class="genre">' + genre.toUpperCase() + '</span>');
 				}
 				cardCreatedByElement.innerHTML = `<h3>${playlist.createdBy}</h3>`;
 
@@ -422,7 +432,7 @@ const View = (function (){
                     let genre = '';
                     let genresArray = albums[i].genres;
                     for(let i = 0; i < genresArray.length; i++){
-                        genre += genresArray[i] + ' ';
+                        genre += '<span class="genre">' + genresArray[i] + '</span>';
                     }
 					let albumRatingsArray = albums[i].ratings;
 					let tracksArray = albums[i].tracks;
@@ -497,12 +507,13 @@ const View = (function (){
 								let trackRatingArray = singleTrackObject.ratings;
 
 								let singleTrackRating;
-								singleTrackRating = Controller.calculateAverageRating(trackRatingArray); 
+								singleTrackRating = Controller.calculateAverageRating(trackRatingArray);
 							
 								let tracklist = `
 									<div id="${trackId}">
-										<p><a target="_blank" href="${trackLink}">${trackTitle}</a></p>
-										<span class="trackOptions">
+										<p><a target="_blank" href="${trackLink}">${trackTitle}</a>
+                                        <span class="showOptionsButton" id="showOptionsButton${trackId}"> > </span></p>
+										<span id="trackOptions${trackId}" class="trackOptions hidden">
 											<button id="addTrackToPlaylist${trackId}" data-track="${trackId}" class="addTrackToPlaylist"><img src="images/plus.svg" alt="Add track to playlist" title="Add track to playlist" /></button>
 											<select id="rateTrack${trackId}" data-track="${trackId}">
 												<option value="1">1</option>
@@ -535,6 +546,12 @@ const View = (function (){
 
 								/***** Buttons/dropdowns with events *****/
 
+                                const showOptionsButton = document.getElementById(`showOptionsButton${trackId}`);
+                                const trackOptions = document.getElementById(`trackOptions${trackId}`);
+                                showOptionsButton.addEventListener('click', function(){
+                                    trackOptions.classList.toggle('hidden');
+                                });
+                                
 								//Rate album 
 								const rateAlbumDropdown = document.getElementById(`rateAlbum${albumId}`);
 								rateAlbumDropdown.addEventListener('change', function(event){

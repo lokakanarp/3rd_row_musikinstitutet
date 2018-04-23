@@ -1,0 +1,25 @@
+@media screen and (min-width: 700px){
+    header{
+        h1{
+            font-size: 2.5em;
+        }
+    }
+    
+    .mainSearch{
+        width: 40%;
+    }
+    
+    .hamburger{
+        display: none;
+    }
+    
+    .menu{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+    
+    .cardWrapper{
+        width: 47%;
+    }
+}

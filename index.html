@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link rel="icon" href="images/favicon.png" sizes="16x16" type="image/png">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300|Raleway" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <title>Musikinstitutet</title>
 </head>
 <body>
-   
-
-            
-    <header class="header">  
+    <header class="header"> 
+         
 		<h1><a href="javascript:window.location.reload()">Musikinstitutet</a></h1>  
+       
         <form class="mainSearch">
             <input type="text" id="searchField" class="searchField" placeholder="Sök artist, låt, album, spellista eller genre här">
             <select name="selectSearch" id="selectSearch" class="selectSearch">
@@ -24,10 +24,10 @@
             </select>
             <button id="search" class="searchButton">Sök</button>
 		</form>
+      
        <div class="welcome">
        	<p>På Musikinstitutet kan du lägga till artister, album och låtar<br>och skapa egna spellistor. Använd sökrutan eller<br>A till Ö-menyn för att hitta låtar till din spellista.</p>
        </div>
-        
     </header>
     
     <main>
@@ -63,12 +63,19 @@
             <div class="aphabeticalMenu" id="Ö">Ö</div> 
         </div>
         
-        <div class="navigation">
-        	<div class="navItem"><a href="javascript:window.location.reload()">Start</a></div>
-			<div class="navItem" id="displayArtistFormLink">Lägg till artist</div>
-			<div class="navItem" id="displayPlaylistFormLink">Skapa spellista</div>
-			<div class="navItem" id="showToplistButton">Topplistan</div>
-    	</div>
+        <nav class="navigation">
+            <div id="hamburger" class="hamburger">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <div id="menu" class="hidden menu">
+                <div class="navItem"><a href="javascript:window.location.reload()">Start</a></div>
+                <div class="navItem" id="displayArtistFormLink">Lägg till artist</div>
+                <div class="navItem" id="displayPlaylistFormLink">Skapa spellista</div>
+                <div class="navItem" id="showToplistButton">Topplistan</div>
+            </div>
+        </nav>
         
         <div id="spinner"></div>
         <div id="content" class="content"></div>
