@@ -23,6 +23,7 @@ const Controller = (function() {
 		},
 		
 		cloneAndCalculateAverage: function(playlists){  
+
 			let playlistClone = [...playlists];
 
 			/* Instead of array of single votes, ratings property is replaced to average in array clone: */
@@ -37,16 +38,42 @@ const Controller = (function() {
 		},
 
 		sortTopFive: function(playlistClone){
+            
+            /* Solving sorting problem (in a weird way) with first getting 10 points playlist in new array (in for-loop below)... 
+            Why? Because I can't get sort to sort in numbers correctly (10 = 1, and that's not right)'*/
+            let sortedWithTen = []; 
+            /* How many 10 points playlists are there? */
+            let tenCount = 0;
+            
+			for(let i = 0; i < playlistClone.length; i++){
+                if(playlistClone[i].ratings == 10){
+                    sortedWithTen.push(playlistClone[i]);
+                    tenCount++; 
+                    /* The list is a top 5 only, so break if there's more than 5 */
+                    if(tenCount == 5){
+                        break;
+                    }
+                }
+			}  
+
+            /* Sorting all playslists "alphabetically" */
 			playlistClone.sort((a,b) => {
 				var nameA = a.ratings ?  a.ratings : '';
 				var nameB = b.ratings ?  b.ratings : '';
 				return (nameA > nameB) ? -1 : (nameA < nameB) ? 1 : 0;
 			})
-
-			for(let i = 0; i < 5; i++){
-				let playlist = playlistClone[i];
+            
+            /* How many sports are left on top 5 after counting 10 ponits playlists? */
+            let underTenCount = 5 - tenCount;
+            
+			for(let i = 0; i < underTenCount; i++){   
+                sortedWithTen.push(playlistClone[i]);
+			} 
+            
+			for(let i = 0; i < 5; i++){   
+				let playlist = sortedWithTen[i];
 				View.displayCardPlaylist(playlist, 'allreadySorted'); 
-			}  
+			} 
 		},
 		
 		calculateAverageRating: function(incomingArrayOfRatings){
