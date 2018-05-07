@@ -1,7 +1,7 @@
 3rd row 
 ===========
 
-[GitHub repo](https://github.com/lokakanarp/3rd_row_musikinstitutet/tree/controllerfeature)
+[GitHub repo](https://github.com/lokakanarp/3rd_row_musikinstitutet)
 [The webpage live](https://lokakanarp.github.io/3rd_row_musikinstitutet/)
  
 Musikinstitutet
