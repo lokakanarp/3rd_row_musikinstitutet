@@ -372,7 +372,7 @@ const Model = (function() {
 
 		getTopPlaylists: function(){
 			View.showSpinner();
-			fetch('https://folksa.ga/api/playlists?key=flat_eric')
+			fetch('https://folksa.ga/api/playlists?limit=200&key=flat_eric')
 			  .then((response) => response.json())
 			  .then((playlists) => {
 				View.stopSpinner();
